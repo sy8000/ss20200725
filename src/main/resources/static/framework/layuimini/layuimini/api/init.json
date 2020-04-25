@@ -10,19 +10,19 @@
   },
   "menuInfo": [
     {
-      "title": "常规管理",
+      "title": "原生应用",
       "icon": "fa fa-address-book",
       "href": "",
       "target": "_self",
       "child": [
         {
-          "title": "主页模板",
+          "title": "客户化",
           "href": "",
           "icon": "fa fa-home",
           "target": "_self",
           "child": [
             {
-              "title": "主页一",
+              "title": "基本档案设置",
               "href": "page/welcome-1.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
@@ -136,7 +136,7 @@
       ]
     },
     {
-      "title": "组件管理",
+      "title": "系统集成",
       "icon": "fa fa-lemon-o",
       "href": "",
       "target": "_self",
