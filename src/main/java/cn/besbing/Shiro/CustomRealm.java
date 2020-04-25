@@ -65,7 +65,7 @@ public class CustomRealm extends AuthorizingRealm {
         }
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(smUser.getUserName(),smUser.getUserPassword(),"customRealm");
-        logger.info("认证完成，顺利返回");
+        logger.info("认证完成，顺利返回，不代表验证成功");
         return authenticationInfo;
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>DataLoader Cloud</title>
@@ -62,7 +63,7 @@
                         <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                     </li>
                     <li class="layui-nav-item layuimini-setting">
-                        <a href="javascript:;">admin</a>
+                        <a href="javascript:;"><p shiro:principal="username">名字</p></a>
                         <dl class="layui-nav-child">
                             <dd>
                                 <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
@@ -125,7 +126,7 @@
                     <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show"></div>
                 </div>
             </div>
-
+        </div>
     </div><!--div class="layui-layout layui-layout-admin" -->
 </body>
 
@@ -155,15 +156,15 @@
         miniTongji.render({
             specific: true,
             domains: [
-                '99php.cn',
-                'layuimini.99php.cn',
-                'layuimini-onepage.99php.cn',
+                'besbing.cn',
+                'dataloader.besbing.cn',
+                'dataloader.besbing.cn',
             ],
         });
 
         $('.login-out').on("click", function () {
-            layer.msg('退出登录成功', function () {
-                window.location = 'page/login-1.html';
+            layer.msg('退出成功', function () {
+                window.location = '/logout';
             });
         });
     });

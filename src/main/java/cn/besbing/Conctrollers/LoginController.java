@@ -40,18 +40,20 @@ public class LoginController {
 
     @RequestMapping(value = "/maintain",method = RequestMethod.GET)
     public String maintain(){
-        return "maintain_bak";
+        return "maintain";
     }
 
     //post登录
     @ResponseBody
     @RequestMapping(value = "/valid",method = RequestMethod.POST)
     //public Map<String, String> login(Model model, @RequestBody String loginMap){
-    public String login(Model model,@RequestParam java.util.LinkedHashMap loginMap){
+    public JSONObject login(Model model,@RequestParam java.util.LinkedHashMap loginMap){
         Map<String,Object> result = new HashedMap();
         String pwd = "";
 
-                CustomRealm customRealm = new CustomRealm();
+        JSONObject jsonObject = new JSONObject();
+
+        CustomRealm customRealm = new CustomRealm();
         DefaultSecurityManager defaultSecurityManager =  new DefaultSecurityManager();
         defaultSecurityManager.setRealm(customRealm);
 
@@ -68,35 +70,36 @@ public class LoginController {
                 pwd = NC6PasswordUtil.getEncodedPassword(smUser.getCuserid().toString(), loginMap.get("password").toString());
                 System.out.println("pwd===================" + pwd);
             }else {
-                result.put("resultCode",100);
-                result.put("resultValue","用户不存在");
+                jsonObject.put("resultCode",100);
+                jsonObject.put("resultValue","用户不存在");
                 System.out.println(new JSONObject(result).toString());
-                return new JSONObject(result).toString();
+                return jsonObject;
             }
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(smUser.getUserCode().toString(), pwd);
             subject.login(usernamePasswordToken);
             System.out.println(subject.isAuthenticated());
             //model.addAttribute(subject);
             Session session = subject.getSession();
-            result.put("resultCode",200);
-            result.put("resultValue","用户名正常");
+            jsonObject.put("resultCode",200);
+            jsonObject.put("resultValue","用户名正常");
 
         }catch (UnknownAccountException e){
             //用户名不存在
             //model.addAttribute("msg","用户名不存在");
-            result.put("resultCode",100);
-            result.put("resultValue","用户名错误");
+            jsonObject.put("resultCode",100);
+            jsonObject.put("resultValue","用户名错误");
         }catch (IncorrectCredentialsException e) {
             //密码错误
             //model.addAttribute("msg","密码错误");
-            result.put("resultCode",100);
-            result.put("resultValue","密码错误");
+            jsonObject.put("resultCode",100);
+            jsonObject.put("resultValue","密码错误");
         }catch (AuthenticationException ae) {
             //model.addAttribute("msg","其它错误");
             result.put("resultCode",100);
             result.put("resultValue","其它错误");
         }
-        System.out.println(new JSONObject(result).toString());
-        return new JSONObject(result).toString();
+        //System.out.println(new JSONObject(result).toString());
+        //return new JSONObject(result).toString();
+        return  jsonObject;
     }
 }

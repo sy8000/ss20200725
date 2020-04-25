@@ -17,30 +17,37 @@ $(function(){
                 var data = {};
                 data.username = $("#loginUsername").val();
                 data.password = $("#loginPassword").val();
-
+                var json;
                 $.ajax({
                     type:"POST",
                     //dataType:"application/json; charset=utf-8",
-                    dataType:"text",
+                    dataType:"json",
                     url:"/valid",
                     data:JSON.parse(JSON.stringify(data)),
                     success:function (result) {
-                        //console.log(result);
                         //alert(result);
-                        var json = JSON.parse(result);
+                        //var json = JSON.parse(result);
+                        json=eval(result);
+                        //alert(json);
                         if (json.resultCode = 200){
                             window.location.href="/maintain";
                         }else {
+                            json=eval(result);
+                            console.log(json);
                             layui.use(['layer'], function(){
                                 layer.msg(json.resultValue);
                             });
+
                             $("#loginUsername").val('');
                             $("#loginPassword").val('')
                             $("#loginCard").val('');
                             draw(show_num);
+
                         };
                     },
-                    error:function () {
+                    error:function (result) {
+                        json=eval(result);
+                        console.log(json);
                         layui.use(['layer'], function(){
                             layer.msg('调用错误！检查网络！');
                         });
