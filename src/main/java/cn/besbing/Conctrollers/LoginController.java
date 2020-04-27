@@ -43,6 +43,11 @@ public class LoginController {
         return "maintain";
     }
 
+    @RequestMapping(value = "/welcomemain",method = RequestMethod.GET)
+    public String welcommain(){
+        return "pages/welcomemain";
+    }
+
     //post登录
     @ResponseBody
     @RequestMapping(value = "/valid",method = RequestMethod.POST)
