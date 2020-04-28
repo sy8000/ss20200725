@@ -16,4 +16,6 @@ public interface ICustomerSqlService {
     List<Map<String, Object>> selectList(String statement);
 
     String selectOne(String statement);
+
+    List<String> selectAsList(String statement);
 }

@@ -4,7 +4,9 @@ import cn.besbing.CommonUtils.MaintainModel.MaintainModelUtils;
 import cn.besbing.Dao.CustomerSqlMapper;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonArray;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -67,20 +70,23 @@ public class CustomerSqlController {
     }
 
     @RequestMapping(value = "/TongjiReport",method = RequestMethod.POST)
-    public JSONObject getTongjiReport(@Param("searchType")String searchType){
+    @ResponseBody
+    public Object getTongjiReport(@Param("searchType")String searchType){
         JSONObject jsonObject = new JSONObject();
-        if ("date".equals(searchType)){
+        JSONArray jsonArray = new JSONArray();
+        if ("date".equals(searchType)) {
             //执行日期查询
             List<Map<String, Object>> dateList = customerSqlService.
                     selectList("select to_char (sysdate- level + 1, 'yyyy-mm-dd') today FROM DUAL connect BY " +
                             "LEVEL <= 7 order by today asc");
-
-            for (int i=0;i<dateList.size();i++){
-                //System.out.println(dateList.get(i));
-                //jsonObject.put()
+            System.out.println("**************************");
+            for (int i = 0; i < dateList.size(); i++) {
+                jsonArray.set(i, dateList.get(i).get("TODAY"));
             }
+            System.out.println(jsonArray);
+            return jsonArray;
         }
-        return jsonObject;
+        return "";
     }
 
 }

@@ -388,11 +388,14 @@
         /**
          * 报表功能
          */
-
+        var dataArr = [];
         $.post("/TongjiReport",{"searchType":"date"},function(datestr){
-
+            //dataArr = datestr.toArray();
+            for (var i=0;i<datestr.length;i++){
+                dataArr.push(datestr[i]);
+            }
         });
-
+        //console.log(dataArr);
         var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
 
         var optionRecords = {
@@ -416,7 +419,7 @@
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: ['周一','周二','周三','周四','周五','周六','周日']
+                data: dataArr //['周一','周二','周三','周四','周五','周六','周日']
             },
             yAxis: {
                 type: 'value'

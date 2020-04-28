@@ -15,4 +15,6 @@ public interface CustomerSqlMapper {
 
     String selectOne(String statement);
 
+    List<String> selectAsList(String statement);
+
 }

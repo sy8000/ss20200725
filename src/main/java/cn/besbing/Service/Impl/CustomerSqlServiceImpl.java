@@ -39,4 +39,11 @@ public class CustomerSqlServiceImpl implements ICustomerSqlService {
     public String selectOne(String statement) {
         return customerSqlMapper.selectOne(statement);
     }
+
+    @Override
+    public List<String> selectAsList(String statement) {
+        return customerSqlMapper.selectAsList(statement);
+    }
+
+
 }
