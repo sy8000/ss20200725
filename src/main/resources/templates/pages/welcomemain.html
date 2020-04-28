@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>首页二</title>
+    <title>welcomemain</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -51,11 +51,11 @@
                                                 <div class="panel-body">
                                                     <div class="panel-title">
                                                         <span class="label pull-right layui-bg-blue">实时</span>
-                                                        <h5>用户累计</h5>
+                                                        <h5>客户累计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
-                                                        <small>委托单制单用户</small>
+                                                        <h1 class="no-margins" th:text="${creators}">1234</h1>
+                                                        <small>WEB委托单制单用户</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -65,11 +65,11 @@
                                                 <div class="panel-body">
                                                     <div class="panel-title">
                                                         <span class="label pull-right layui-bg-cyan">实时</span>
-                                                        <h5>商品统计</h5>
+                                                        <h5>委托单统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <h1 class="no-margins" th:text="${webProjNum}">1234</h1>
+                                                        <small>WEB当前委托单总数</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -79,11 +79,11 @@
                                                 <div class="panel-body">
                                                     <div class="panel-title">
                                                         <span class="label pull-right layui-bg-orange">实时</span>
-                                                        <h5>浏览统计</h5>
+                                                        <h5>任务统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <h1 class="no-margins" th:text="${webTaskNum}">1234</h1>
+                                                        <small>WEB当前任务总记录数</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -93,11 +93,11 @@
                                                 <div class="panel-body">
                                                     <div class="panel-title">
                                                         <span class="label pull-right layui-bg-green">实时</span>
-                                                        <h5>订单统计</h5>
+                                                        <h5>labware统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">1234</h1>
-                                                        <small>当前分类总记录数</small>
+                                                        <h1 class="no-margins" th:text="${lwProjAndTaskNum}">1234</h1>
+                                                        <small>labware委托/任务数</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,7 +169,7 @@
                     </div>
                     <div class="layui-col-md12">
                         <div class="layui-card">
-                            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>报表统计</div>
+                            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>综合统计</div>
                             <div class="layui-card-body">
                                 <div id="echarts-records" style="width: 100%;min-height:500px"></div>
                             </div>
@@ -345,7 +345,7 @@
 </div>
 <script src="../static/framework/layuimini/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script src="../static/framework/layuimini/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
-<script>
+<script th:inline="javascript">
     layui.use(['layer', 'miniTab','echarts'], function () {
         var $ = layui.jquery,
             layer = layui.layer,
@@ -388,13 +388,19 @@
         /**
          * 报表功能
          */
+
+        $.post("/TongjiReport",{"searchType":"date"},function(datestr){
+
+        });
+
         var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+
         var optionRecords = {
             tooltip: {
                 trigger: 'axis'
             },
             legend: {
-                data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+                data:['委托单','联盟广告','视频广告','直接访问','搜索引擎']
             },
             grid: {
                 left: '3%',
@@ -417,7 +423,7 @@
             },
             series: [
                 {
-                    name:'邮件营销',
+                    name:'委托单',
                     type:'line',
                     data:[120, 132, 101, 134, 90, 230, 210]
                 },

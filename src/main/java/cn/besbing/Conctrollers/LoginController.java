@@ -1,6 +1,7 @@
 package cn.besbing.Conctrollers;
 
 import cn.besbing.Entities.SmUser;
+import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import cn.besbing.Service.Impl.SmuserServiceImpl;
 import cn.besbing.Shiro.CustomRealm;
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +30,7 @@ public class LoginController {
     @Autowired
     private SmuserServiceImpl smuserService;
 
+
     //@JSONField(serializeUsing = StringToJsonSerializer.class)
     //private String json ;
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -43,10 +45,7 @@ public class LoginController {
         return "maintain";
     }
 
-    @RequestMapping(value = "/welcomemain",method = RequestMethod.GET)
-    public String welcommain(){
-        return "pages/welcomemain";
-    }
+
 
     //post登录
     @ResponseBody
