@@ -43,8 +43,8 @@
           ]
         },
         {
-          "title": "菜单管理",
-          "href": "page/menu.html",
+          "title": "仪器管理",
+          "href": "/instruments",
           "icon": "fa fa-window-maximize",
           "target": "_self"
         },

@@ -2,7 +2,9 @@ package cn.besbing.Conctrollers;
 
 import cn.besbing.CommonUtils.MaintainModel.MaintainModelUtils;
 import cn.besbing.Dao.CustomerSqlMapper;
+import cn.besbing.Entities.InstrumentsWithBLOBs;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
+import cn.besbing.Service.Impl.InstrumentsServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -28,8 +30,16 @@ public class CustomerSqlController {
     @Autowired
     CustomerSqlServiceImpl customerSqlService;
 
+    @Autowired
+    InstrumentsServiceImpl instrumentsService;
+
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * 登录页跳转
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/welcomemain",method = RequestMethod.GET)
     public String welcommain(Model model){
         logger.info("************开始加载maintain的页面信息********************");
@@ -69,6 +79,11 @@ public class CustomerSqlController {
         return "pages/welcomemain";
     }
 
+    /**
+     *首页统计数据申请地址及返回
+     * @param searchType
+     * @return
+     */
     @RequestMapping(value = "/TongjiReport",method = RequestMethod.POST)
     @ResponseBody
     public Object getTongjiReport(@Param("searchType")String searchType){
@@ -80,13 +95,37 @@ public class CustomerSqlController {
                     selectList("select to_char (sysdate- level + 1, 'yyyy-mm-dd') today FROM DUAL connect BY " +
                             "LEVEL <= 7 order by today asc");
             System.out.println("**************************");
+            String s = "";
             for (int i = 0; i < dateList.size(); i++) {
-                jsonArray.set(i, dateList.get(i).get("TODAY"));
+                s = dateList.get(i).get("TODAY").toString().replace("\"","\'");
+                jsonArray.set(i, s);
             }
-            System.out.println(jsonArray);
-            return jsonArray;
+            String []legendArr = new String[]{"委托单","任务单","开始试验","结束试验","报告签发"};
+            jsonObject.put("category",jsonArray);
+            jsonObject.put("legend",legendArr);
+            System.out.println(jsonObject);
+            return jsonObject;
         }
         return "";
+    }
+
+    /**
+     * 仪器管理跳转
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/instruments",method = RequestMethod.GET)
+    public Object getInstruments(Model model){
+        List<InstrumentsWithBLOBs>  instruments = instrumentsService.allInstruments();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        jsonObject.put("msg","");
+        //jsonObject.put("count",instrumentsService.)
+        for (InstrumentsWithBLOBs i:instruments){
+            //System.out.println(i.getName());
+
+        }
+        return "pages/instruments";
     }
 
 }
