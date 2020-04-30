@@ -8,7 +8,7 @@ import cn.besbing.Service.Impl.InstrumentsServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonArray;
+
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,14 +96,49 @@ public class CustomerSqlController {
                             "LEVEL <= 7 order by today asc");
             System.out.println("**************************");
             String s = "";
+            //获取日期
             for (int i = 0; i < dateList.size(); i++) {
                 s = dateList.get(i).get("TODAY").toString().replace("\"","\'");
                 jsonArray.set(i, s);
             }
+            //按日期遍历各单
+            JSONArray projData = new JSONArray();
+            JSONArray taskData = new JSONArray();
+            JSONArray startData = new JSONArray();
+            JSONArray endData = new JSONArray();
+            JSONArray reportData = new JSONArray();
+            for (int i = 0;i < jsonArray.size();i++){
+                //project
+                projData.set(i,Integer.valueOf(customerSqlService.selectOne("select count(1) from qc_commission_h h where " +
+                        "substr(h.creationtime,1,10) = '"+ jsonArray.get(i) +"' and dr = 0")));
+                //c_proj_task
+                taskData.set(i,Integer.valueOf(customerSqlService.selectOne("select count(1) from qc_task_b tb where " +
+                        " tb.pk_task_h in (select th.pk_task_h from " +
+                        " qc_task_h th where substr(th.creationtime,1,10) = '"+ jsonArray.get(i) + "' and dr = 0)")));
+                //au_start_time
+                startData.set(i,Integer.valueOf(customerSqlService.selectOne("select count(1) from c_arrangement ca where " +
+                        " substr(to_char(ca.acture_start_date,'yyyy-mm-dd'),1,10) = '"+ jsonArray.get(i) + "' " +
+                        " and ca.status != 'X'")));
+                //au_end_time
+                endData.set(i,Integer.valueOf(customerSqlService.selectOne("select count(1) from c_arrangement ca where " +
+                        " substr(to_char(ca.acture_end_date,'yyyy-mm-dd'),1,10) = '"+ jsonArray.get(i) + "' " +
+                        " and ca.status != 'X'")));
+                //report_sign
+                reportData.set(i,Integer.valueOf(customerSqlService.selectOne("select count(1) from c_proj_task c where  " +
+                        " substr(to_char(c.c_reportsignature_date,'yyyy-mm-dd'),1,10) = '"+ jsonArray.get(i) + "' " +
+                        " and c.status = 'T'")));
+            }
+
+            //整理json
             String []legendArr = new String[]{"委托单","任务单","开始试验","结束试验","报告签发"};
             jsonObject.put("category",jsonArray);
             jsonObject.put("legend",legendArr);
-            System.out.println(jsonObject);
+            jsonObject.put("projData",projData);
+            jsonObject.put("taskData",taskData);
+            jsonObject.put("startData",startData);
+            jsonObject.put("endData",endData);
+            jsonObject.put("reportData",reportData);
+            //System.out.println(jsonObject);
             return jsonObject;
         }
         return "";
