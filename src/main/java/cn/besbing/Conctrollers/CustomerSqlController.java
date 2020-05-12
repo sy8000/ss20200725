@@ -155,12 +155,54 @@ public class CustomerSqlController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code",0);
         jsonObject.put("msg","");
+        jsonObject.put("count",instrumentsService.countByExample(null));
         //jsonObject.put("count",instrumentsService.)
-        for (InstrumentsWithBLOBs i:instruments){
+        /*for (InstrumentsWithBLOBs i:instruments){
             //System.out.println(i.getName());
-
-        }
+            //jsonObject.put();
+        }*/
+        jsonObject.put("data",JSON.toJSON(instruments));
+        model.addAttribute("instrument",jsonObject);
         return "pages/instruments";
+    }
+
+    @RequestMapping(value = "/getinstruments",method = RequestMethod.GET)
+    @ResponseBody
+    public Object getInstruments(){
+        List<InstrumentsWithBLOBs>  instruments = instrumentsService.allInstruments();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",0);
+        jsonObject.put("msg","");
+        jsonObject.put("count",instrumentsService.countByExample(null));
+        //jsonObject.put("count",instrumentsService.)
+        /*for (InstrumentsWithBLOBs i:instruments){
+            //System.out.println(i.getName());
+            //jsonObject.put();
+        }*/
+        jsonObject.put("data",JSON.toJSON(instruments));
+
+        return jsonObject;
+    }
+
+    /**
+     *
+     * @param obj  微服务端传入的参数，格式为"rowid_taskid"，用split切分后，去查询，如果有则返回试验名称和样品名称，没有则直接返回错误
+     * @return
+     */
+    @RequestMapping(value = "/ValidReports",method = RequestMethod.GET)
+    @ResponseBody
+    public Object getReportValid(Object obj){
+        String returnValue = "";
+        String unionString = obj.toString();
+        String[] param = unionString.split("_");
+        String sql = "select 1 from c_porj_task where rowid = '" + param[0] + "' and task_id = '" + param[1] + "'";
+        String result =  customerSqlService.selectOne(sql);
+        if (result != null){
+            returnValue = "报告无误";
+        }else{
+            returnValue = "报告非检测中心出具";
+        }
+        return returnValue;
     }
 
 }
