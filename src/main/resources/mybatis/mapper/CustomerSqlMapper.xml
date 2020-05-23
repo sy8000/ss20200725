@@ -15,6 +15,10 @@
         ${value}
     </select>
 
+    <select id="selectAsAnalysisTable" parameterType="java.lang.String" resultType="java.util.HashMap" useCache="false">
+        ${value}
+    </select>
+
     <select id="selectOne" parameterType="java.lang.String" resultType="java.lang.String" useCache="false">
         ${value}
     </select>

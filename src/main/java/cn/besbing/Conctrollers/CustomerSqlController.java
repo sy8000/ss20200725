@@ -1,10 +1,15 @@
 package cn.besbing.Conctrollers;
 
+import cn.besbing.CommonUtils.AboutJson.ConverToJson;
 import cn.besbing.CommonUtils.MaintainModel.MaintainModelUtils;
 import cn.besbing.Dao.CustomerSqlMapper;
 import cn.besbing.Entities.InstrumentsWithBLOBs;
+import cn.besbing.Entities.Result;
+import cn.besbing.Entities.ResultDefKey;
+import cn.besbing.Entities.TableTaskFields;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import cn.besbing.Service.Impl.InstrumentsServiceImpl;
+import cn.besbing.Service.Impl.TaskInfoServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -32,6 +37,9 @@ public class CustomerSqlController {
 
     @Autowired
     InstrumentsServiceImpl instrumentsService;
+
+    @Autowired
+    TaskInfoServiceImpl taskInfoService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -144,6 +152,67 @@ public class CustomerSqlController {
         return "";
     }
 
+
+    /**
+     * 任务管理页面
+     * @return
+     */
+    @RequestMapping(value = "/task",method = RequestMethod.GET)
+    public String task(){
+        return "pages/task.html";
+    }
+
+    @RequestMapping(value = "/TaskInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject getTaskInfo(){
+        List<TableTaskFields> tableTaskFieldsList = taskInfoService.getTask();
+        ConverToJson converToJson = new ConverToJson();
+        return converToJson.ListToJson(tableTaskFieldsList);
+    }
+
+    /**
+     * 通过sql_records表查询语句
+     * @param 参数 格式{paramtype:init/after,taskid:string}
+     * @return json
+     */
+    @RequestMapping(value = "/getParameters",method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject getTestParameters(String type,String taskid){
+        JSONObject jsonObject = new JSONObject();
+        String sql = "";
+        if ("init".equals(type)){
+            sql = customerSqlService.selectOne("select sql_text from sql_records where sql_code = 'init' ");
+            sql = sql.replace("sheny",taskid.substring(0,13));
+            //List<Map<String, Object>> maps = customerSqlService.selectList(sql);
+            ConverToJson converToJson = new ConverToJson();
+            jsonObject = converToJson.ListToJson(customerSqlService.selectList(sql));
+        }else {
+            sql = customerSqlService.selectOne("select sql_text from sql_records where sql_code = 'after' ");
+            sql = sql.replace("sheny",taskid);
+            //List<Map<String, Object>> maps = customerSqlService.selectList(sql);
+            ConverToJson converToJson = new ConverToJson();
+            jsonObject = converToJson.ListToJson(customerSqlService.selectList(sql));
+        }
+        return jsonObject;
+    }
+
+    /**
+     * 接收传的josn，自动写参数到result
+     * 传入json格式
+     * {
+     *     type:init/after
+     *     data:[{...},{...}]
+     * }
+     */
+    @RequestMapping(value = "/upLoadParameters",method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject writeResult(String jsonStr){
+        //JSON.toJSONString(Result.class);
+        JSONArray jsonArray = JSONArray.parseArray(jsonStr);
+
+        return new JSONObject();
+    }
+
     /**
      * 仪器管理跳转
      * @param model
@@ -156,11 +225,6 @@ public class CustomerSqlController {
         jsonObject.put("code",0);
         jsonObject.put("msg","");
         jsonObject.put("count",instrumentsService.countByExample(null));
-        //jsonObject.put("count",instrumentsService.)
-        /*for (InstrumentsWithBLOBs i:instruments){
-            //System.out.println(i.getName());
-            //jsonObject.put();
-        }*/
         jsonObject.put("data",JSON.toJSON(instruments));
         model.addAttribute("instrument",jsonObject);
         return "pages/instruments";
@@ -174,11 +238,6 @@ public class CustomerSqlController {
         jsonObject.put("code",0);
         jsonObject.put("msg","");
         jsonObject.put("count",instrumentsService.countByExample(null));
-        //jsonObject.put("count",instrumentsService.)
-        /*for (InstrumentsWithBLOBs i:instruments){
-            //System.out.println(i.getName());
-            //jsonObject.put();
-        }*/
         jsonObject.put("data",JSON.toJSON(instruments));
 
         return jsonObject;
@@ -192,6 +251,7 @@ public class CustomerSqlController {
     @RequestMapping(value = "/ValidReports",method = RequestMethod.GET)
     @ResponseBody
     public Object getReportValid(Object obj){
+        logger.info(obj.toString());
         String returnValue = "";
         String unionString = obj.toString();
         String[] param = unionString.split("_");

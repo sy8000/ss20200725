@@ -1,7 +1,7 @@
 package cn.besbing.Service.Impl;
 
 import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
-import cn.besbing.CommonUtils.MaintainModel.UserSearchDTO;
+import cn.besbing.CommonUtils.MaintainModel.FormatSearchDTO;
 import cn.besbing.Dao.InstrumentsMapper;
 import cn.besbing.Entities.InstrumentsExample;
 import cn.besbing.Entities.InstrumentsWithBLOBs;
@@ -25,7 +25,7 @@ public class InstrumentsServiceImpl implements IInstrumentsService {
 
 
     @Override
-    public PageDataResult getPdrData(UserSearchDTO userSearch) {
+    public PageDataResult getPdrData(FormatSearchDTO userSearch) {
         PageDataResult pdr = new PageDataResult();
         PageHelper.startPage(userSearch.getPage(), userSearch.getLimit(),true);
         List<InstrumentsWithBLOBs> urList = instrumentsMapper.getInstruments(userSearch.getKeyworld());

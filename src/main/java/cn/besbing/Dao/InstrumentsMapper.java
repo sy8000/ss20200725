@@ -1,6 +1,6 @@
 package cn.besbing.Dao;
 
-import cn.besbing.CommonUtils.MaintainModel.UserSearchDTO;
+import cn.besbing.CommonUtils.MaintainModel.FormatSearchDTO;
 import cn.besbing.Entities.Instruments;
 import cn.besbing.Entities.InstrumentsExample;
 import cn.besbing.Entities.InstrumentsWithBLOBs;
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface InstrumentsMapper {
 
-    List<InstrumentsWithBLOBs> getAllData(UserSearchDTO userSearch);
+    List<InstrumentsWithBLOBs> getAllData(FormatSearchDTO userSearch);
     List<InstrumentsWithBLOBs> getReloadData(String pk);
     List<InstrumentsWithBLOBs> getInstruments(String pk);
 

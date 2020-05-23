@@ -1,5 +1,6 @@
 package cn.besbing.Service;
 
+import cn.besbing.Entities.AnalysisTable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface ICustomerSqlService {
     String selectOne(String statement);
 
     List<String> selectAsList(String statement);
+
+    List<AnalysisTable> selectAsAnalysisTable(String statement);
 }

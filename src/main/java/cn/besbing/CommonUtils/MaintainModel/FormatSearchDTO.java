@@ -1,6 +1,6 @@
 package cn.besbing.CommonUtils.MaintainModel;
 
-public class UserSearchDTO {
+public class FormatSearchDTO {
 	private Integer page;
 
 	private Integer limit;
@@ -49,7 +49,7 @@ public class UserSearchDTO {
 		return keyworld;
 	}
 
-	public UserSearchDTO(Integer page, Integer limit, String keyworld) {
+	public FormatSearchDTO(Integer page, Integer limit, String keyworld) {
 		super();
 		this.page = page;
 		this.limit = limit;
@@ -60,7 +60,7 @@ public class UserSearchDTO {
 		this.keyworld = keyworld;
 	}
 
-	public UserSearchDTO(Integer page, Integer limit, String keyworld, String parentId, Integer type) {
+	public FormatSearchDTO(Integer page, Integer limit, String keyworld, String parentId, Integer type) {
 		super();
 		this.page = page;
 		this.limit = limit;

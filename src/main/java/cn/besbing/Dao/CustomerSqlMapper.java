@@ -1,5 +1,7 @@
 package cn.besbing.Dao;
 
+import cn.besbing.Entities.AnalysisTable;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,5 +18,9 @@ public interface CustomerSqlMapper {
     String selectOne(String statement);
 
     List<String> selectAsList(String statement);
+
+    List<AnalysisTable> selectAsAnalysisTable(String statement);
+
+
 
 }

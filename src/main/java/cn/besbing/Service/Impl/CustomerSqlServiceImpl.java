@@ -1,6 +1,7 @@
 package cn.besbing.Service.Impl;
 
 import cn.besbing.Dao.CustomerSqlMapper;
+import cn.besbing.Entities.AnalysisTable;
 import cn.besbing.Service.ICustomerSqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,11 @@ public class CustomerSqlServiceImpl implements ICustomerSqlService {
     @Override
     public List<String> selectAsList(String statement) {
         return customerSqlMapper.selectAsList(statement);
+    }
+
+    @Override
+    public List<AnalysisTable> selectAsAnalysisTable(String statement) {
+        return customerSqlMapper.selectAsAnalysisTable(statement);
     }
 
 

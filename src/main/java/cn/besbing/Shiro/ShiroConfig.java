@@ -25,6 +25,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/itf/**", "anon");
         filterChainDefinitionMap.put("/valid", "anon");
+        filterChainDefinitionMap.put("/getParameters", "anon");
+        ///getParameters
         //参数查询
         filterChainDefinitionMap.put("/getAllTaskUnDownload", "anon");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了

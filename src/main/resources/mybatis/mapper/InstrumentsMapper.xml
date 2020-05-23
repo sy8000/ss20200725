@@ -2020,7 +2020,7 @@
       C_EQ_NAME_EN = #{cEqNameEn,jdbcType=VARCHAR}
     where NAME = #{name,jdbcType=VARCHAR}
   </update>
-  <select id="getAllData" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.UserSearchDTO">
+  <select id="getAllData" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.FormatSearchDTO">
     select
     <include refid="Base_Column_List" />
     ,
@@ -2037,7 +2037,7 @@
   </select>
 
   <!-- 自定义方法，表格获取，按住院号、按姓名 -->
-  <select id="getInstruments" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.UserSearchDTO" >
+  <select id="getInstruments" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.FormatSearchDTO" >
     select
     <include refid="Base_Column_List" />
     ,
