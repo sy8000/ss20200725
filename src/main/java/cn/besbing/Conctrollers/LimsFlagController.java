@@ -37,7 +37,7 @@ public class LimsFlagController {
             jsonObject = jsonArray.getJSONObject(i);
             projList.add(jsonObject.get("project").toString());
         }
-        return String.valueOf(updateLimsBillStatus.moveToSampleMgr(projList,customerSqlService));
+        return String.valueOf(updateLimsBillStatus.moveToSampleMgr(projList));
     }
 
 
