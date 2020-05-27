@@ -264,12 +264,15 @@
     from INSTRUMENTS
     where NAME = #{name,jdbcType=VARCHAR}
   </select>
-  <select id="selectAllInstruments" resultMap="ResultMapWithBLOBs">
+  <select id="selectAllInstruments" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.SearchDTO">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from INSTRUMENTS
+    <if test="_parameter != null">
+      and name like '%'||#{_parameter}||'%'
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
@@ -2020,7 +2023,7 @@
       C_EQ_NAME_EN = #{cEqNameEn,jdbcType=VARCHAR}
     where NAME = #{name,jdbcType=VARCHAR}
   </update>
-  <select id="getAllData" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.FormatSearchDTO">
+  <select id="getAllData" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.SearchDTO">
     select
     <include refid="Base_Column_List" />
     ,
@@ -2037,7 +2040,7 @@
   </select>
 
   <!-- 自定义方法，表格获取，按住院号、按姓名 -->
-  <select id="getInstruments" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.FormatSearchDTO" >
+  <select id="getInstruments" resultMap="ResultMapWithBLOBs" parameterType="cn.besbing.CommonUtils.MaintainModel.SearchDTO" >
     select
     <include refid="Base_Column_List" />
     ,

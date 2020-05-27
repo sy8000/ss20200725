@@ -1,14 +1,13 @@
 package cn.besbing.Conctrollers;
 
 import cn.besbing.CommonUtils.AboutJson.ConverToJson;
-import cn.besbing.CommonUtils.MaintainModel.MaintainModelUtils;
-import cn.besbing.Dao.CustomerSqlMapper;
+import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
+import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
 import cn.besbing.Entities.InstrumentsWithBLOBs;
 import cn.besbing.Entities.Result;
-import cn.besbing.Entities.ResultDefKey;
-import cn.besbing.Entities.TableTaskFields;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import cn.besbing.Service.Impl.InstrumentsServiceImpl;
+import cn.besbing.Service.Impl.ResultServiceImpl;
 import cn.besbing.Service.Impl.TaskInfoServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -20,12 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +35,9 @@ public class CustomerSqlController {
 
     @Autowired
     TaskInfoServiceImpl taskInfoService;
+
+    @Autowired
+    ResultServiceImpl resultService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -162,17 +160,37 @@ public class CustomerSqlController {
         return "pages/task.html";
     }
 
-    @RequestMapping(value = "/TaskInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/TaskInfo",method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject getTaskInfo(){
-        List<TableTaskFields> tableTaskFieldsList = taskInfoService.getTask();
+    public PageDataResult getTaskInfo(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, @RequestParam(value = "keyword", required = false) String keyword){
+        /*List<TableTaskFields> tableTaskFieldsList = taskInfoService.getTask();
         ConverToJson converToJson = new ConverToJson();
-        return converToJson.ListToJson(tableTaskFieldsList);
+        return converToJson.ListToJson(tableTaskFieldsList);*/
+        PageDataResult pdr = new PageDataResult();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if (null == page) {
+                page = 1;
+            }
+            if (null == limit) {
+                limit = 10;
+            }
+            //System.out.println(keyword);
+            if (keyword != null && keyword != ""){
+                jsonObject = JSONObject.parseObject(keyword);
+                keyword = jsonObject.get("taskid").toString();
+            }
+            SearchDTO searchDTO = new SearchDTO(page,limit,keyword);
+            pdr = taskInfoService.getTask(searchDTO);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return pdr;
     }
 
     /**
      * 通过sql_records表查询语句
-     * @param 参数 格式{paramtype:init/after,taskid:string}
+     * {paramtype:init/after,taskid:string}
      * @return json
      */
     @RequestMapping(value = "/getParameters",method = RequestMethod.POST)
@@ -206,31 +224,56 @@ public class CustomerSqlController {
      */
     @RequestMapping(value = "/upLoadParameters",method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject writeResult(String jsonStr){
+    public void writeResult(@RequestBody JSONArray jsonArray){
         //JSON.toJSONString(Result.class);
-        JSONArray jsonArray = JSONArray.parseArray(jsonStr);
+        List<Result> list = jsonArray.toJavaList(Result.class);
+        for (Result r : list){
+            System.out.println(r.toString());
+            resultService.setResultUpdate(r);
+        }
+    }
 
-        return new JSONObject();
+    /**
+     * 仪器需求：使用地点、责任人，仪器状态（使用中、停用、报废、维修、限用、遗失、转让、封存）、校准机构（自动提示）
+     * 加属性：校准、定期维护、授权、日常点检、期间核查、使用登记，（控制c_PM_INFO是否生效，多选）
+     * @return
+     */
+
+    @RequestMapping(value = "/instruments",method = RequestMethod.GET)
+    public String forwardPage(){
+        return "pages/instruments.html";
     }
 
     /**
      * 仪器管理跳转
-     * @param model
      * @return
      */
-    @RequestMapping(value = "/instruments",method = RequestMethod.GET)
-    public Object getInstruments(Model model){
-        List<InstrumentsWithBLOBs>  instruments = instrumentsService.allInstruments();
+    @RequestMapping(value = "/getinstruments",method = RequestMethod.GET)
+    @ResponseBody
+    public PageDataResult getInstruments(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, @RequestParam(value = "keyword", required = false) String keyword){
+        PageDataResult pdr = new PageDataResult();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code",0);
-        jsonObject.put("msg","");
-        jsonObject.put("count",instrumentsService.countByExample(null));
-        jsonObject.put("data",JSON.toJSON(instruments));
-        model.addAttribute("instrument",jsonObject);
-        return "pages/instruments";
+        try {
+            if (null == page) {
+                page = 1;
+            }
+            if (null == limit) {
+                limit = 10;
+            }
+            //System.out.println(keyword);
+            if (keyword != null && keyword != ""){
+                jsonObject = JSONObject.parseObject(keyword);
+                keyword = jsonObject.get("name").toString();
+            }
+            SearchDTO searchDTO = new SearchDTO(page,limit,keyword);
+            pdr = instrumentsService.allInstruments(searchDTO);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return pdr;
     }
 
-    @RequestMapping(value = "/getinstruments",method = RequestMethod.GET)
+    /*@RequestMapping(value = "/getinstruments",method = RequestMethod.GET)
     @ResponseBody
     public Object getInstruments(){
         List<InstrumentsWithBLOBs>  instruments = instrumentsService.allInstruments();
@@ -241,7 +284,7 @@ public class CustomerSqlController {
         jsonObject.put("data",JSON.toJSON(instruments));
 
         return jsonObject;
-    }
+    }*/
 
     /**
      *

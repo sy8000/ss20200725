@@ -26,6 +26,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/itf/**", "anon");
         filterChainDefinitionMap.put("/valid", "anon");
         filterChainDefinitionMap.put("/getParameters", "anon");
+        filterChainDefinitionMap.put("/upLoadParameters", "anon");
+
         ///getParameters
         //参数查询
         filterChainDefinitionMap.put("/getAllTaskUnDownload", "anon");

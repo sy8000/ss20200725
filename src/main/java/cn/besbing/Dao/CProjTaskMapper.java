@@ -1,11 +1,13 @@
 package cn.besbing.Dao;
 
+import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
 import cn.besbing.Entities.CProjTask;
 import cn.besbing.Entities.CProjTaskExample;
 import java.util.List;
 
 import cn.besbing.Entities.TableTaskFields;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface CProjTaskMapper {
     /**
@@ -14,7 +16,7 @@ public interface CProjTaskMapper {
      *
      * @mbg.generated Thu May 21 19:12:22 CST 2020
      */
-    List<TableTaskFields> selectForTable();
+    List<TableTaskFields> selectForTable(@RequestParam(value = "taskid", required = false) String taskid);
 
     long countByExample(CProjTaskExample example);
 

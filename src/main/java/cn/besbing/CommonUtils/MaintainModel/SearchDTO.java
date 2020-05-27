@@ -1,11 +1,11 @@
 package cn.besbing.CommonUtils.MaintainModel;
 
-public class FormatSearchDTO {
+public class SearchDTO {
 	private Integer page;
 
 	private Integer limit;
 
-	private String keyworld;
+	private String keyword;
 	
 	private String parentId;
 	
@@ -45,26 +45,26 @@ public class FormatSearchDTO {
 		this.limit = limit;
 	}
 
-	public String getKeyworld() {
-		return keyworld;
+	public String getKeyword() {
+		return keyword;
 	}
 
-	public FormatSearchDTO(Integer page, Integer limit, String keyworld) {
+	public SearchDTO(Integer page, Integer limit, String keyword) {
 		super();
 		this.page = page;
 		this.limit = limit;
-		this.keyworld = keyworld;
+		this.keyword = keyword;
 	}
 
-	public void setKeyworld(String keyworld) {
-		this.keyworld = keyworld;
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
-	public FormatSearchDTO(Integer page, Integer limit, String keyworld, String parentId, Integer type) {
+	public SearchDTO(Integer page, Integer limit, String keyword, String parentId, Integer type) {
 		super();
 		this.page = page;
 		this.limit = limit;
-		this.keyworld = keyworld;
+		this.keyword = keyword;
 		this.parentId = parentId;
 		this.type = type;
 	}

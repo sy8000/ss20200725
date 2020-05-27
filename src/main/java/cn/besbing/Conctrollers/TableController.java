@@ -1,8 +1,6 @@
 package cn.besbing.Conctrollers;
 
 
-import cn.besbing.CommonUtils.MaintainModel.FormatSearchDTO;
-import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
 import cn.besbing.Entities.AnalysisTable;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import com.alibaba.fastjson.JSON;

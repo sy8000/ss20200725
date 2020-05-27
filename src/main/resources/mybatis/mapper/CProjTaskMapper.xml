@@ -252,10 +252,14 @@
     from C_PROJ_TASK
     where SEQ_NUM = #{seqNum,jdbcType=DECIMAL}
   </select>
-  <select id="selectForTable" resultMap="TableResultMap">
-    select distinct cpt.task_id,cpt.project,cpt.task_reported_name,cpt.analysis,cpt.test_number,cpt.plan_test_time,cpt.lab
+  <select id="selectForTable" resultMap="TableResultMap" parameterType="cn.besbing.CommonUtils.MaintainModel.SearchDTO">
+    select distinct cpt.project,cpt.task_id,cpt.task_reported_name,cpt.analysis,cpt.test_number,cpt.plan_test_time,cpt.lab
     from c_proj_task cpt , project p
-    where p.closed = 'F' and cpt.status = 'T' order by cpt.task_id,cpt.project desc
+    where p.closed = 'F' and cpt.status = 'T' and cpt.project is not null and cpt.task_id is not null
+    <if test="_parameter != null">
+        and cpt.task_id like '%'||#{_parameter}||'%'
+    </if>
+    order by cpt.task_id,cpt.project desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--

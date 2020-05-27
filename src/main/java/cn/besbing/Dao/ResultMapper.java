@@ -31,5 +31,5 @@ public interface ResultMapper {
 
     int updateByPrimaryKey(Result record);
 
-    int updateByDefKey(ResultDefKey resultDefKey);
+    int updateByDefKey(Result result);
 }

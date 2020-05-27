@@ -1428,7 +1428,7 @@
       TS = #{ts,jdbcType=CHAR}
     where RESULT_NUMBER = #{resultNumber,jdbcType=DECIMAL}
   </update>
-  <update id="updateByDefKey" parameterType="cn.besbing.Entities.ResultDefKey">
+  <update id="updateByDefKey" parameterType="cn.besbing.Entities.Result">
     update RESULT
     <set>
       <if test="sampleNumber != null">

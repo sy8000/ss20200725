@@ -21,7 +21,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">任务管理</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
+                                <input type="text" name="taskid" autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
@@ -35,8 +35,13 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="sample"> 样品接收跳转 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="plan"> 计划排程跳转 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="distribution"> 任务分配跳转 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="testing"> 试验中跳转 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="engineer"> 工程师跳转 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="report"> 报告签发跳转 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="taskend"> 任务终止 </button>
             </div>
         </script>
 
@@ -59,7 +64,18 @@
         table.render({
             elem: '#currentTableId',
             url: '/TaskInfo',
+            method:'post',
             toolbar: '#toolbarDemo',
+            request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                , limitName: 'limit' //每页数据量的参数名，默认：limit
+            },
+            response: {
+                statusName: 'code' //数据状态的字段名称，默认：code
+                , statusCode: 0 //成功的状态码，默认：0
+                , countName: 'totals' //数据总数的字段名称，默认：count
+                , dataName: 'list' //数据列表的字段名称，默认：data
+            },
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
                 layEvent: 'LAYTABLE_TIPS',
@@ -68,17 +84,17 @@
             cols: [
                     [
                         {type: "checkbox", width: 50},
-                        {field: 'project', width: 135, title: '任务单号', sort: true},
-                        {field: 'taskId', width: 80, title: '所属委托单', sort: true},
-                        {field: 'taskReportedName', width: 135, title: '任务名称', sort: true},
-                        {field: 'analysis', width: 135, title: '分析模板', sort: true},
-                        {field: 'testNumber', width: 135, title: '测试号', sort: true},
-                        {field: 'planTestTime', width: 135, title: '预计测试时间', sort: true},
-                        {field: 'lab', width: 135, title: '测试小组', sort: true}
+                        {field: 'project', width: 165, title: '任务单号', sort: true},
+                        {field: 'taskId', width: 200, title: '所属委托单', sort: true},
+                        {field: 'taskReportedName', width: 165, title: '任务名称', sort: true},
+                        {field: 'analysis', width: 200, title: '分析模板', sort: true},
+                        {field: 'testNumber', width: 80, title: '测试号', sort: true},
+                        {field: 'planTestTime', width: 80, title: '预计测试时间', sort: true},
+                        {field: 'lab', width: 150, title: '测试小组', sort: true}
                 ]
             ],
-            limits: [10, 20, 30, 40,50,100],
             limit: 10,
+            limits: [10, 20, 30, 40, 50, 100],
             page: true,
             skin: 'line'
 
@@ -87,9 +103,9 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             var result = JSON.stringify(data.field);
-            layer.alert(result, {
-                title: '最终的搜索信息'
-            });
+            /*layer.alert(result, {
+                title: '提示'
+            });*/
 
             //执行搜索重载
             table.reload('currentTableId', {
@@ -97,9 +113,9 @@
                     curr: 1
                 }
                 , where: {
-                    searchParams: result
+                    keyword: result
                 }
-            }, 'data');
+            }, 'list');
 
             return false;
         });
@@ -108,23 +124,28 @@
          * toolbar监听事件
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
-            if (obj.event === 'add') {  // 监听添加操作
-                var index = layer.open({
-                    title: '添加用户',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin:true,
-                    shadeClose: true,
-                    area: ['100%', '100%'],
-                    content: '../page/table/add.html',
+            var checkStatus = table.checkStatus('currentTableId')
+                , data = checkStatus.data;
+
+            if (obj.event === 'sample') {  // 监听添加操作
+                layer.confirm('确定将任务转换至样品接收状态吗？', function (index) {
+                    layer.alert(JSON.stringify(data));
+                    /*$.post('/lims/updateToSign',JSON.stringify(data),function(flag){
+                        console.log(JSON.stringify({a:data}));
+                    });*/
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/updateToSign",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log('success');
+                        }
+                    });
                 });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
-            } else if (obj.event === 'delete') {  // 监听删除操作
-                var checkStatus = table.checkStatus('currentTableId')
-                    , data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
+            } else if (obj.event === 'plan') {  // 监听删除操作
+
             }
         });
 

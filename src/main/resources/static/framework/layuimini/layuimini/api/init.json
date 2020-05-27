@@ -35,18 +35,12 @@
               "target": "_self"
             },
             {
-              "title": "主页三",
-              "href": "page/welcome-3.html",
+              "title": "仪器管理",
+              "href": "/instruments",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }
           ]
-        },
-        {
-          "title": "仪器管理",
-          "href": "/instruments",
-          "icon": "fa fa-window-maximize",
-          "target": "_self"
         },
 
         {
