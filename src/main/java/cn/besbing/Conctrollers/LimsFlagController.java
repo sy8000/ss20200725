@@ -59,18 +59,108 @@ public class LimsFlagController {
         return String.valueOf(updateLimsBillStatus.moveToPlan(projList));
     }
 
+    /**
+     * 任务分配跳转
+     * @param taskIds
+     * @return
+     */
     @RequestMapping(value = "/updateToBistribution",method = RequestMethod.POST)
     @ResponseBody
     public String updateToBistribution(@RequestBody String taskIds){
         JSONArray jsonArray = JSONArray.parseArray(taskIds);
         JSONObject jsonObject = new JSONObject();
         UpdateLimsBillStatus updateLimsBillStatus = new UpdateLimsBillStatus();
-        List<String> projList = new ArrayList<String>();
+        List<String> taskidList = new ArrayList<String>();
         for (int i=0;i<jsonArray.size();i++){
             jsonObject = jsonArray.getJSONObject(i);
-            projList.add(jsonObject.get("project").toString());
+            taskidList.add(jsonObject.get("taskId").toString());
         }
-        return String.valueOf(updateLimsBillStatus.moveToPlan(projList));
+        return String.valueOf(updateLimsBillStatus.moveToLimsStempGenaral(taskidList,"distribution"));
     }
+
+
+    /**
+     * 试验中跳转
+     * @param taskIds
+     * @return
+     */
+    @RequestMapping(value = "/updateToTesting",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateToTesting(@RequestBody String taskIds){
+        JSONArray jsonArray = JSONArray.parseArray(taskIds);
+        JSONObject jsonObject = new JSONObject();
+        UpdateLimsBillStatus updateLimsBillStatus = new UpdateLimsBillStatus();
+        List<String> taskidList = new ArrayList<String>();
+        for (int i=0;i<jsonArray.size();i++){
+            jsonObject = jsonArray.getJSONObject(i);
+            taskidList.add(jsonObject.get("taskId").toString());
+        }
+        return String.valueOf(updateLimsBillStatus.moveToLimsStempGenaral(taskidList,"testing"));
+    }
+
+    /**
+     * 工程师跳转
+     * @param taskIds
+     * @return
+     */
+    @RequestMapping(value = "/updateToEngineer",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateToEngineer(@RequestBody String taskIds){
+        JSONArray jsonArray = JSONArray.parseArray(taskIds);
+        JSONObject jsonObject = new JSONObject();
+        UpdateLimsBillStatus updateLimsBillStatus = new UpdateLimsBillStatus();
+        List<String> taskidList = new ArrayList<String>();
+        for (int i=0;i<jsonArray.size();i++){
+            jsonObject = jsonArray.getJSONObject(i);
+            taskidList.add(jsonObject.get("taskId").toString());
+        }
+        return String.valueOf(updateLimsBillStatus.moveToLimsStempGenaral(taskidList,"engineer"));
+    }
+
+    /**
+     * 签发跳转
+     * @param taskIds
+     * @return
+     */
+    @RequestMapping(value = "/updateToReport",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateToReport(@RequestBody String taskIds){
+        JSONArray jsonArray = JSONArray.parseArray(taskIds);
+        JSONObject jsonObject = new JSONObject();
+        UpdateLimsBillStatus updateLimsBillStatus = new UpdateLimsBillStatus();
+        List<String> taskidList = new ArrayList<String>();
+        for (int i=0;i<jsonArray.size();i++){
+            jsonObject = jsonArray.getJSONObject(i);
+            taskidList.add(jsonObject.get("taskId").toString());
+        }
+        return String.valueOf(updateLimsBillStatus.moveToLimsStempGenaral(taskidList,"report"));
+    }
+
+    /**
+     * 任务取消跳转
+     * @param taskIds
+     * @return
+     */
+    @RequestMapping(value = "/updateToTaskend",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateToTaskend(@RequestBody String taskIds){
+        int flag = 0;
+        JSONArray jsonArray = JSONArray.parseArray(taskIds);
+        JSONObject jsonObject = new JSONObject();
+        //UpdateLimsBillStatus updateLimsBillStatus = new UpdateLimsBillStatus();
+        //List<String> taskidList = new ArrayList<String>();
+        for (int i=0;i<jsonArray.size();i++){
+            jsonObject = jsonArray.getJSONObject(i);
+            //taskidList.add(jsonObject.get("taskId").toString());
+            flag += customerSqlService.update("update c_proj_task set status = 'F' where task_id = '"+ jsonObject.get("taskId").toString() +"' ");
+        }
+        return String.valueOf(flag);
+    }
+
+
+
+
+
+
 
 }

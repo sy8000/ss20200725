@@ -196,3 +196,36 @@
 [2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
 [2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
 [2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 22:39:45] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on 192.168.0.103 with PID 28094 (/Users/sheny/projects/dlc20200527/target/classes started by sheny in /Users/sheny/projects/dlc20200527)
+[2020-05-28 22:39:45] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 22:39:48] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 22:39:50] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 22:39:52] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8888"]
+[2020-05-28 22:39:52] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 22:39:52] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 22:39:52] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 22:39:53] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1cabdbe0, started on Thu May 28 22:39:45 CST 2020
+[2020-05-28 22:39:54] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8888"]
+[2020-05-28 22:39:54] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 11.626 seconds (JVM running for 14.637)
+[2020-05-28 22:40:22] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 22:41:50] -- [INFO ]: [cn.besbing.Shiro.CustomRealm] -- 认证完成，顺利返回，不代表验证成功
+[2020-05-28 22:41:51] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 22:41:52] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************
+[2020-05-28 22:59:32] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 23:00:09] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on 192.168.0.103 with PID 28134 (/Users/sheny/projects/dlc20200527/target/classes started by sheny in /Users/sheny/projects/dlc20200527)
+[2020-05-28 23:00:09] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 23:00:12] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 23:00:14] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 23:00:16] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8888"]
+[2020-05-28 23:00:16] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 23:00:16] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 23:00:16] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 23:00:16] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@6321cbcd, started on Thu May 28 23:00:09 CST 2020
+[2020-05-28 23:00:18] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8888"]
+[2020-05-28 23:00:18] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 11.138 seconds (JVM running for 12.857)
+[2020-05-28 23:00:34] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 23:01:34] -- [INFO ]: [cn.besbing.Shiro.CustomRealm] -- 认证完成，顺利返回，不代表验证成功
+[2020-05-28 23:01:36] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 23:01:36] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************
+[2020-05-28 23:02:05] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 23:02:05] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************

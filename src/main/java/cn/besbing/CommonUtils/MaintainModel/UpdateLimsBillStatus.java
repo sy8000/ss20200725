@@ -100,8 +100,6 @@ public class UpdateLimsBillStatus {
             CProjTask cProjTask = taskInfoService.getTaskEntityById(taskId);
             if ("distribution".equals(changeType)){
                 //任务分配
-                cProjTask.setcArrangementBy(null);
-                cProjTask.setcArrangementDate(null);
                 cProjTask.setcMonitorprocessBy(null);
                 cProjTask.setcMonitorprocessDate(null);
                 cProjTask.setcAnalystStartBy(null);
@@ -214,7 +212,7 @@ public class UpdateLimsBillStatus {
             }
             //无论什么状态，都将委托单刷回closed='F'的状态
             flag += writeDbProject(projName);
-            flag = writeDbTaskStatus(projName,"sample");
+            flag += writeDbTaskStatus(projName,"sample");
             logger.info("结束处理名称为{}的委托单，跳转至样品管理员处......",projName);
         }
         //全部完成后开始执行单据联查的标志位修改工作，此方法抽出去
@@ -249,12 +247,49 @@ public class UpdateLimsBillStatus {
             }
             //无论什么状态，都将委托单刷回closed='F'的状态
             flag += writeDbProject(projName);
-            flag = writeDbTaskStatus(projName,"plan");
+            flag += writeDbTaskStatus(projName,"plan");
             logger.info("结束处理名称为{}的委托单，跳转至计划排程处......",projName);
         }
         //全部完成后开始执行单据联查的标志位修改工作，此方法抽出去
 
         return flag;
     }
+
+    /**
+     * 通用方法，处理除样品管理员和计划排程年所有任务单转转
+     * @return
+     *
+     * description:首先判断入参jumpTo（值：distribution/testing/engineer/report/taskend），
+     * 根据各模块进行个性化更新（即取出相应sql_records中相应的语句并执行）
+     * 最后去执行通用标志位刷新方法
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public int moveToLimsStempGenaral(List<String> taskList , String jumpTo){
+        int flag = 0;
+        List<String> sqlList = new ArrayList();
+        try{
+            sqlList = customerSqlService.selectAsList("select sql_text from sql_records where sql_code like '" + jumpTo + "%' ");
+            logger.info("《跳转至{}》获取sql_records完成",jumpTo);
+        }catch(Exception e){
+            logger.error("《跳转至{}》获取sql_records表内容出错,sql:{}",jumpTo,sqlList);
+        }
+        for (String taskId : taskList){
+            logger.info("开始处理名称为{}的任务......",jumpTo);
+            for (String sql : sqlList){
+                try{
+                    flag += customerSqlService.update(sql.replace("sheny",taskId));
+                }catch (Exception e){
+                    logger.error("处理名称为{}的{}出错,sql{}......",taskId,jumpTo,sql.replace("sheny",taskId));
+                }
+            }
+            //无论什么状态，都将委托单刷回closed='F'的状态
+            flag += writeDbProject(taskId.substring(0,13));
+            flag += writeDbTaskStatus(taskId,jumpTo);
+            logger.info("结束处理名称为{}的任务单......",taskId);
+        }
+
+        return flag;
+    }
+
 
 }

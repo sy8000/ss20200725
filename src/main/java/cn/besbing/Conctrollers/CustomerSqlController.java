@@ -1,6 +1,7 @@
 package cn.besbing.Conctrollers;
 
 import cn.besbing.CommonUtils.AboutJson.ConverToJson;
+import cn.besbing.CommonUtils.MaintainModel.LimsResultOpration;
 import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
 import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
 import cn.besbing.Entities.InstrumentsWithBLOBs;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -221,16 +223,36 @@ public class CustomerSqlController {
      *     type:init/after
      *     data:[{...},{...}]
      * }
+     * 逻辑说明：接收小垂上传的jsonarray格式数组，转换为json后，依次取出，test_number、sample_number、result.name三个字段进行查询
+     * 如果有则执行行updateByThreePrimary(test_number,sample_number,result.name)
+     * 如果没有，则syncronized以事务运行incriments获取最大result_number和entry_code，然后立即锁死
+     * 执行updatebyprimary默认方法
+     * 返回成功的json
      */
     @RequestMapping(value = "/upLoadParameters",method = RequestMethod.POST)
     @ResponseBody
-    public void writeResult(@RequestBody JSONArray jsonArray){
-        //JSON.toJSONString(Result.class);
-        List<Result> list = jsonArray.toJavaList(Result.class);
-        for (Result r : list){
-            System.out.println(r.toString());
-            resultService.setResultUpdate(r);
+    public JSONObject writeResult(@RequestBody String uploadParams){
+        //把小垂上传的jsonarray解析出来
+        JSONArray jsonArray = JSONArray.parseArray(uploadParams);
+        JSONObject jsonObject = new JSONObject();
+        Result result = new Result();
+        List<String> returnList = new ArrayList<>();
+        for (int i=0;i<jsonArray.size();i++){
+            logger.info("开始解析小垂上传的第{}行参数...",i);
+            try{
+                jsonObject = jsonArray.getJSONObject(i);
+                result.setTestNumber(Long.valueOf(jsonObject.get("test_number").toString()));
+                result.setSampleNumber(Long.valueOf(jsonObject.get("sample_number").toString()));
+                result.setName(jsonObject.get("test_number").toString());
+            }catch (Exception e){
+                logger.error("{}类解析小垂上传的参数第{}行出错!!!错误描述:{}",this.getClass().getName(),i,e.getStackTrace());
+            }
+            logger.info("解析小垂上传的第{}行参数完成...",i);
+            //转普通类，以事务运行更新或新增
+            LimsResultOpration limsResultOpration = new LimsResultOpration();
+            returnList.add(limsResultOpration.paramProcessor(result));
         }
+        return new ConverToJson().ListToJson(returnList);
     }
 
     /**
