@@ -5,6 +5,10 @@ public class TableTaskFields {
     private String project;
     private String taskReportedName;
     private String analysis;
+    private Long testNumber;
+    private Long planTestTime;
+    private String lab;
+
 
     @Override
     public String toString() {
@@ -18,10 +22,6 @@ public class TableTaskFields {
                 ", lab='" + lab + '\'' +
                 '}';
     }
-
-    private Long testNumber;
-    private Long planTestTime;
-    private String lab;
 
     public String getTaskId() {
         return taskId;

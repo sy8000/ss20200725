@@ -127,12 +127,9 @@
             var checkStatus = table.checkStatus('currentTableId')
                 , data = checkStatus.data;
 
-            if (obj.event === 'sample') {  // 监听添加操作
+            if (obj.event === 'sample') {  // 监听样品管理员跳转
                 layer.confirm('确定将任务转换至样品接收状态吗？', function (index) {
-                    layer.alert(JSON.stringify(data));
-                    /*$.post('/lims/updateToSign',JSON.stringify(data),function(flag){
-                        console.log(JSON.stringify({a:data}));
-                    });*/
+                    //layer.alert(JSON.stringify(data));
                     $.ajax({
                         type:"post",
                         url:"/lims/updateToSign",
@@ -140,13 +137,107 @@
                         contentType:"application/json;charset=utf-8",
                         dataType:"json",
                         success:function(res){
-                            console.log('success');
+                            console.log(res);
+                            layer.alert('跳转成功');
                         }
                     });
                 });
-            } else if (obj.event === 'plan') {  // 监听删除操作
+            };
+            if (obj.event === 'plan') {  // 监听排程跳转
+                layer.confirm('确定将任务转换至计划排程状态吗？', function (index) {
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/updateToPlan",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log(res);
+                            layer.alert('跳转成功');
+                        }
+                    });
+                });
+            };
+            if (obj.event === 'distribution') {  // 监听任务分配操作
+                layer.confirm('确定将任务转换至任务分配状态吗？', function (index) {
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/updateToBistribution",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log(res);
+                            layer.alert('跳转成功');
+                        }
+                    });
+                });
+            };
+            if (obj.event === 'testing') {  // 监听实验中操作
+                layer.confirm('确定将任务转换至试验中状态吗？', function (index) {
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/updateToTesting",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log(res);
+                            layer.alert('跳转成功');
+                        }
+                    });
+                });
+            };
+            if (obj.event === 'engineer') {  // 监听删除操作
+                layer.confirm('确定将任务转换至工程师复核状态吗？', function (index) {
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/updateToEngineer",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log(res);
+                            layer.alert('跳转成功');
+                        }
+                    });
+                });
+            };
+            if (obj.event === 'report') {  // 监听删除操作
+                layer.confirm('确定将任务转换至报告签发状态吗？', function (index) {
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/updateToReport",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log(res);
+                            layer.alert('跳转成功');
+                        }
+                    });
+                });
+            };
+            if (obj.event === 'taskend') {  // 监听删除操作
+                layer.confirm('确定将任务取消吗？', function (index) {
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/updateToTaskend",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log(res);
+                            layer.alert('跳转成功');
+                        }
+                    });
+                });
+            };
 
-            }
+
+
+
+
         });
 
         //监听表格复选框选择

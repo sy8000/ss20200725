@@ -1,0 +1,198 @@
+[2020-05-28 07:57:54] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 11984 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 07:57:54] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 07:57:56] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 07:57:57] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 07:58:39] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 1524 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 07:58:39] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 07:58:41] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 07:58:42] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 07:58:44] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 07:58:44] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 07:58:44] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 07:58:44] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 07:58:45] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@23812ff6, started on Thu May 28 07:58:39 CST 2020
+[2020-05-28 07:58:46] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8080"]
+[2020-05-28 07:58:46] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 8.783 seconds (JVM running for 11.473)
+[2020-05-28 08:00:00] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 08:02:23] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 08:02:23] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closed
+[2020-05-28 08:02:33] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 13472 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 08:02:33] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 08:02:35] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 08:02:35] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 08:02:37] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 08:02:37] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 08:02:37] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 08:02:37] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 08:02:38] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@f3bf1bf, started on Thu May 28 08:02:33 CST 2020
+[2020-05-28 08:02:39] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8080"]
+[2020-05-28 08:02:39] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 7.849 seconds (JVM running for 10.448)
+[2020-05-28 08:04:15] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 08:04:24] -- [INFO ]: [cn.besbing.Shiro.CustomRealm] -- 认证完成，顺利返回，不代表验证成功
+[2020-05-28 08:04:25] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 08:04:25] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************
+[2020-05-28 08:07:22] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至样品管理员》获取sql_records完成
+[2020-05-28 08:07:22] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 08:07:22] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 08:11:48] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 08:11:48] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closed
+[2020-05-28 08:11:59] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 11976 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 08:11:59] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 08:12:02] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 08:12:03] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 08:12:05] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 08:12:05] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 08:12:05] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 08:12:05] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 08:12:05] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4b5ec295, started on Thu May 28 08:11:59 CST 2020
+[2020-05-28 08:12:06] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8080"]
+[2020-05-28 08:12:06] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 9.309 seconds (JVM running for 12.787)
+[2020-05-28 08:12:13] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 08:12:15] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 08:12:15] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************
+[2020-05-28 08:12:28] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至样品管理员》获取sql_records完成
+[2020-05-28 08:12:28] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 08:12:28] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 12:07:26] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 12:08:11] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 5476 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 12:08:11] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 12:08:13] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 12:08:13] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 12:08:16] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 12:08:16] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 12:08:16] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 12:08:16] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 12:08:16] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@76fc3796, started on Thu May 28 12:08:11 CST 2020
+[2020-05-28 12:08:17] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8080"]
+[2020-05-28 12:08:17] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 8.577 seconds (JVM running for 10.972)
+[2020-05-28 12:08:27] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 12:08:36] -- [INFO ]: [cn.besbing.Shiro.CustomRealm] -- 认证完成，顺利返回，不代表验证成功
+[2020-05-28 12:08:37] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 12:08:37] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************
+[2020-05-28 12:08:58] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至样品管理员》获取sql_records完成
+[2020-05-28 12:08:58] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 12:08:58] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:08:58] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:08:58] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:08:58] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:08:58] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 12:37:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至样品管理员》获取sql_records完成
+[2020-05-28 12:37:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 12:37:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:37:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:37:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:37:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 12:37:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至样品管理员处......
+[2020-05-28 14:38:31] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 14:38:31] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closed
+[2020-05-28 16:44:43] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 7752 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 16:44:43] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 16:44:45] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 16:44:46] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 16:44:48] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 16:44:48] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 16:44:48] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 16:44:48] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 16:44:48] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@2ca502cf, started on Thu May 28 16:44:43 CST 2020
+[2020-05-28 16:44:49] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 16:44:49] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closed
+[2020-05-28 16:44:49] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Stopping service [Tomcat]
+[2020-05-28 16:45:43] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 5844 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 16:45:43] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 16:45:45] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 16:45:46] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 16:45:47] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 16:45:47] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 16:45:47] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 16:45:48] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 16:45:48] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@3527da40, started on Thu May 28 16:45:43 CST 2020
+[2020-05-28 16:45:49] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8080"]
+[2020-05-28 16:45:49] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 8.366 seconds (JVM running for 10.73)
+[2020-05-28 16:46:02] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 16:46:10] -- [INFO ]: [cn.besbing.Shiro.CustomRealm] -- 认证完成，顺利返回，不代表验证成功
+[2020-05-28 16:46:11] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 16:46:11] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************
+[2020-05-28 16:46:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至计划排程》获取sql_records完成
+[2020-05-28 16:46:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 16:46:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:46:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:46:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:46:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:46:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 16:51:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至计划排程》获取sql_records完成
+[2020-05-28 16:51:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 16:51:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:51:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:51:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:51:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:51:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 16:53:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至计划排程》获取sql_records完成
+[2020-05-28 16:53:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 16:53:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:53:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:53:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:53:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 16:53:00] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 19:14:14] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 19:14:35] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 2492 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 19:14:35] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 19:14:38] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 19:14:39] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 19:14:42] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 19:14:42] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 19:14:42] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 19:14:42] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 19:14:42] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@2ce308ac, started on Thu May 28 19:14:36 CST 2020
+[2020-05-28 19:14:44] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8080"]
+[2020-05-28 19:14:44] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Pausing ProtocolHandler ["http-nio-8080"]
+[2020-05-28 19:14:44] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Stopping service [Tomcat]
+[2020-05-28 19:14:44] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Stopping ProtocolHandler ["http-nio-8080"]
+[2020-05-28 19:14:44] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Destroying ProtocolHandler ["http-nio-8080"]
+[2020-05-28 19:14:44] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closing ...
+[2020-05-28 19:14:44] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closed
+[2020-05-28 19:15:27] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 11220 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 19:15:27] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 19:15:30] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 19:15:31] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} inited
+[2020-05-28 19:15:34] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8888"]
+[2020-05-28 19:15:34] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 19:15:34] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 19:15:34] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 19:15:34] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@1bcf52f, started on Thu May 28 19:15:28 CST 2020
+[2020-05-28 19:15:35] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8888"]
+[2020-05-28 19:15:35] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Started DloadercloudApplication in 9.886 seconds (JVM running for 13.444)
+[2020-05-28 19:15:49] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-1} closed
+[2020-05-28 19:15:49] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2020-05-28 19:15:50] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- Starting DloadercloudApplication on JCZX-SHENY with PID 5844 (D:\dlcloud\target\classes started by Administrator in D:\dlcloud)
+[2020-05-28 19:15:50] -- [INFO ]: [cn.besbing.DloadercloudApplication] -- No active profile set, falling back to default profiles: default
+[2020-05-28 19:15:52] -- [INFO ]: [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure] -- Init DruidDataSource
+[2020-05-28 19:15:52] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-2} inited
+[2020-05-28 19:15:53] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Initializing ProtocolHandler ["http-nio-8888"]
+[2020-05-28 19:15:53] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Starting service [Tomcat]
+[2020-05-28 19:15:53] -- [INFO ]: [org.apache.catalina.core.StandardEngine] -- Starting Servlet engine: [Apache Tomcat/9.0.33]
+[2020-05-28 19:15:53] -- [INFO ]: [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] -- Initializing Spring embedded WebApplicationContext
+[2020-05-28 19:15:54] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.SpringUtil] -- ApplicationContext配置成功,applicationContext对象：org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@52fc85be, started on Thu May 28 19:15:50 CST 2020
+[2020-05-28 19:15:55] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Starting ProtocolHandler ["http-nio-8888"]
+[2020-05-28 19:15:55] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Pausing ProtocolHandler ["http-nio-8888"]
+[2020-05-28 19:15:55] -- [INFO ]: [org.apache.catalina.core.StandardService] -- Stopping service [Tomcat]
+[2020-05-28 19:15:55] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Stopping ProtocolHandler ["http-nio-8888"]
+[2020-05-28 19:15:55] -- [INFO ]: [org.apache.coyote.http11.Http11NioProtocol] -- Destroying ProtocolHandler ["http-nio-8888"]
+[2020-05-28 19:15:55] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-2} closing ...
+[2020-05-28 19:15:55] -- [INFO ]: [com.alibaba.druid.pool.DruidDataSource] -- {dataSource-2} closed
+[2020-05-28 19:16:10] -- [INFO ]: [cn.besbing.Shiro.CustomRealm] -- 认证完成，顺利返回，不代表验证成功
+[2020-05-28 19:16:12] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************开始加载maintain的页面信息********************
+[2020-05-28 19:16:12] -- [INFO ]: [cn.besbing.Conctrollers.CustomerSqlController] -- ************加载maintain的页面信息结束********************
+[2020-05-28 19:16:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至计划排程》获取sql_records完成
+[2020-05-28 19:16:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 19:16:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:16:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:16:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:16:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:16:29] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 《跳转至计划排程》获取sql_records完成
+[2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始处理名称为A-171016-1002的委托单，跳转至计划排程处......
+[2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始查找更改的任务单...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 开始更改的任务单标志位...cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus
+[2020-05-28 19:23:59] -- [INFO ]: [cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus] -- 结束处理名称为A-171016-1002的委托单，跳转至计划排程处......

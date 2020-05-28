@@ -40,6 +40,37 @@ public class LimsFlagController {
         return String.valueOf(updateLimsBillStatus.moveToSampleMgr(projList));
     }
 
+    /**
+     * 计划排程跳转
+     * @param taskIds
+     * @return
+     */
+    @RequestMapping(value = "/updateToPlan",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateToPlan(@RequestBody String taskIds){
+        JSONArray jsonArray = JSONArray.parseArray(taskIds);
+        JSONObject jsonObject = new JSONObject();
+        UpdateLimsBillStatus updateLimsBillStatus = new UpdateLimsBillStatus();
+        List<String> projList = new ArrayList<String>();
+        for (int i=0;i<jsonArray.size();i++){
+            jsonObject = jsonArray.getJSONObject(i);
+            projList.add(jsonObject.get("project").toString());
+        }
+        return String.valueOf(updateLimsBillStatus.moveToPlan(projList));
+    }
 
+    @RequestMapping(value = "/updateToBistribution",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateToBistribution(@RequestBody String taskIds){
+        JSONArray jsonArray = JSONArray.parseArray(taskIds);
+        JSONObject jsonObject = new JSONObject();
+        UpdateLimsBillStatus updateLimsBillStatus = new UpdateLimsBillStatus();
+        List<String> projList = new ArrayList<String>();
+        for (int i=0;i<jsonArray.size();i++){
+            jsonObject = jsonArray.getJSONObject(i);
+            projList.add(jsonObject.get("project").toString());
+        }
+        return String.valueOf(updateLimsBillStatus.moveToPlan(projList));
+    }
 
 }

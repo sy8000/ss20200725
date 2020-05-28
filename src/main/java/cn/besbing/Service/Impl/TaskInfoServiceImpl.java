@@ -3,6 +3,7 @@ package cn.besbing.Service.Impl;
 import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
 import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
 import cn.besbing.Dao.CProjTaskMapper;
+import cn.besbing.Entities.CProjTask;
 import cn.besbing.Entities.TableTaskFields;
 import cn.besbing.Service.ITaskInfoService;
 import com.github.pagehelper.PageHelper;
@@ -36,6 +37,12 @@ public class TaskInfoServiceImpl implements ITaskInfoService {
         return pdr;
     }
 
+    public CProjTask getTaskEntityById(String taskId){
+        return cProjTaskMapper.selectByTaskId(taskId);
+    }
 
+    public int setTaskStatusById(CProjTask cProjTask){
+        return cProjTaskMapper.updateByTaskId(cProjTask);
+    }
 
 }
