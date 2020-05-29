@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 public interface ResultMapper {
     long countByExample(ResultExample example);
 
-
+    Result selectByDefKey(Result result);
 
     int deleteByExample(ResultExample example);
 

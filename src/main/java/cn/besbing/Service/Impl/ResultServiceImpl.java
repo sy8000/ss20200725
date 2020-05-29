@@ -17,5 +17,16 @@ public class ResultServiceImpl implements IResultService {
         resultMapper.updateByDefKey(result);
     }
 
+    public Result getResultByDefKey(Result res){
+        return resultMapper.selectByDefKey(res);
+    }
+
+    public int updateByPrimary(Result res){
+        return resultMapper.updateByPrimaryKey(res);
+    }
+
+    public int insertResult(Result res){
+        return resultMapper.insert(res);
+    }
 
 }

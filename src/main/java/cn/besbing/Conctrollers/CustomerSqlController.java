@@ -241,9 +241,14 @@ public class CustomerSqlController {
             logger.info("开始解析小垂上传的第{}行参数...",i);
             try{
                 jsonObject = jsonArray.getJSONObject(i);
-                result.setTestNumber(Long.valueOf(jsonObject.get("test_number").toString()));
-                result.setSampleNumber(Long.valueOf(jsonObject.get("sample_number").toString()));
-                result.setName(jsonObject.get("test_number").toString());
+                result.setTestNumber(Long.valueOf(jsonObject.get("testNumber").toString()));
+                result.setSampleNumber(Long.valueOf(jsonObject.get("sampleNumber").toString()));
+                result.setName(jsonObject.get("name").toString());
+                result.setMinimum(jsonObject.get("minimum").toString());
+                result.setMaximum(jsonObject.get("maximum").toString());
+                result.setEntry(jsonObject.get("entry").toString());
+                result.setEnteredBy(jsonObject.get("enteredBy").toString());
+                result.setFormattedEntry(jsonObject.get("entry").toString());
             }catch (Exception e){
                 logger.error("{}类解析小垂上传的参数第{}行出错!!!错误描述:{}",this.getClass().getName(),i,e.getStackTrace());
             }

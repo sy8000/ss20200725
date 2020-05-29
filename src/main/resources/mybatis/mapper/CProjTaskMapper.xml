@@ -259,7 +259,7 @@
     <if test="_parameter != null">
         and cpt.task_id like '%'||#{_parameter}||'%'
     </if>
-    order by cpt.task_id,cpt.project desc
+    order by cpt.test_number desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--

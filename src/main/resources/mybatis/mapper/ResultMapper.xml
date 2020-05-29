@@ -1679,4 +1679,10 @@
     and TEST_NUMBER = #{testNumber,jdbcType=DECIMAL}
     and NAME = #{name,jdbcType=VARCHAR}
   </update>
+  <select id="selectByDefKey" parameterType="cn.besbing.Entities.Result" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from RESULT
+    where SAMPLE_NUMBER = #{sampleNumber}  and TEST_NUMBER = #{testNumber} and NAME = #{name}
+  </select>
 </mapper>
