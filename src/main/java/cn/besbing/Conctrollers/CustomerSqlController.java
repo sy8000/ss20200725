@@ -220,8 +220,7 @@ public class CustomerSqlController {
      * 接收传的josn，自动写参数到result
      * 传入json格式
      * {
-     *     type:init/after
-     *     data:[{...},{...}]
+     *     [{...},{...}]
      * }
      * 逻辑说明：接收小垂上传的jsonarray格式数组，转换为json后，依次取出，test_number、sample_number、result.name三个字段进行查询
      * 如果有则执行行updateByThreePrimary(test_number,sample_number,result.name)
@@ -232,8 +231,10 @@ public class CustomerSqlController {
     @RequestMapping(value = "/upLoadParameters",method = RequestMethod.POST)
     @ResponseBody
     public JSONObject writeResult(@RequestBody String uploadParams){
+        JSONObject datajson = JSONObject.parseObject(uploadParams);
         //把小垂上传的jsonarray解析出来
-        JSONArray jsonArray = JSONArray.parseArray(uploadParams);
+        //JSONArray jsonArray = JSONArray.parseArray(uploadParams);
+        JSONArray jsonArray = (JSONArray)datajson.get("data");
         JSONObject jsonObject = new JSONObject();
         Result result = new Result();
         List<String> returnList = new ArrayList<>();
@@ -244,11 +245,12 @@ public class CustomerSqlController {
                 result.setTestNumber(Long.valueOf(jsonObject.get("testNumber").toString()));
                 result.setSampleNumber(Long.valueOf(jsonObject.get("sampleNumber").toString()));
                 result.setName(jsonObject.get("name").toString());
-                result.setMinimum(jsonObject.get("minimum").toString());
-                result.setMaximum(jsonObject.get("maximum").toString());
                 result.setEntry(jsonObject.get("entry").toString());
                 result.setEnteredBy(jsonObject.get("enteredBy").toString());
                 result.setFormattedEntry(jsonObject.get("entry").toString());
+                result.setMinimum(jsonObject.get("minimum").toString());
+                result.setMaximum(jsonObject.get("maximum").toString());
+                //result.setUnits(jsonObject.get("units").toString());
             }catch (Exception e){
                 logger.error("{}类解析小垂上传的参数第{}行出错!!!错误描述:{}",this.getClass().getName(),i,e.getStackTrace());
             }
@@ -257,6 +259,7 @@ public class CustomerSqlController {
             LimsResultOpration limsResultOpration = new LimsResultOpration();
             returnList.add(limsResultOpration.paramProcessor(result));
         }
+        logger.info("参数上传结束...");
         return new ConverToJson().ListToJson(returnList);
     }
 

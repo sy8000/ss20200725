@@ -220,6 +220,26 @@
               "target": "_self"
             }
           ]
+        },
+        {
+          "title": "查询统计",
+          "href": "",
+          "icon": "fa fa-snowflake-o",
+          "target": "",
+          "child": [
+            {
+              "title": "弹出测试",
+              "href": "/uploadImage",
+              "icon": "fa fa-snowflake-o",
+              "target": "_self"
+            },
+            {
+              "title": "上位机调试",
+              "href": "/uploadImage1",
+              "icon": "fa fa-shield",
+              "target": "_self"
+            }
+          ]
         }
       ]
     },

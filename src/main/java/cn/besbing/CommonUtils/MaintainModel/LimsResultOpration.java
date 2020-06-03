@@ -8,7 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 public class LimsResultOpration {
 
@@ -34,7 +39,12 @@ public class LimsResultOpration {
         resultDefKey.setName(res.getName());
         resultDefKey.setSampleNumber(res.getSampleNumber());
         resultDefKey.setTestNumber(res.getTestNumber());
-        Result result = resultService.getResultByDefKey(res);
+        Result result = new Result();
+        try{
+            result = resultService.getResultByDefKey(res);
+        }catch (Exception e){
+            logger.error("getResultByDefKey出错{}",res.toString());
+        }
         //判断是否存在此条记录
         if (result != null){
             //有记录，更新
@@ -46,6 +56,9 @@ public class LimsResultOpration {
             result.setEntry(res.getEntry());
             result.setEnteredBy(res.getEnteredBy());
             result.setFormattedEntry(res.getFormattedEntry());
+            //result.setUnits(res.getUnits());
+            logger.warn("result_entry:" + result.getEntry());
+            logger.warn("res_entry:" + res.getEntry());
             try {
                 logger.info("开始更新{}的结果数据,class:{}",resultDefKey.toString(),this.getClass().getName());
                 resultService.updateByPrimary(result);
@@ -55,7 +68,12 @@ public class LimsResultOpration {
             }
         }else {
             //没记录，新增
-            Integer incMax_Result = Integer.valueOf(customerSqlService.selectOne("select * from increments s where s.type = 'RESULT'"));
+            //记录时间
+            Date ss = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            String currentTime = formatter.format(ss.getTime());
+            result = new Result();
+            Integer incMax_Result = Integer.valueOf(customerSqlService.selectOne("select value from increments s where s.type = 'RESULT'"));
             Integer actualMax_Result = Integer.valueOf(customerSqlService.selectOne("select max(result_number) from result"));
             Integer target_resultNumber = 0;
             if (actualMax_Result > incMax_Result){
@@ -67,6 +85,7 @@ public class LimsResultOpration {
                     logger.error("更新increments的resultnumber出错,result_number:{},class:{},message:{}",actualMax_Result+1,this.getClass().getName(),e.getStackTrace());
                 }
             }
+            logger.info("==============================" + res.getTestNumber());
             //开始准备insert
             result.setTestNumber(res.getTestNumber());
             result.setSampleNumber(res.getSampleNumber());
@@ -77,6 +96,59 @@ public class LimsResultOpration {
             result.setEnteredBy(res.getEnteredBy());
             result.setFormattedEntry(res.getFormattedEntry());
             result.setResultNumber(Long.valueOf(actualMax_Result + 1));
+            /*result.setUnits(res.getUnits());
+            result.setReplicateCount(Long.valueOf(0));
+            if ("温度".equals(res.getName())){
+                result.setOrderNumber(Long.valueOf(1));
+                result.setReportedName(res.getName());
+                result.setNumericEntry(BigDecimal.valueOf(Long.parseLong(res.getEntry())));
+                result.setUnits("DEGREE_C");
+                result.settShortName("Temperature");
+            }
+            if ("湿度".equals(res.getName())){
+                result.setOrderNumber(Long.valueOf(2));
+                result.setReportedName(res.getName());
+                result.setNumericEntry(BigDecimal.valueOf(Long.parseLong(res.getEntry())));
+                result.setUnits("HUMIDITY");
+                result.settShortName("Humidity");
+            }
+            result.setResultType("N");
+            result.setStatus("E");
+            result.setOldStatus("N");
+            result.setModifiedResult("F");
+            result.setAllowOut("T");
+            result.setRound("F");
+            result.setPlaces(Long.valueOf(1));
+            result.setInSpec("T");
+            result.setPrimaryInSpec("T");
+            result.setEnteredOn(new Date());
+            result.setFirstEntryOn(new Date());
+            result.setUsesInstrument("F");
+            result.setUsesCodes("F");
+            result.setInCal("F");
+            result.setAutoCalc("T");
+            result.setAllowCancel("F");
+            result.setLinkSize(Long.valueOf(0));
+            result.setReportable("T");
+            result.setOptional("T");
+            result.setCodeEntered("F");
+            result.setChangedOn(new Date());
+            result.setStdReagSample(Long.valueOf(0));
+            result.setHasAttributes("F");
+            result.setFactorValue("0");
+            result.setEntryType("N");
+            result.setInControl("T");
+            result.setDisplayed("T");
+            result.setSpecOverride("F");
+            result.setPlaces2(Long.valueOf("0"));
+            result.setReportedResult("F");
+            result.setReportedRsltRev(Long.valueOf(0));
+            result.setReportedRsltOos("F");
+            result.settAccredited("F");*/
+
+
+            logger.warn("result_entry:" + result.getEntry());
+            logger.warn("res_entry:" + res.getEntry());
             try{
                 logger.info("开始插入result_number为{}的记录,class:{}",actualMax_Result+1,this.getClass().getName());
                 resultService.insertResult(result);

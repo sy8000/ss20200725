@@ -1,6 +1,8 @@
 package cn.besbing.Conctrollers;
 
 
+import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
+import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
 import cn.besbing.Entities.AnalysisTable;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import com.alibaba.fastjson.JSON;
@@ -25,40 +27,13 @@ import java.util.List;
 @Controller
 public class TableController {
 
-    String analysisDataSql = "select name,version,active,analysis_type,description,to_char(changed_on,'yyyy-mm-dd') changed_on,changed_by,removed," +
-            " t_analysis_method,c_method_chapter,c_test_type,c_allowed_prod_type from analysis where removed = 'F' " +
-            " order by name asc";
-
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    CustomerSqlServiceImpl customerSqlService;
-
-
-    @RequestMapping(value = "/analysis",method = RequestMethod.GET)
-    public String welcommain(Model model){
-        logger.info("************加载analysisTable的页面信息结束********************");
-        return "pages/analysistable";
-    }
-
-    @RequestMapping(value = "/getAnalysisDataForTable",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAnalysisDataForTable",method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject getAnalysisTable(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, @RequestParam(value = "keyword", required = false) String keyword){
-
-        /*String analysisDataSql = "select * from " +
-                "(select ROW_.*,ROWNUM ROWNUM_ from " +
-                "(select " +
-                "name," +
-                "version," +
-                "active," +
-                "analysis_type," +
-                "description," +
-                "changed_on," +
-                "changed_by,removed, t_analysis_method,c_method_chapter,c_test_type,c_allowed_prod_type" +
-                " from analysis where removed = 'F'  order by name asc ) ROW_" +
-                " where ROWNUM <= maxnum)" +
-                " where ROWNUM_ >= minux";*/
-
+    public PageDataResult getTaskInfo(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, @RequestParam(value = "keyword", required = false) String keyword){
+        /*List<TableTaskFields> tableTaskFieldsList = taskInfoService.getTask();
+        ConverToJson converToJson = new ConverToJson();
+        return converToJson.ListToJson(tableTaskFieldsList);*/
+        PageDataResult pdr = new PageDataResult();
         JSONObject jsonObject = new JSONObject();
         try {
             if (null == page) {
@@ -67,19 +42,16 @@ public class TableController {
             if (null == limit) {
                 limit = 10;
             }
-            /*int startIndex = page * limit;
-            int endIndex = (page + 1) * limit;
-            analysisDataSql = analysisDataSql.replace("minux",String.valueOf(startIndex));
-            analysisDataSql = analysisDataSql.replace("maxnum",String.valueOf(endIndex));*/
-            List<AnalysisTable> analysisDatas = customerSqlService.selectAsAnalysisTable(analysisDataSql);
-            jsonObject.put("code",0);
-            jsonObject.put("msg","");
-            jsonObject.put("count",analysisDatas.size());
-            jsonObject.put("data",  JSON.toJSON(analysisDatas)  );
-
-        } catch (Exception e) {
+            //System.out.println(keyword);
+            if (keyword != null && keyword != ""){
+                jsonObject = JSONObject.parseObject(keyword);
+                keyword = jsonObject.get("name").toString();
+            }
+            SearchDTO searchDTO = new SearchDTO(page,limit,keyword);
+            //pdr = taskInfoService.getTask(searchDTO);
+        }catch (Exception e){
             e.printStackTrace();
         }
-        return jsonObject;
+        return pdr;
     }
 }

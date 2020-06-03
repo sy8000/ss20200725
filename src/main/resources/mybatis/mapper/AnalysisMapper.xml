@@ -1899,4 +1899,9 @@
     where NAME = #{name,jdbcType=VARCHAR}
       and VERSION = #{version,jdbcType=DECIMAL}
   </update>
+  <select id="selectByNothing" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from ANALYSIS
+  </select>
 </mapper>
