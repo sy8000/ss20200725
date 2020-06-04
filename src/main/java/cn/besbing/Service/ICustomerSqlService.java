@@ -21,4 +21,6 @@ public interface ICustomerSqlService {
     List<String> selectAsList(String statement);
 
     List<AnalysisTable> selectAsAnalysisTable(String statement);
+
+    List<?> selectVector(String statement);
 }

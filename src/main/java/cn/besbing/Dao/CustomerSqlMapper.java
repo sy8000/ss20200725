@@ -21,6 +21,6 @@ public interface CustomerSqlMapper {
 
     List<AnalysisTable> selectAsAnalysisTable(String statement);
 
-
+    List<?> selectVector(String statement);
 
 }

@@ -1903,5 +1903,6 @@
     select
     <include refid="Base_Column_List" />
     from ANALYSIS
+    where REMOVED = 'F' and ACTIVE = 'T'
   </select>
 </mapper>

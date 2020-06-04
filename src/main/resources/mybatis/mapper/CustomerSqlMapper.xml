@@ -23,6 +23,10 @@
         ${value}
     </select>
 
+    <select id="selectVector" parameterType="java.lang.String" resultType="java.util.List" useCache="false">
+        ${value}
+    </select>
+
     <delete id="delete" parameterType="java.lang.String">
         ${value}
     </delete>

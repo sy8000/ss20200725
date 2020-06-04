@@ -46,9 +46,16 @@ public class CustomerSqlServiceImpl implements ICustomerSqlService {
         return customerSqlMapper.selectAsList(statement);
     }
 
+
+
     @Override
     public List<AnalysisTable> selectAsAnalysisTable(String statement) {
         return customerSqlMapper.selectAsAnalysisTable(statement);
+    }
+
+    @Override
+    public List<?> selectVector(String statement) {
+        return customerSqlMapper.selectVector(statement);
     }
 
 
