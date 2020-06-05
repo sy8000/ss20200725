@@ -6,12 +6,18 @@ import cn.besbing.Entities.*;
 import cn.besbing.Service.Impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//@Component
 public class AnalysisThread {
+
+    private  static final String CRON = "0 0 0 * * ?";
 
     private Logger logger = LoggerFactory.getLogger(AnalysisThread.class);
 
@@ -21,11 +27,14 @@ public class AnalysisThread {
 
     private IAnalysisServiceImpl iAnalysisService = SpringUtil.getBean(IAnalysisServiceImpl.class);
 
+
+
     /**
      * 获取analysis表中存在、但nc_analysis_list表中不存在的条目,判断依据:analysis.name、analysis.version
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
+    //@Scheduled(cron = "0 0 0 * * ?")
     public void onlyAddAnalysisThread() throws Exception {
         Analysis analysis = new Analysis();
         NcAnalysisList ncAnalysisList = new NcAnalysisList();
@@ -94,6 +103,7 @@ public class AnalysisThread {
 
 
     @Transactional(rollbackFor = Exception.class)
+    //@Scheduled(cron = "0 0 0 * * ?")
     public void addTestListThread() throws Exception {
         //获取所有在用product
         List<Product> productsList = new ArrayList<>();
@@ -187,6 +197,68 @@ public class AnalysisThread {
                         logger.error("组装nc_basprod_point出错：{}",e.getStackTrace());
                     }
 
+                    try{
+                        logger.info("开始组装NC_BASPROD_CONTACT...");
+                        executeSql = getExecuteSql("test_nc_basprod_contact",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装NC_BASPROD_CONTACT...");
+                    }catch(Exception e){
+                        logger.error("组装NC_BASPROD_CONTACT出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_basprod_temp...");
+                        executeSql = getExecuteSql("testlist_nc_basprod_temp",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装nc_basprod_temp...");
+                    }catch(Exception e){
+                        logger.error("组装nc_basprod_temp出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_sample_info...");
+                        executeSql = getExecuteSql("testlist_nc_sample_info",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装nc_sample_info...");
+                    }catch(Exception e){
+                        logger.error("组装nc_sample_info出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_test_init...");
+                        executeSql = getExecuteSql("testlist_nc_test_init",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装nc_test_init...");
+                    }catch(Exception e){
+                        logger.error("组装nc_test_init出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_task_addunion...");
+                        executeSql = getExecuteSql("testlist_nc_task_addunion",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装nc_task_addunion...");
+                    }catch(Exception e){
+                        logger.error("组装nc_task_addunion出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_testlist_comp...");
+                        executeSql = getExecuteSql("testlist_nc_testlist_comp",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装nc_testlist_comp...");
+                    }catch(Exception e){
+                        logger.error("组装nc_testlist_comp出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_test_after...");
+                        executeSql = getExecuteSql("testlist_nc_test_after",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装nc_test_after...");
+                    }catch(Exception e){
+                        logger.error("组装nc_test_after出错：{}",e.getStackTrace());
+                    }
                     logger.info("product:{},version:{},更新完成...",product.getName(),product.getVersion());
                 }
             }

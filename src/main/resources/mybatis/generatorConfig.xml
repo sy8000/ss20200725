@@ -48,7 +48,7 @@
         </javaClientGenerator>
 
         <!-- 生成对应的表名及类名 -->
-        <table tableName="NC_BASEN_TYPE" />
+        <table tableName="" />
 
         <!-- 有些表的字段需要指定java类型
          <table schema="" tableName="">
