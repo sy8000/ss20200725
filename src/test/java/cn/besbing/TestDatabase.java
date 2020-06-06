@@ -2,10 +2,7 @@ package cn.besbing;
 
 import cn.besbing.CommonUtils.MaintainModel.SpringUtil;
 import cn.besbing.Cron.AnalysisThread;
-import cn.besbing.Entities.NcAnalysisList;
-import cn.besbing.Entities.NcAnalysisReportname;
-import cn.besbing.Entities.NcProdList;
-import cn.besbing.Entities.Product;
+import cn.besbing.Entities.*;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import cn.besbing.Service.Impl.INcAnalysisListServiceImpl;
 import cn.besbing.Service.Impl.NcAnalysisReportnameServiceImpl;
@@ -22,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DloadercloudApplication.class)
@@ -38,16 +36,32 @@ public class TestDatabase {
 
     @Test
     public void testVo(){
+
+/*
+        NcProdListKey ncProdListKey = new NcProdListKey();
+        ncProdListKey.setName("QFVF4024-2020");
+        ncProdListKey.setVersion(Long.valueOf(1));
+
+        String sql = "select substr(SYS_GUID(),1,20) pk ,pu.name,pu.version,RANK() over(order by pu.name asc) nccode, \n" +
+                "pu.name ncname,(case  pu.removed when 'F' then 1 else 0 end) enableuse,'auto','','','','',pu.description,pu.code \n" +
+                "from product pu where pu.name ='QFVF4024-2020' and pu.version = 1";
+
+        List<Map<String, Object>> list = customerSqlService.selectList(sql);
+        for (int i=0;i<list.size();i++){
+            logger.info("-----------------{}-------------------------",list.get(i).get("PK"));
+        }*/
+
+
         AnalysisThread analysisThread = new AnalysisThread();
         NcAnalysisReportname ncAnalysisReportname = new NcAnalysisReportname();
-        ncAnalysisReportname.setPkAnalysisReportname("sdfjkdflsk");
+        ncAnalysisReportname.setPkAnalysisReportname("sheny33445566");
         ncAnalysisReportname.setIsenable(BigDecimal.valueOf(1));
         ncAnalysisReportname.setNcReportnameCode("23");
         ncAnalysisReportname.setNcReportnameName("abcdefg");
         ncAnalysisReportname.setDef1("");
         ncAnalysisReportname.setDef2("");
         ncAnalysisReportname.setDef3("");
-        ncAnalysisReportname.setDef4("");
+        ncAnalysisReportname.setDef4("sheny");
         ncAnalysisReportname.setDef5("");
         try{
             //执行分析添加
@@ -56,7 +70,7 @@ public class TestDatabase {
             //analysisThread.addTestListThread();
             //logger.info("执行完毕");
             ncAnalysisReportnameService.insertAndGetPrimary(ncAnalysisReportname);
-            logger.info("=============={}==========================",ncAnalysisReportname.getPkAnalysisReportname());
+            logger.info("=============={}==========================",ncAnalysisReportname.getDef4());
 
         }catch (Exception e){
             e.printStackTrace();

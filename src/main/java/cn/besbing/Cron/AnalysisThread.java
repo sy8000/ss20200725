@@ -143,6 +143,12 @@ public class AnalysisThread {
                 productCode = product.getCode();
                 productTestlist = product.getTestList();
                 productVersion = String.valueOf(product.getVersion());*/
+                /************
+                 *
+                 * 2020/6/6  sheny review
+                 * content : 每张表返回pk存入相应变量，下面用时直接拿
+                 *
+                 ***********/
                 try{
                     ncProdList = iNcProdListService.getNcProdListByPrimary(ncProdListKey);
                 }catch (Exception e){
@@ -201,6 +207,15 @@ public class AnalysisThread {
                         logger.info("结束组装nc_basprod_point...");
                     }catch(Exception e){
                         logger.error("组装nc_basprod_point出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_basprod_struct...");
+                        executeSql = getExecuteSql("testlist_nc_basprod_struct",product);
+                        customerSqlService.insert(executeSql);
+                        logger.info("结束组装nc_basprod_struct...");
+                    }catch(Exception e){
+                        logger.error("组装nc_basprod_struct出错：{}",e.getStackTrace());
                     }
 
                     try{

@@ -116,8 +116,8 @@
   </insert>
   <insert id="insertAndGetPrimary" parameterType="cn.besbing.Entities.NcAnalysisReportname">
 
-    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="pkAnalysisReportname">
-      SELECT #{pkAnalysisReportname,jdbcType=CHAR} || 'sheny' FROM DUAL
+    <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="def4">
+      SELECT #{pkAnalysisReportname,jdbcType=CHAR} FROM DUAL
     </selectKey>
 
     insert into NC_ANALYSIS_REPORTNAME (PK_ANALYSIS_REPORTNAME, NC_REPORTNAME_CODE,
