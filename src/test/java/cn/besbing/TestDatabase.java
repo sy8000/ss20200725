@@ -3,10 +3,12 @@ package cn.besbing;
 import cn.besbing.CommonUtils.MaintainModel.SpringUtil;
 import cn.besbing.Cron.AnalysisThread;
 import cn.besbing.Entities.NcAnalysisList;
+import cn.besbing.Entities.NcAnalysisReportname;
 import cn.besbing.Entities.NcProdList;
 import cn.besbing.Entities.Product;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import cn.besbing.Service.Impl.INcAnalysisListServiceImpl;
+import cn.besbing.Service.Impl.NcAnalysisReportnameServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import org.junit.Test;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,16 +33,31 @@ public class TestDatabase {
     @Autowired
     INcAnalysisListServiceImpl iNcAnalysisListService;
     //UL60947-4-1-2014_8.2.4-1A
+    @Autowired
+    NcAnalysisReportnameServiceImpl ncAnalysisReportnameService;
 
     @Test
     public void testVo(){
         AnalysisThread analysisThread = new AnalysisThread();
+        NcAnalysisReportname ncAnalysisReportname = new NcAnalysisReportname();
+        ncAnalysisReportname.setPkAnalysisReportname("sdfjkdflsk");
+        ncAnalysisReportname.setIsenable(BigDecimal.valueOf(1));
+        ncAnalysisReportname.setNcReportnameCode("23");
+        ncAnalysisReportname.setNcReportnameName("abcdefg");
+        ncAnalysisReportname.setDef1("");
+        ncAnalysisReportname.setDef2("");
+        ncAnalysisReportname.setDef3("");
+        ncAnalysisReportname.setDef4("");
+        ncAnalysisReportname.setDef5("");
         try{
             //执行分析添加
             //analysisThread.onlyAddAnalysisThread();
             //执行testlist
             //analysisThread.addTestListThread();
-            logger.info("执行完毕");
+            //logger.info("执行完毕");
+            ncAnalysisReportnameService.insertAndGetPrimary(ncAnalysisReportname);
+            logger.info("=============={}==========================",ncAnalysisReportname.getPkAnalysisReportname());
+
         }catch (Exception e){
             e.printStackTrace();
             logger.error(e.getMessage());

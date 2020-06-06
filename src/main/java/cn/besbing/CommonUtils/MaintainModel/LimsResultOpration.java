@@ -77,7 +77,7 @@ public class LimsResultOpration {
              * sheny review 2020/6/6
              * 从0开始获取resultnumber
              */
-            Integer incMax_Result = Integer.valueOf(customerSqlService.selectOne("select value from increments s where s.type = 'RESULT'"));
+            //Integer incMax_Result = Integer.valueOf(customerSqlService.selectOne("select value from increments s where s.type = 'RESULT'"));
             Integer actualMax_Result = 0;
             do {
                 actualMax_Result++;
