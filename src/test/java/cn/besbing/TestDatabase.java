@@ -2,9 +2,11 @@ package cn.besbing;
 
 import cn.besbing.CommonUtils.MaintainModel.SpringUtil;
 import cn.besbing.Cron.AnalysisThread;
+import cn.besbing.Entities.NcAnalysisList;
 import cn.besbing.Entities.NcProdList;
 import cn.besbing.Entities.Product;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
+import cn.besbing.Service.Impl.INcAnalysisListServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import org.junit.Test;
@@ -25,10 +27,35 @@ public class TestDatabase {
     //private CustomerSqlServiceImpl customerSqlService = SpringUtil.getBean(CustomerSqlServiceImpl.class);
     @Autowired
     CustomerSqlServiceImpl customerSqlService = new CustomerSqlServiceImpl();
+    @Autowired
+    INcAnalysisListServiceImpl iNcAnalysisListService;
+    //UL60947-4-1-2014_8.2.4-1A
 
     @Test
     public void testVo(){
-        String executeSql = "";
+        AnalysisThread analysisThread = new AnalysisThread();
+        try{
+            //执行分析添加
+            //analysisThread.onlyAddAnalysisThread();
+            //执行testlist
+            //analysisThread.addTestListThread();
+            logger.info("执行完毕");
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+
+        /*NcAnalysisList ncAnalysisList = new NcAnalysisList();
+        //NcAnalysisList ncAnalysisList1 = new NcAnalysisList();
+        ncAnalysisList.setName("UL60947-4-1-2014_8.2.4-1A");
+        ncAnalysisList.setVersion(Long.valueOf(1));
+        try{
+            ncAnalysisList = iNcAnalysisListService.selectByAnalysisKey(ncAnalysisList);
+            logger.info("======================{}+++++++++=========",ncAnalysisList.getNcAnalysisCode());
+        }catch(Exception e){
+            e.printStackTrace();
+        }*/
+        /*String executeSql = "";
         Product product = new Product();
         NcProdList ncProdList = null;
         product.setName("QFVF4284-2014");
@@ -39,7 +66,8 @@ public class TestDatabase {
         List<?> list = new ArrayList<>();
         //ncProdList = (NcProdList)customerSqlService.selectList(executeSql);
         list = customerSqlService.selectList(executeSql);
-        JSONArray array = JSONArray.parseArray(JSON.toJSONString(list));
+        JSONArray array = JSONArray.parseArray(JSON.toJSONString(list));*/
+
 
     }
 

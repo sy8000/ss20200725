@@ -73,7 +73,17 @@ public class LimsResultOpration {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             String currentTime = formatter.format(ss.getTime());
             result = new Result();
+            /**
+             * sheny review 2020/6/6
+             * 从0开始获取resultnumber
+             */
             Integer incMax_Result = Integer.valueOf(customerSqlService.selectOne("select value from increments s where s.type = 'RESULT'"));
+            Integer actualMax_Result = 0;
+            do {
+                actualMax_Result++;
+                result = resultService.getResultByPrimary(actualMax_Result.longValue());
+            }while (result == null);
+            /*Integer incMax_Result = Integer.valueOf(customerSqlService.selectOne("select value from increments s where s.type = 'RESULT'"));
             Integer actualMax_Result = Integer.valueOf(customerSqlService.selectOne("select max(result_number) from result"));
             Integer target_resultNumber = 0;
             if (actualMax_Result > incMax_Result){
@@ -84,7 +94,8 @@ public class LimsResultOpration {
                 }catch (Exception e){
                     logger.error("更新increments的resultnumber出错,result_number:{},class:{},message:{}",actualMax_Result+1,this.getClass().getName(),e.getStackTrace());
                 }
-            }
+            }*/
+
             logger.info("==============================" + res.getTestNumber());
             //开始准备insert
             result.setTestNumber(res.getTestNumber());
@@ -95,7 +106,7 @@ public class LimsResultOpration {
             result.setEntry(res.getEntry());
             result.setEnteredBy(res.getEnteredBy());
             result.setFormattedEntry(res.getFormattedEntry());
-            result.setResultNumber(Long.valueOf(actualMax_Result + 1));
+            result.setResultNumber(Long.valueOf(actualMax_Result));
             /*result.setUnits(res.getUnits());
             result.setReplicateCount(Long.valueOf(0));
             if ("温度".equals(res.getName())){

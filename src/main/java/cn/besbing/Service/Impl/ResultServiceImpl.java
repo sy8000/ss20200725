@@ -29,4 +29,8 @@ public class ResultServiceImpl implements IResultService {
         return resultMapper.insert(res);
     }
 
+    public Result getResultByPrimary(Long resultNo){
+        return resultMapper.selectByPrimaryKey(resultNo);
+    }
+
 }

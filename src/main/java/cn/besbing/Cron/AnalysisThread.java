@@ -34,10 +34,10 @@ public class AnalysisThread {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    //@Scheduled(cron = "0 0 0 * * ?")
+    //@Scheduled(cron = "0 0 1 * * ?")
     public void onlyAddAnalysisThread() throws Exception {
         Analysis analysis = new Analysis();
-        NcAnalysisList ncAnalysisList = new NcAnalysisList();
+        NcAnalysisList ncAnalysisList = null;
         List<Analysis> analysisReturnList = new ArrayList<>();
         List<Analysis> analysisAllList = new ArrayList<>();
         try{
@@ -49,12 +49,17 @@ public class AnalysisThread {
         }
         if (analysisAllList.size() > 0){
             for (Analysis allanalysislist : analysisAllList){
+                /*if ("非标-耐久性".equals(allanalysislist.getName())){
+                    logger.info("...................................................................");
+                }*/
+                ncAnalysisList = new NcAnalysisList();
                 ncAnalysisList.setName(allanalysislist.getName());
                 ncAnalysisList.setVersion(allanalysislist.getVersion());
                 try{
                     ncAnalysisList = iNcAnalysisListService.selectByAnalysisKey(ncAnalysisList);
                     //如果查到，什么也不做，如果查不到立即更新
                     if (ncAnalysisList == null){
+                        logger.info("================================={}===============================",allanalysislist.getName());
                         logger.info("开始查询添加analysis语句...........");
                         List<String> addAnalysisSqls = customerSqlService.selectAsList("select sql_text from sql_records where sql_code like 'analysis%' ");
                         logger.info("结束查询添加analysis语句...........");
@@ -72,7 +77,7 @@ public class AnalysisThread {
                         }
                     }
                 }catch (Exception e){
-                    logger.info("在nc_analysis_list:analysis表中查询出错........");
+                    logger.info("在nc_analysis_list:analysis表中查询出错........cause:{}" , e.getStackTrace());
                 }
             }
         }else {
@@ -103,7 +108,7 @@ public class AnalysisThread {
 
 
     @Transactional(rollbackFor = Exception.class)
-    //@Scheduled(cron = "0 0 0 * * ?")
+    //@Scheduled(cron = "0 0 4 * * ?")
     public void addTestListThread() throws Exception {
         //获取所有在用product
         List<Product> productsList = new ArrayList<>();
@@ -131,6 +136,7 @@ public class AnalysisThread {
 
 
             for(Product product : productsList){
+                ncProdListKey = new NcProdListKey();
                 ncProdListKey.setName(product.getName());
                 ncProdListKey.setVersion(product.getVersion());
                 /*productName = product.getName();

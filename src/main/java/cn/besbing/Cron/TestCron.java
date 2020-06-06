@@ -29,7 +29,7 @@ public class TestCron {
     }
 
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void addTestList(){
         AnalysisThread analysisThread = new AnalysisThread();
         try {
