@@ -45,9 +45,13 @@ public class LimsResultOpration {
         }catch (Exception e){
             logger.error("getResultByDefKey出错{}",res.toString());
         }
+        if("线圈电阻".equals(res.getName())){
+                System.out.println();
+        }
         //判断是否存在此条记录
         if (result != null){
             //有记录，更新
+
             result.setTestNumber(res.getTestNumber());
             result.setSampleNumber(res.getSampleNumber());
             result.setName(res.getName());
@@ -56,6 +60,7 @@ public class LimsResultOpration {
             result.setEntry(res.getEntry());
             result.setEnteredBy(res.getEnteredBy());
             result.setFormattedEntry(res.getFormattedEntry());
+            result.setAnalysis(res.getAnalysis());
             //result.setUnits(res.getUnits());
             logger.warn("result_entry:" + result.getEntry());
             logger.warn("res_entry:" + res.getEntry());
@@ -82,7 +87,7 @@ public class LimsResultOpration {
             do {
                 actualMax_Result++;
                 result = resultService.getResultByPrimary(actualMax_Result.longValue());
-            }while (result == null);
+            }while (result != null);
             /*Integer incMax_Result = Integer.valueOf(customerSqlService.selectOne("select value from increments s where s.type = 'RESULT'"));
             Integer actualMax_Result = Integer.valueOf(customerSqlService.selectOne("select max(result_number) from result"));
             Integer target_resultNumber = 0;
@@ -98,15 +103,18 @@ public class LimsResultOpration {
 
             logger.info("==============================" + res.getTestNumber());
             //开始准备insert
+            result = new Result();
             result.setTestNumber(res.getTestNumber());
             result.setSampleNumber(res.getSampleNumber());
             result.setName(res.getName());
+            result.setReportedName(res.getName());
             result.setMinimum(res.getMinimum());
             result.setMaximum(res.getMaximum());
             result.setEntry(res.getEntry());
             result.setEnteredBy(res.getEnteredBy());
             result.setFormattedEntry(res.getFormattedEntry());
             result.setResultNumber(Long.valueOf(actualMax_Result));
+            result.setAnalysis(res.getAnalysis());
             /*result.setUnits(res.getUnits());
             result.setReplicateCount(Long.valueOf(0));
             if ("温度".equals(res.getName())){

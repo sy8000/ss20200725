@@ -2,7 +2,7 @@ package cn.besbing;
 
 
 import cn.besbing.Entities.CProjTask;
-import cn.besbing.Entities.DoubleBalls;
+//import cn.besbing.Entities.DoubleBalls;
 import cn.besbing.Service.Impl.DoubleBallsServiceImpl;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -118,7 +118,7 @@ public class InsertBalls {
 
         int countInsert = 0;
         SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        DoubleBalls doubleBalls = new DoubleBalls();
+        /*DoubleBalls doubleBalls = new DoubleBalls();
         //开始写入数据库
         for (int i=0;i<balls.length;i++){
             doubleBalls.setOpenDate("20" + balls[i][0]);
@@ -135,18 +135,18 @@ public class InsertBalls {
             doubleBalls.setVdef2("");
             doubleBalls.setVdef3("");
             doubleBalls.setVdef4("");
-            doubleBalls.setVdef5("");
+            doubleBalls.setVdef5("");*/
 
             try{
-                countInsert += doubleBallsService.insertRecord(doubleBalls);
+               // countInsert += doubleBallsService.insertRecord(doubleBalls);
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
 
-        logger.info("===============共计插入{}条记录==================",countInsert);
+        //logger.info("===============共计插入{}条记录==================",countInsert);
 
-    }
+    //}
 
     public static String subZeroAndDot(String s){
         if(s.indexOf(".") > 0){

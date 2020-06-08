@@ -157,7 +157,34 @@ public class AnalysisThread {
                 if (ncProdList == null){
                     //如果不存在，则开始更新
                     logger.info("product:{},version:{},开始更新...",product.getName(),product.getVersion());
+                    /*
+                    开始定义各vo
+                     */
+                    NcProdList insertncProdList = new NcProdList();
+                    NcTestList inserttestList = new NcTestList();
+                    NcBasprodName insertncBasprodName = new NcBasprodName();
+                    NcBasprodType insertncBasprodType = new NcBasprodType();
+                    NcBasenType insertncBasenType = new NcBasenType();
+                    NcBasprodPoint insertncBasprodPoint = new NcBasprodPoint();
+                    NcBasprodStruct insertncBasprodStruct = new NcBasprodStruct();
+                    NcBasprodContact insertncBasprodContact = new NcBasprodContact();
+                    NcBasprodTemp insertncBasprodTemp = new NcBasprodTemp();
+                    NcSampleInfo insertncSampleInfo = new NcSampleInfo();
+                    NcTestInit insertncTestInit = new NcTestInit();
+                    NcTaskAddunion insertncTaskAddunion = new NcTaskAddunion();
+                    NcTestlistComp insertncTestListComp = new NcTestlistComp();
+                    NcTestAfter insertncTestAfter = new NcTestAfter();
+
+
                     try {
+                        logger.info("开始组装nc_prod_list...");
+                        executeSql = getExecuteSql("testlist_nc_prod_list",product);
+                        //insertncProdList = customerSqlService.selectAsList(executeSql);
+                        logger.info("结束组装nc_prod_list...");
+                    }catch (Exception e){
+                        logger.error("更新nc_prod_list表时出现异常：{}",e.getStackTrace());
+                    }
+                    /*try {
                         logger.info("开始组装nc_prod_list...");
                         executeSql = getExecuteSql("testlist_nc_prod_list",product);
                         customerSqlService.insert(executeSql);
@@ -279,7 +306,7 @@ public class AnalysisThread {
                         logger.info("结束组装nc_test_after...");
                     }catch(Exception e){
                         logger.error("组装nc_test_after出错：{}",e.getStackTrace());
-                    }
+                    }*/
                     logger.info("product:{},version:{},更新完成...",product.getName(),product.getVersion());
                 }
             }

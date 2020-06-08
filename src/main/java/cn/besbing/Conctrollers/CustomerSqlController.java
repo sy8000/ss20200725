@@ -251,6 +251,12 @@ public class CustomerSqlController {
                 result.setMinimum(jsonObject.get("minimum").toString());
                 result.setMaximum(jsonObject.get("maximum").toString());
                 //result.setUnits(jsonObject.get("units").toString());
+                //result.setAnalysis(jsonObject.get("analysis").toString());
+                if (jsonObject.get("analysis").toString().trim().length() > 13){
+                    result.setAnalysis("继电器企标初始参数");
+                }else {
+                    result.setAnalysis("继电器企标试验后参数");
+                }
             }catch (Exception e){
                 logger.error("{}类解析小垂上传的参数第{}行出错!!!错误描述:{}",this.getClass().getName(),i,e.getStackTrace());
             }
