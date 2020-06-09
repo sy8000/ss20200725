@@ -4,11 +4,12 @@ package cn.besbing;
 import cn.besbing.Entities.CProjTask;
 //import cn.besbing.Entities.DoubleBalls;
 import cn.besbing.Service.Impl.DoubleBallsServiceImpl;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+//import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+//import org.apache.poi.ss.usermodel.Row;
+//import org.apache.poi.ss.usermodel.Sheet;
+//import org.apache.poi.ss.usermodel.Workbook;
+//import org.apache.poi.ss.usermodel.WorkbookFactory;
+//import org.apache.poi.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.apache.poi.*;
+
 
 import java.io.FileInputStream;
 import java.text.DecimalFormat;
@@ -38,7 +39,7 @@ public class InsertBalls {
     @Test
     public void insertDoubleBallsFromExcel(){
         String balls[][] = null;
-        try {
+        /*try {
             DecimalFormat decimalFormat = new DecimalFormat("###################.###########");
             HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("c:/double.xls"));
             int numberOfSheets = workbook.getNumberOfSheets();
@@ -114,7 +115,7 @@ public class InsertBalls {
 
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
 
         int countInsert = 0;
         SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

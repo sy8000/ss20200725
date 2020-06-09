@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 //@Component
 public class AnalysisThread {
@@ -180,6 +181,11 @@ public class AnalysisThread {
                         logger.info("开始组装nc_prod_list...");
                         executeSql = getExecuteSql("testlist_nc_prod_list",product);
                         //insertncProdList = customerSqlService.selectAsList(executeSql);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            //logger.info(map.get("PK_PROD_LIST").toString());
+                            insertncProdList.setPkProdList(map.get(1).toString());
+                        }
                         logger.info("结束组装nc_prod_list...");
                     }catch (Exception e){
                         logger.error("更新nc_prod_list表时出现异常：{}",e.getStackTrace());
