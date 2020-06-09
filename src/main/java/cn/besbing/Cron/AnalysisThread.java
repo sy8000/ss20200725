@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class AnalysisThread {
     private INcAnalysisListServiceImpl iNcAnalysisListService = SpringUtil.getBean(INcAnalysisListServiceImpl.class);
 
     private IAnalysisServiceImpl iAnalysisService = SpringUtil.getBean(IAnalysisServiceImpl.class);
+
 
 
 
@@ -106,6 +108,13 @@ public class AnalysisThread {
 
     private IProductServiceImpl iProductService = SpringUtil.getBean(IProductServiceImpl.class);
     private INcProdListServiceImpl iNcProdListService = SpringUtil.getBean(INcProdListServiceImpl.class);
+    private INcTestListServiceImpl iNcTestListService = SpringUtil.getBean(INcTestListServiceImpl.class);
+    private NcBaseprodNameServiceImpl ncBaseprodNameService = SpringUtil.getBean(NcBaseprodNameServiceImpl.class);
+    private INcBasprodTypeServiceImpl iNcBasprodTypeService = SpringUtil.getBean(INcBasprodTypeServiceImpl.class);
+    private INcBasenTypeServiceImpl iNcBasenTypeService = SpringUtil.getBean(INcBasenTypeServiceImpl.class);
+    private INcBasprodPointServiceImpl iNcBasprodPointService = SpringUtil.getBean(INcBasprodPointServiceImpl.class);
+    private INcBasprodStruceServiceImpl iNcBasprodStruceService = SpringUtil.getBean(INcBasprodStruceServiceImpl.class);
+    private INcBasprodContactServiceImpl iNcBasprodContactService = SpringUtil.getBean(INcBasprodContactServiceImpl.class);
 
 
     @Transactional(rollbackFor = Exception.class)
@@ -167,15 +176,17 @@ public class AnalysisThread {
                     NcBasprodType insertncBasprodType = new NcBasprodType();
                     NcBasenType insertncBasenType = new NcBasenType();
                     NcBasprodPoint insertncBasprodPoint = new NcBasprodPoint();
+                    List<String> pkBasprodPoint = new ArrayList<>();
                     NcBasprodStruct insertncBasprodStruct = new NcBasprodStruct();
+                    List<String> pkBasprodStruct = new ArrayList<>();
                     NcBasprodContact insertncBasprodContact = new NcBasprodContact();
                     NcBasprodTemp insertncBasprodTemp = new NcBasprodTemp();
+                    List<String> pkBasprodTemp = new ArrayList<>();
                     NcSampleInfo insertncSampleInfo = new NcSampleInfo();
                     NcTestInit insertncTestInit = new NcTestInit();
                     NcTaskAddunion insertncTaskAddunion = new NcTaskAddunion();
                     NcTestlistComp insertncTestListComp = new NcTestlistComp();
                     NcTestAfter insertncTestAfter = new NcTestAfter();
-
 
                     try {
                         logger.info("开始组装nc_prod_list...");
@@ -184,12 +195,209 @@ public class AnalysisThread {
                         List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
                         for (Map<String,Object> map : list){
                             //logger.info(map.get("PK_PROD_LIST").toString());
-                            insertncProdList.setPkProdList(map.get(1).toString());
+                            insertncProdList.setPkProdList(map.get("PK_PROD_LIST").toString());
+                            insertncProdList.setName(map.get("NAME").toString());
+                            insertncProdList.setVersion(Long.valueOf(map.get("VERSION").toString()));
+                            insertncProdList.setNcProdCode(map.get("NC_PROD_CODE").toString());
+                            insertncProdList.setNcProdName(map.get("NC_PROD_NAME").toString());
+                            insertncProdList.setNcProdIsdisable(BigDecimal.valueOf(Long.valueOf(map.get("NC_PROD_ISDISABLE").toString())));
+                            insertncProdList.setDef1(map.get("DEF1").toString());
+                            insertncProdList.setDef2(map.get("DEF2").toString());
+                            insertncProdList.setDef3(map.get("DEF3").toString());
+                            insertncProdList.setDef4(map.get("DEF4").toString());
+                            insertncProdList.setDef5(map.get("DEF5").toString());
+                            insertncProdList.setNcProdDes(map.get("NC_PROD_DES").toString());
+                            insertncProdList.setNcProdAlias(map.get("NC_PROD_ALIAS").toString());
+                            iNcProdListService.insert(insertncProdList);
                         }
                         logger.info("结束组装nc_prod_list...");
                     }catch (Exception e){
                         logger.error("更新nc_prod_list表时出现异常：{}",e.getStackTrace());
                     }
+                    try{
+                        logger.info("开始组装nc_test_list...");
+                        executeSql = getExecuteSql("testlist_nc_test_list",product);
+                        customerSqlService.insert(executeSql);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            inserttestList.setPkTestList(map.get("PK_TEST_LIST").toString());
+                            inserttestList.setName(map.get("NAME").toString());
+                            inserttestList.setNcTestlistCode(map.get("NC_TESTLIST_CODE").toString());
+                            inserttestList.setNcTestlistName(map.get("NC_TESTLIST_NAME").toString());
+                            inserttestList.setNcTestlistIsdisable(BigDecimal.valueOf(Long.valueOf(map.get("NC_TESTLIST_ISDISABLE").toString())));
+                            inserttestList.setDef1(map.get("DEF1").toString());
+                            inserttestList.setDef2(map.get("DEF2").toString());
+                            inserttestList.setDef3(map.get("DEF3").toString());
+                            inserttestList.setDef4(map.get("DEF4").toString());
+                            inserttestList.setDef5(map.get("DEF5").toString());
+                            iNcTestListService.insert(inserttestList);
+                        }
+                        logger.info("结束组装nc_test_list...");
+                    }catch(Exception e){
+                        logger.error("更新nc_test_list表时出现异常：{}",e.getStackTrace());
+                    }
+                    try{
+                        logger.info("开始组装nc_basprod_name...");
+                        executeSql = getExecuteSql("testlist_nc_basprod_name",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncBasprodName.setPkBasprodName(map.get("PK_BASPROD_NAME").toString());
+                            insertncBasprodName.setPkBasprodName(map.get("NC_BASPROD_CODE").toString());
+                            insertncBasprodName.setPkBasprodName(map.get("NC_BASPROD_NAME").toString());
+                            insertncBasprodName.setPkBasprodName(map.get("VDEF1").toString().trim());
+                            insertncBasprodName.setPkBasprodName(map.get("VDEF2").toString());
+                            insertncBasprodName.setPkBasprodName(map.get("VDEF3").toString());
+                            insertncBasprodName.setPkBasprodName(map.get("VDEF4").toString());
+                            insertncBasprodName.setPkBasprodName(map.get("VDEF5").toString());
+                            ncBaseprodNameService.insert(insertncBasprodName);
+                        }
+                        logger.info("结束组装nc_basprod_name...");
+                    }catch(Exception e){
+                        logger.error("组装nc_basprod_name出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_basprod_type...");
+                        executeSql = getExecuteSql("testlist_nc_basprod_type",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncBasprodType.setPkBasprodType(map.get("PK_BASPROD_TYPE").toString());
+                            insertncBasprodType.setNcBasprodtypeCode(map.get("NC_BASPRODTYPE_CODE").toString());
+                            insertncBasprodType.setNcBasprodtypeName(map.get("NC_BASPRODTYPE_NAME").toString());
+                            insertncBasprodType.setVdef1(map.get("VDEF1").toString().trim());
+                            insertncBasprodType.setVdef2(map.get("VDEF2").toString().trim());
+                            insertncBasprodType.setVdef3(map.get("VDEF3").toString());
+                            insertncBasprodType.setVdef4(map.get("VDEF4").toString());
+                            insertncBasprodType.setVdef5(map.get("VDEF5").toString());
+                            iNcBasprodTypeService.insert(insertncBasprodType);
+                        }
+                        logger.info("结束组装nc_basprod_type...");
+                    }catch(Exception e){
+                        logger.error("组装nc_basprod_type出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装NC_BASEN_TYPE...");
+                        executeSql = getExecuteSql("testlist_nc_basen_type",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncBasenType.setPkBasenType(map.get("PK_BASEN_TYPE").toString());
+                            insertncBasenType.setPkBasprodType(insertncBasprodType.getPkBasprodType().toString());
+                            insertncBasenType.setNcBasenCode(map.get("NC_BASEN_CODE").toString());
+                            insertncBasenType.setNcBbasenName(map.get("NC_BBASEN_NAME").toString());
+                            insertncBasenType.setVdef1(map.get("VDEF1").toString());
+                            insertncBasenType.setVdef2(map.get("VDEF2").toString());
+                            insertncBasenType.setVdef3(map.get("VDEF3").toString());
+                            insertncBasenType.setVdef4(map.get("VDEF4").toString());
+                            insertncBasenType.setVdef5(map.get("VDEF5").toString());
+                            iNcBasenTypeService.insert(insertncBasenType);
+                        }
+                        logger.info("结束组装NC_BASEN_TYPE...");
+                    }catch(Exception e){
+                        logger.error("组装NC_BASEN_TYPE出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_basprod_point...");
+                        executeSql = getExecuteSql("testlist_nc_basprod_point",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        pkBasprodPoint.clear();
+                        for (Map<String,Object> map : list){
+                            pkBasprodPoint.add(map.get("PK_BASPROD_POINT").toString());
+                            insertncBasprodPoint.setPkBasprodPoint(map.get("PK_BASPROD_POINT").toString());
+                            insertncBasprodPoint.setNcBasprodpointCode(map.get("NC_BASPRODPOINT_CODE").toString());
+                            insertncBasprodPoint.setNcBasprodpointName(map.get("NC_BASPRODPOINT_NAME").toString());
+                            insertncBasprodPoint.setVdef1(map.get("VDEF1").toString());
+                            insertncBasprodPoint.setVdef2(map.get("VDEF2").toString());
+                            insertncBasprodPoint.setVdef3(map.get("VDEF3").toString());
+                            insertncBasprodPoint.setVdef4(map.get("VDEF4").toString());
+                            insertncBasprodPoint.setVdef5(map.get("VDEF5").toString());
+                            iNcBasprodPointService.insert(insertncBasprodPoint);
+                        }
+                        logger.info("结束组装nc_basprod_point...");
+                    }catch(Exception e){
+                        logger.error("组装nc_basprod_point出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_basprod_struct...");
+                        executeSql = getExecuteSql("testlist_nc_basprod_struct",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        pkBasprodStruct.clear();
+                        for (Map<String,Object> map : list){
+                            pkBasprodStruct.add(map.get("PK_BASPROD_STRUCT").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("PK_BASPROD_STRUCT").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("NC_BASPRODSTRUCT_CODE").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("NC_BASPRODSTRUCT_NAME").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF1").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF2").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF3").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF4").toString());
+                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF5").toString());
+                            iNcBasprodStruceService.insert(insertncBasprodStruct);
+                        }
+                        logger.info("结束组装nc_basprod_struct...");
+                    }catch(Exception e){
+                        logger.error("组装nc_basprod_struct出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装NC_BASPROD_CONTACT...");
+                        executeSql = getExecuteSql("test_nc_basprod_contact",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncBasprodContact.setPkBasprodContact(map.get("PK_BASPROD_CONTACT").toString());
+                            insertncBasprodContact.setNcBasprodcontactCode(map.get("NC_BASPRODCONTACT_CODE").toString());
+                            insertncBasprodContact.setNcBasprodcontactName(map.get("NC_BASPRODCONTACT_NAME").toString());
+                            insertncBasprodContact.setVdef1(map.get("VDEF1").toString());
+                            insertncBasprodContact.setVdef2(map.get("VDEF2").toString());
+                            insertncBasprodContact.setVdef3(map.get("VDEF3").toString());
+                            insertncBasprodContact.setVdef4(map.get("VDEF4").toString());
+                            insertncBasprodContact.setVdef5(map.get("VDEF5").toString());
+                            iNcBasprodContactService.insert(insertncBasprodContact);
+                        }
+                        logger.info("结束组装NC_BASPROD_CONTACT...");
+                    }catch(Exception e){
+                        logger.error("组装NC_BASPROD_CONTACT出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_basprod_temp...");
+                        executeSql = getExecuteSql("testlist_nc_basprod_temp",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        pkBasprodTemp.clear();
+                        for (Map<String,Object> map : list){
+                            insertncBasprodTemp.setPkBasprodTemp(map.get("PK_BASPROD_TEMP").toString());
+                            pkBasprodTemp.add(map.get("PK_BASPROD_TEMP").toString());
+                            insertncBasprodTemp.setNcBasprodtempCode(map.get("NC_BASPRODTEMP_CODE").toString());
+                            insertncBasprodTemp.setNcBasprodtempName(map.get("NC_BASPRODTEMP_NAME").toString());
+                            insertncBasprodTemp.setVdef1(map.get("VDEF1").toString());
+                            insertncBasprodTemp.setVdef2(map.get("VDEF2").toString());
+                            insertncBasprodTemp.setVdef3(map.get("VDEF3").toString());
+                            insertncBasprodTemp.setVdef4(map.get("VDEF4").toString());
+                            insertncBasprodTemp.setVdef5(map.get("VDEF5").toString());
+                        }
+                        logger.info("结束组装nc_basprod_temp...");
+                    }catch(Exception e){
+                        logger.error("组装nc_basprod_temp出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_sample_info...");
+                        //executeSql = getExecuteSql("testlist_nc_sample_info",product);
+                        String sql1 = customerSqlService.selectOne("select sql_text from sql_records where sql_code = 'testlist_nc_sample_info1'");
+                        String sql2 = customerSqlService.selectOne("select sql_text from sql_records where sql_code = 'testlist_nc_sample_info2'");
+                        executeSql = sql1 + sql2;
+                        executeSql = executeSql.replace("sheny",product.getName());
+                        executeSql = executeSql.replace("why",String.valueOf(product.getVersion()));
+                        executeSql = executeSql.replace("shenycode",product.getCode());
+                        executeSql = executeSql.replace("shenytestlist",product.getTestList());
+                        //数据库中语句获取完成，开始处理语句
+                        logger.info("结束组装nc_sample_info...");
+                    }catch(Exception e){
+                        logger.error("组装nc_sample_info出错：{}",e.getStackTrace());
+                    }
+
                     /*try {
                         logger.info("开始组装nc_prod_list...");
                         executeSql = getExecuteSql("testlist_nc_prod_list",product);
@@ -232,7 +440,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装nc_basprod_type出错：{}",e.getStackTrace());
                     }
-
+                    -----------------------
                     try{
                         logger.info("开始组装nc_basprod_point...");
                         executeSql = getExecuteSql("testlist_nc_basprod_point",product);
@@ -241,7 +449,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装nc_basprod_point出错：{}",e.getStackTrace());
                     }
-
+                    ---------------------------
                     try{
                         logger.info("开始组装nc_basprod_struct...");
                         executeSql = getExecuteSql("testlist_nc_basprod_struct",product);
@@ -250,7 +458,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装nc_basprod_struct出错：{}",e.getStackTrace());
                     }
-
+                    ------------------------------------------------
                     try{
                         logger.info("开始组装NC_BASPROD_CONTACT...");
                         executeSql = getExecuteSql("test_nc_basprod_contact",product);
@@ -259,7 +467,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装NC_BASPROD_CONTACT出错：{}",e.getStackTrace());
                     }
-
+                    --------------------------------------------------------
                     try{
                         logger.info("开始组装nc_basprod_temp...");
                         executeSql = getExecuteSql("testlist_nc_basprod_temp",product);
@@ -268,7 +476,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装nc_basprod_temp出错：{}",e.getStackTrace());
                     }
-
+                    --------------------------------------------------
                     try{
                         logger.info("开始组装nc_sample_info...");
                         executeSql = getExecuteSql("testlist_nc_sample_info",product);
@@ -277,7 +485,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装nc_sample_info出错：{}",e.getStackTrace());
                     }
-
+                    ----------------------------------------------------------
                     try{
                         logger.info("开始组装nc_test_init...");
                         executeSql = getExecuteSql("testlist_nc_test_init",product);

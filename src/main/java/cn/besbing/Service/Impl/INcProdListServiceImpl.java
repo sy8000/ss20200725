@@ -16,4 +16,9 @@ public class INcProdListServiceImpl implements INcProdListService {
     public NcProdList getNcProdListByPrimary(NcProdListKey key){
         return ncProdListMapper.selectByPrimaryKey(key);
     }
+
+
+    public int insert(NcProdList ncProdList){
+        return ncProdListMapper.insert(ncProdList);
+    }
 }
