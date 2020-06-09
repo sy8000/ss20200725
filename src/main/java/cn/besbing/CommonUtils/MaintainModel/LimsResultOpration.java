@@ -115,7 +115,7 @@ public class LimsResultOpration {
             result.setFormattedEntry(res.getFormattedEntry());
             result.setResultNumber(Long.valueOf(actualMax_Result));
             result.setAnalysis(res.getAnalysis());
-            /*result.setUnits(res.getUnits());
+            result.setUnits(res.getUnits());
             result.setReplicateCount(Long.valueOf(0));
             if ("温度".equals(res.getName())){
                 result.setOrderNumber(Long.valueOf(1));
@@ -131,7 +131,7 @@ public class LimsResultOpration {
                 result.setUnits("HUMIDITY");
                 result.settShortName("Humidity");
             }
-            result.setResultType("N");
+            result.setResultType("T");
             result.setStatus("E");
             result.setOldStatus("N");
             result.setModifiedResult("F");
@@ -163,7 +163,7 @@ public class LimsResultOpration {
             result.setReportedResult("F");
             result.setReportedRsltRev(Long.valueOf(0));
             result.setReportedRsltOos("F");
-            result.settAccredited("F");*/
+            result.settAccredited("F");
 
 
             logger.warn("result_entry:" + result.getEntry());
