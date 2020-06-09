@@ -115,7 +115,7 @@ public class AnalysisThread {
     private INcBasprodPointServiceImpl iNcBasprodPointService = SpringUtil.getBean(INcBasprodPointServiceImpl.class);
     private INcBasprodStruceServiceImpl iNcBasprodStruceService = SpringUtil.getBean(INcBasprodStruceServiceImpl.class);
     private INcBasprodContactServiceImpl iNcBasprodContactService = SpringUtil.getBean(INcBasprodContactServiceImpl.class);
-
+    private INcSampleInfoServiceImpl iNcSampleInfoService = SpringUtil.getBean(INcSampleInfoServiceImpl.class);
 
     @Transactional(rollbackFor = Exception.class)
     //@Scheduled(cron = "0 0 4 * * ?")
@@ -183,6 +183,7 @@ public class AnalysisThread {
                     NcBasprodTemp insertncBasprodTemp = new NcBasprodTemp();
                     List<String> pkBasprodTemp = new ArrayList<>();
                     NcSampleInfo insertncSampleInfo = new NcSampleInfo();
+                    List<String> pkSampleInfo = new ArrayList<>();
                     NcTestInit insertncTestInit = new NcTestInit();
                     NcTaskAddunion insertncTaskAddunion = new NcTaskAddunion();
                     NcTestlistComp insertncTestListComp = new NcTestlistComp();
@@ -392,7 +393,35 @@ public class AnalysisThread {
                         executeSql = executeSql.replace("why",String.valueOf(product.getVersion()));
                         executeSql = executeSql.replace("shenycode",product.getCode());
                         executeSql = executeSql.replace("shenytestlist",product.getTestList());
+                        String finalSql = "";
                         //数据库中语句获取完成，开始处理语句
+                        for(String point : pkBasprodPoint){
+                            for (String struct : pkBasprodStruct){
+                                for(String temp : pkBasprodTemp){
+                                    finalSql = executeSql;
+                                    finalSql = finalSql.replace("",insertncProdList.getPkProdList());
+                                    finalSql = finalSql.replace("",inserttestList.getPkTestList());
+                                    finalSql = finalSql.replace("",insertncBasprodName.getPkBasprodName());
+                                    finalSql = finalSql.replace("",insertncBasprodType.getPkBasprodType());
+                                    finalSql = finalSql.replace("",insertncBasenType.getPkBasenType());
+                                    finalSql = finalSql.replace("",point);
+                                    finalSql = finalSql.replace("",struct);
+                                    finalSql = finalSql.replace("",insertncBasprodContact.getPkBasprodContact());
+                                    finalSql = finalSql.replace("",temp);
+                                    List<Map<String,Object>> list =  customerSqlService.selectList(finalSql);
+                                    if (list != null){
+                                        for (Map<String,Object> map : list){
+                                            pkSampleInfo.add(map.get("").toString());
+                                            insertncSampleInfo.setPkSampleInfo(map.get("").toString());
+                                            /***
+                                             * e.g.   添加各对应值
+                                             */
+                                            iNcSampleInfoService.insert(insertncSampleInfo);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         logger.info("结束组装nc_sample_info...");
                     }catch(Exception e){
                         logger.error("组装nc_sample_info出错：{}",e.getStackTrace());
@@ -520,7 +549,13 @@ public class AnalysisThread {
                         logger.info("结束组装nc_test_after...");
                     }catch(Exception e){
                         logger.error("组装nc_test_after出错：{}",e.getStackTrace());
-                    }*/
+                    }
+                     */
+                    /**
+                     *      sheny 2018.09.23
+                     *      version : init
+                     *      Func : Sync from another Database(Asyn)
+                     */
                     logger.info("product:{},version:{},更新完成...",product.getName(),product.getVersion());
                 }
             }
