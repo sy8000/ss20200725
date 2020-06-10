@@ -116,7 +116,7 @@ public class AnalysisThread {
     private INcBasprodStruceServiceImpl iNcBasprodStruceService = SpringUtil.getBean(INcBasprodStruceServiceImpl.class);
     private INcBasprodContactServiceImpl iNcBasprodContactService = SpringUtil.getBean(INcBasprodContactServiceImpl.class);
     private INcSampleInfoServiceImpl iNcSampleInfoService = SpringUtil.getBean(INcSampleInfoServiceImpl.class);
-
+    private INcTestInitImpl iNcTestInit = SpringUtil.getBean(INcTestInitImpl.class);
     @Transactional(rollbackFor = Exception.class)
     //@Scheduled(cron = "0 0 4 * * ?")
     public void addTestListThread() throws Exception {
@@ -215,6 +215,7 @@ public class AnalysisThread {
                     }catch (Exception e){
                         logger.error("更新nc_prod_list表时出现异常：{}",e.getStackTrace());
                     }
+
                     try{
                         logger.info("开始组装nc_test_list...");
                         executeSql = getExecuteSql("testlist_nc_test_list",product);
@@ -237,6 +238,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("更新nc_test_list表时出现异常：{}",e.getStackTrace());
                     }
+
                     try{
                         logger.info("开始组装nc_basprod_name...");
                         executeSql = getExecuteSql("testlist_nc_basprod_name",product);
@@ -399,23 +401,44 @@ public class AnalysisThread {
                             for (String struct : pkBasprodStruct){
                                 for(String temp : pkBasprodTemp){
                                     finalSql = executeSql;
-                                    finalSql = finalSql.replace("",insertncProdList.getPkProdList());
-                                    finalSql = finalSql.replace("",inserttestList.getPkTestList());
-                                    finalSql = finalSql.replace("",insertncBasprodName.getPkBasprodName());
-                                    finalSql = finalSql.replace("",insertncBasprodType.getPkBasprodType());
-                                    finalSql = finalSql.replace("",insertncBasenType.getPkBasenType());
-                                    finalSql = finalSql.replace("",point);
-                                    finalSql = finalSql.replace("",struct);
-                                    finalSql = finalSql.replace("",insertncBasprodContact.getPkBasprodContact());
-                                    finalSql = finalSql.replace("",temp);
+                                    //finalSql = finalSql.replace("listsheny_pk_basprod_name",insertncProdList.getPkProdList());
+                                    //finalSql = finalSql.replace("",inserttestList.getPkTestList());
+                                    finalSql = finalSql.replace("listsheny_pk_basprod_name",insertncBasprodName.getPkBasprodName());
+                                    finalSql = finalSql.replace("listsheny_pk_basprod_type",insertncBasprodType.getPkBasprodType());
+                                    //finalSql = finalSql.replace("",insertncBasenType.getPkBasenType());
+                                    finalSql = finalSql.replace("listsheny_pk_basprod_point",point);
+                                    finalSql = finalSql.replace("listsheny_pk_basprod_struct",struct);
+                                    finalSql = finalSql.replace("listsheny_pk_basprod_contact",insertncBasprodContact.getPkBasprodContact());
+                                    finalSql = finalSql.replace("listsheny_pk_basprod_temp",temp);
                                     List<Map<String,Object>> list =  customerSqlService.selectList(finalSql);
                                     if (list != null){
                                         for (Map<String,Object> map : list){
-                                            pkSampleInfo.add(map.get("").toString());
-                                            insertncSampleInfo.setPkSampleInfo(map.get("").toString());
-                                            /***
-                                             * e.g.   添加各对应值
-                                             */
+                                            pkSampleInfo.add(map.get("PK_SAMPLE_INFO").toString());
+                                            insertncSampleInfo.setPkSampleInfo(map.get("PK_SAMPLE_INFO").toString());
+                                            insertncSampleInfo.setPkProdType(map.get("PK_PROD_TYPE").toString());
+                                            insertncSampleInfo.setPkBasprodName(map.get("PK_BASPROD_NAME").toString());
+                                            insertncSampleInfo.setPkBasprodType(map.get("PK_BASPROD_TYPE").toString());
+                                            insertncSampleInfo.setPkBasprodPoint(map.get("PK_BASPROD_POINT").toString());
+                                            insertncSampleInfo.setPkBasprodStruct(map.get("PK_BASPROD_STRUCT").toString());
+                                            insertncSampleInfo.setPkBasprodContact(map.get("PK_BASPROD_CONTACT").toString());
+                                            insertncSampleInfo.setPkBasprodTemp(map.get("PK_BASPROD_TEMP").toString());
+                                            insertncSampleInfo.setPkBasenType(map.get("PK_BASEN_TYPE").toString());
+                                            insertncSampleInfo.setSampleInfoCode(map.get("SAMPLE_INFO_CODE").toString());
+                                                    insertncSampleInfo.setDef1(map.get("DEF1").toString());
+                                            insertncSampleInfo.setDef2(map.get("DEF2").toString());
+                                                    insertncSampleInfo.setDef3(map.get("DEF3").toString());
+                                            insertncSampleInfo.setDef4(map.get("DEF4").toString());
+                                                    insertncSampleInfo.setDef5(map.get("DEF5").toString());
+                                            insertncSampleInfo.setName(map.get("NAME").toString());
+                                                    insertncSampleInfo.setcProdTypeC1(map.get("C_PROD_TYPE_C1").toString());
+                                            insertncSampleInfo.setDescription(map.get("DESCRIPTION").toString());
+                                                    insertncSampleInfo.setEnstard(map.get("ENSTARD").toString());
+                                            insertncSampleInfo.setTestList(map.get("TEST_LIST").toString());
+                                                    insertncSampleInfo.setSamplingPoint(map.get("SAMPLING_POINT").toString());
+                                            insertncSampleInfo.setGrade(map.get("GRADE").toString());
+                                                    insertncSampleInfo.setcAllowedContact(map.get("C_ALLOWED_CONTACT").toString());
+                                            insertncSampleInfo.setStage(map.get("STAGE").toString());
+                                                    insertncSampleInfo.setIsenable(BigDecimal.valueOf(Long.valueOf(map.get("ISENABLE").toString())));
                                             iNcSampleInfoService.insert(insertncSampleInfo);
                                         }
                                     }
@@ -425,6 +448,70 @@ public class AnalysisThread {
                         logger.info("结束组装nc_sample_info...");
                     }catch(Exception e){
                         logger.error("组装nc_sample_info出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_test_init...");
+                        executeSql = getExecuteSql("testlist_nc_test_init",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncTestInit.setPkTestInit(map.get("PK_TEST_INIT").toString());
+                            insertncTestInit.setPkResultType(map.get("PK_RESULT_TYPE").toString());
+                            insertncTestInit.setPkUnitsType(map.get("PK_UNITS_TYPE").toString());
+                            insertncTestInit.setTestInitCode(map.get("TEST_INIT_CODE").toString());
+                            insertncTestInit.setTestInitName(map.get("TEST_INIT_NAME").toString());
+                            insertncTestInit.setNcEnstard(map.get("NC_ENSTARD").toString());
+                            insertncTestInit.setNcEntry(Long.valueOf(map.get("NC_ENTRY").toString()));
+                            insertncTestInit.setNcAnalysisName(map.get("NC_ANALYSIS_NAME").toString());
+                            insertncTestInit.setNcAnalysisVersion(Long.valueOf(map.get("NC_ANALYSIS_VERSION").toString()));
+                            insertncTestInit.setNcAnalysisType(map.get("NC_ANALYSIS_TYPE").toString());
+                            insertncTestInit.setNcSpecRule(map.get("NC_SPEC_RULE").toString());
+                            insertncTestInit.setNcMinValue(map.get("NC_MIN_VALUE").toString());
+                            insertncTestInit.setNcMaxValue(map.get("NC_MAX_VALUE").toString());
+                            insertncTestInit.setNcTextValue(map.get("NC_TEXT_VALUE").toString());
+                            insertncTestInit.setNcStage(map.get("NC_STAGE").toString());
+                            insertncTestInit.setNcSamplePoint(map.get("NC_SAMPLE_POINT").toString());
+                            insertncTestInit.setNcContactType(map.get("NC_CONTACT_TYPE").toString());
+                            insertncTestInit.setNcCoilType(map.get("NC_COIL_TYPE").toString());
+                            insertncTestInit.setNcCoilCurrent(map.get("NC_COIL_CURRENT").toString());
+                            insertncTestInit.setDef1(map.get("DEF1").toString());
+                            insertncTestInit.setDef2(map.get("DEF2").toString());
+                            insertncTestInit.setDef3(map.get("DEF3").toString());
+                            insertncTestInit.setDef4(map.get("DEF4").toString());
+                            insertncTestInit.setDef5(map.get("DEF5").toString());
+                            iNcTestInit.insert(insertncTestInit);
+                        }
+                        logger.info("结束组装nc_test_init...");
+                    }catch(Exception e){
+                        logger.error("组装nc_test_init出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_task_addunion...");
+                        executeSql = getExecuteSql("testlist_nc_task_addunion",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                        }
+                        logger.info("结束组装nc_task_addunion...");
+                    }catch(Exception e){
+                        logger.error("组装nc_task_addunion出错：{}",e.getStackTrace());
                     }
 
                     /*try {
@@ -523,7 +610,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装nc_test_init出错：{}",e.getStackTrace());
                     }
-
+                    -------------------------------------------
                     try{
                         logger.info("开始组装nc_task_addunion...");
                         executeSql = getExecuteSql("testlist_nc_task_addunion",product);
