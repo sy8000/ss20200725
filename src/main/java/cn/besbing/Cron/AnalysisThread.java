@@ -117,6 +117,11 @@ public class AnalysisThread {
     private INcBasprodContactServiceImpl iNcBasprodContactService = SpringUtil.getBean(INcBasprodContactServiceImpl.class);
     private INcSampleInfoServiceImpl iNcSampleInfoService = SpringUtil.getBean(INcSampleInfoServiceImpl.class);
     private INcTestInitImpl iNcTestInit = SpringUtil.getBean(INcTestInitImpl.class);
+    private INcTaskAddunionImpl iNcTaskAddunion = SpringUtil.getBean(INcTaskAddunionImpl.class);
+    private INcTestlistCompServiceImpl iNcTestlistCompService = SpringUtil.getBean(INcTestlistCompServiceImpl.class);
+    private INcTestAfterServiceImpl iNcTestAfterService = SpringUtil.getBean(INcTestAfterServiceImpl.class);
+    private INcBasProdTempServiceImpl iNcBasProdTempService = SpringUtil.getBean(INcBasProdTempServiceImpl.class);
+
     @Transactional(rollbackFor = Exception.class)
     //@Scheduled(cron = "0 0 4 * * ?")
     public void addTestListThread() throws Exception {
@@ -167,6 +172,10 @@ public class AnalysisThread {
                 if (ncProdList == null){
                     //如果不存在，则开始更新
                     logger.info("product:{},version:{},开始更新...",product.getName(),product.getVersion());
+                    if ("QFVF4505-2018".equals(product.getName()) && "3".equals(product.getVersion().toString())){
+                        logger.debug("====={}====={}=======",product.getName(),product.getVersion().toString());
+                    }
+                    Long version = Long.valueOf(product.getVersion().toString());
                     /*
                     开始定义各vo
                      */
@@ -232,6 +241,11 @@ public class AnalysisThread {
                             inserttestList.setDef3(map.get("DEF3").toString());
                             inserttestList.setDef4(map.get("DEF4").toString());
                             inserttestList.setDef5(map.get("DEF5").toString());
+                            String temp = customerSqlService.selectOne("select PK_TEST_LIST from nc_test_list where trim(name) = '" + inserttestList.getName().trim() + "'");
+                            if (temp != null){
+                                customerSqlService.delete("delete from nc_test_list where PK_TEST_LIST = '" + temp + "'");
+                                inserttestList.setPkTestList(temp);
+                            }
                             iNcTestListService.insert(inserttestList);
                         }
                         logger.info("结束组装nc_test_list...");
@@ -245,13 +259,13 @@ public class AnalysisThread {
                         List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
                         for (Map<String,Object> map : list){
                             insertncBasprodName.setPkBasprodName(map.get("PK_BASPROD_NAME").toString());
-                            insertncBasprodName.setPkBasprodName(map.get("NC_BASPROD_CODE").toString());
-                            insertncBasprodName.setPkBasprodName(map.get("NC_BASPROD_NAME").toString());
-                            insertncBasprodName.setPkBasprodName(map.get("VDEF1").toString().trim());
-                            insertncBasprodName.setPkBasprodName(map.get("VDEF2").toString());
-                            insertncBasprodName.setPkBasprodName(map.get("VDEF3").toString());
-                            insertncBasprodName.setPkBasprodName(map.get("VDEF4").toString());
-                            insertncBasprodName.setPkBasprodName(map.get("VDEF5").toString());
+                            insertncBasprodName.setNcBasprodCode(map.get("NC_BASPROD_CODE").toString());
+                            insertncBasprodName.setNcBasprodName(map.get("NC_BASPROD_NAME").toString());
+                            insertncBasprodName.setVdef1(map.get("VDEF1").toString());
+                            insertncBasprodName.setVdef2(map.get("VDEF2").toString());
+                            insertncBasprodName.setVdef3(map.get("VDEF3").toString());
+                            insertncBasprodName.setVdef4(map.get("VDEF4").toString());
+                            insertncBasprodName.setVdef5(map.get("VDEF5").toString());
                             ncBaseprodNameService.insert(insertncBasprodName);
                         }
                         logger.info("结束组装nc_basprod_name...");
@@ -328,15 +342,15 @@ public class AnalysisThread {
                         List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
                         pkBasprodStruct.clear();
                         for (Map<String,Object> map : list){
-                            pkBasprodStruct.add(map.get("PK_BASPROD_STRUCT").toString());
                             insertncBasprodStruct.setPkBasprodStruct(map.get("PK_BASPROD_STRUCT").toString());
-                            insertncBasprodStruct.setPkBasprodStruct(map.get("NC_BASPRODSTRUCT_CODE").toString());
-                            insertncBasprodStruct.setPkBasprodStruct(map.get("NC_BASPRODSTRUCT_NAME").toString());
-                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF1").toString());
-                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF2").toString());
-                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF3").toString());
-                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF4").toString());
-                            insertncBasprodStruct.setPkBasprodStruct(map.get("VDEF5").toString());
+                            pkBasprodStruct.add(insertncBasprodStruct.getPkBasprodStruct());
+                            insertncBasprodStruct.setNcBasprodstructCode(map.get("NC_BASPRODSTRUCT_CODE").toString());
+                            insertncBasprodStruct.setNcBasprodstructName(map.get("NC_BASPRODSTRUCT_NAME").toString());
+                            insertncBasprodStruct.setVdef1(map.get("VDEF1").toString());
+                            insertncBasprodStruct.setVdef2(map.get("VDEF2").toString());
+                            insertncBasprodStruct.setVdef3(map.get("VDEF3").toString());
+                            insertncBasprodStruct.setVdef4(map.get("VDEF4").toString());
+                            insertncBasprodStruct.setVdef5(map.get("VDEF5").toString());
                             iNcBasprodStruceService.insert(insertncBasprodStruct);
                         }
                         logger.info("结束组装nc_basprod_struct...");
@@ -346,7 +360,7 @@ public class AnalysisThread {
 
                     try{
                         logger.info("开始组装NC_BASPROD_CONTACT...");
-                        executeSql = getExecuteSql("test_nc_basprod_contact",product);
+                        executeSql = getExecuteSql("testlist_nc_basprod_contact",product);
                         List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
                         for (Map<String,Object> map : list){
                             insertncBasprodContact.setPkBasprodContact(map.get("PK_BASPROD_CONTACT").toString());
@@ -379,6 +393,7 @@ public class AnalysisThread {
                             insertncBasprodTemp.setVdef3(map.get("VDEF3").toString());
                             insertncBasprodTemp.setVdef4(map.get("VDEF4").toString());
                             insertncBasprodTemp.setVdef5(map.get("VDEF5").toString());
+                            iNcBasProdTempService.insert(insertncBasprodTemp);
                         }
                         logger.info("结束组装nc_basprod_temp...");
                     }catch(Exception e){
@@ -391,10 +406,10 @@ public class AnalysisThread {
                         String sql1 = customerSqlService.selectOne("select sql_text from sql_records where sql_code = 'testlist_nc_sample_info1'");
                         String sql2 = customerSqlService.selectOne("select sql_text from sql_records where sql_code = 'testlist_nc_sample_info2'");
                         executeSql = sql1 + sql2;
-                        executeSql = executeSql.replace("sheny",product.getName());
+                        executeSql = executeSql.replace("prosheny",product.getName());
                         executeSql = executeSql.replace("why",String.valueOf(product.getVersion()));
-                        executeSql = executeSql.replace("shenycode",product.getCode());
-                        executeSql = executeSql.replace("shenytestlist",product.getTestList());
+                        executeSql = executeSql.replace("ccode",product.getCode());
+                        executeSql = executeSql.replace("ttestlist",product.getTestList());
                         String finalSql = "";
                         //数据库中语句获取完成，开始处理语句
                         for(String point : pkBasprodPoint){
@@ -424,21 +439,21 @@ public class AnalysisThread {
                                             insertncSampleInfo.setPkBasprodTemp(map.get("PK_BASPROD_TEMP").toString());
                                             insertncSampleInfo.setPkBasenType(map.get("PK_BASEN_TYPE").toString());
                                             insertncSampleInfo.setSampleInfoCode(map.get("SAMPLE_INFO_CODE").toString());
-                                                    insertncSampleInfo.setDef1(map.get("DEF1").toString());
+                                            insertncSampleInfo.setDef1(map.get("DEF1").toString());
                                             insertncSampleInfo.setDef2(map.get("DEF2").toString());
-                                                    insertncSampleInfo.setDef3(map.get("DEF3").toString());
+                                            insertncSampleInfo.setDef3(map.get("DEF3").toString());
                                             insertncSampleInfo.setDef4(map.get("DEF4").toString());
-                                                    insertncSampleInfo.setDef5(map.get("DEF5").toString());
+                                            insertncSampleInfo.setDef5(map.get("DEF5").toString());
                                             insertncSampleInfo.setName(map.get("NAME").toString());
-                                                    insertncSampleInfo.setcProdTypeC1(map.get("C_PROD_TYPE_C1").toString());
+                                            insertncSampleInfo.setcProdTypeC1(map.get("C_PROD_TYPE_C1").toString());
                                             insertncSampleInfo.setDescription(map.get("DESCRIPTION").toString());
-                                                    insertncSampleInfo.setEnstard(map.get("ENSTARD").toString());
+                                            insertncSampleInfo.setEnstard(map.get("ENSTARD").toString());
                                             insertncSampleInfo.setTestList(map.get("TEST_LIST").toString());
-                                                    insertncSampleInfo.setSamplingPoint(map.get("SAMPLING_POINT").toString());
+                                            insertncSampleInfo.setSamplingPoint(map.get("SAMPLING_POINT").toString());
                                             insertncSampleInfo.setGrade(map.get("GRADE").toString());
-                                                    insertncSampleInfo.setcAllowedContact(map.get("C_ALLOWED_CONTACT").toString());
+                                            insertncSampleInfo.setcAllowedContact(map.get("C_ALLOWED_CONTACT").toString());
                                             insertncSampleInfo.setStage(map.get("STAGE").toString());
-                                                    insertncSampleInfo.setIsenable(BigDecimal.valueOf(Long.valueOf(map.get("ISENABLE").toString())));
+                                            insertncSampleInfo.setIsenable(BigDecimal.valueOf(Long.valueOf(map.get("ISENABLE").toString())));
                                             iNcSampleInfoService.insert(insertncSampleInfo);
                                         }
                                     }
@@ -491,27 +506,103 @@ public class AnalysisThread {
                         executeSql = getExecuteSql("testlist_nc_task_addunion",product);
                         List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
                         for (Map<String,Object> map : list){
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
-                            insertncTaskAddunion.setPkTaskAddunion(map.get("").toString());
+                            insertncTaskAddunion.setPkTaskAddunion(map.get("PK_TASK_ADDUNION") == null?"-":map.get("PK_TASK_ADDUNION").toString());
+                            insertncTaskAddunion.setNcTaskAddcode(map.get("NC_TASK_ADDCODE").toString());
+                            insertncTaskAddunion.setNcTaskAddname(map.get("NC_TASK_ADDNAME").toString());
+                            insertncTaskAddunion.setNcTestlistName(map.get("NC_TESTLIST_NAME").toString());
+                            insertncTaskAddunion.setNcAnalysisMethod(map.get("NC_ANALYSIS_METHOD").toString());
+                            insertncTaskAddunion.setNcReportName(map.get("NC_REPORT_NAME").toString());
+                            insertncTaskAddunion.setNcTaskType(map.get("NC_TASK_TYPE").toString());
+                            insertncTaskAddunion.setNcTaskDes(map.get("NC_TASK_DES").toString());
+                            insertncTaskAddunion.setNcTaskName(map.get("NC_TASK_NAME").toString());
+                            insertncTaskAddunion.setNcIncludeProtype(map.get("NC_INCLUDE_PROTYPE").toString());
+                            insertncTaskAddunion.setNcCbPlan(map.get("NC_CB_PLAN").toString());
+                            insertncTaskAddunion.setNcOrderNumber(Long.valueOf(map.get("NC_ORDER_NUMBER").toString()));
+                            insertncTaskAddunion.setDef1(map.get("DEF1").toString());
+                            insertncTaskAddunion.setDef2(map.get("DEF2").toString());
+                            insertncTaskAddunion.setDef3(map.get("DEF3").toString());
+                            insertncTaskAddunion.setDef4(map.get("DEF4").toString());
+                            insertncTaskAddunion.setDef5(" ");
+                            iNcTaskAddunion.insert(insertncTaskAddunion);
                         }
                         logger.info("结束组装nc_task_addunion...");
                     }catch(Exception e){
                         logger.error("组装nc_task_addunion出错：{}",e.getStackTrace());
+                    }
+
+                    try{
+                        logger.info("开始组装nc_testlist_comp...");
+                        executeSql = getExecuteSql("testlist_nc_testlist_comp",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncTestListComp.setPkTestlistComp(map.get("PK_TESTLIST_COMP").toString());
+                            insertncTestListComp.setPkUnitsType(map.get("PK_UNITS_TYPE").toString());
+                            insertncTestListComp.setPkListTable(map.get("PK_LIST_TABLE").toString());
+                            insertncTestListComp.setNcTestcompCode(map.get("NC_TESTCOMP_CODE").toString());
+                            insertncTestListComp.setNcTestcompName(map.get("NC_TESTCOMP_NAME").toString());
+                            insertncTestListComp.setNcTestlistName(map.get("NC_TESTLIST_NAME").toString());
+                            insertncTestListComp.setNcAnalysisName(map.get("NC_ANALYSIS_NAME").toString());
+                            insertncTestListComp.setNcTlcComponent(map.get("NC_TLC_COMPONENT").toString());
+                            insertncTestListComp.setAnalysisCount(map.get("ANALYSIS_COUNT").toString());
+                            insertncTestListComp.setOrderNumber(map.get("ORDER_NUMBER").toString());
+                            insertncTestListComp.setResultOrderNo(map.get("RESULT_ORDER_NO").toString());
+                            insertncTestListComp.setUnits(map.get("UNITS").toString());
+                            insertncTestListComp.setRound(map.get("ROUND").toString());
+                            insertncTestListComp.setPlaces(Long.valueOf(map.get("PLACES").toString()));
+                            insertncTestListComp.setReplicateCount(Long.valueOf(map.get("REPLICATE_COUNT").toString()));
+                            insertncTestListComp.setMinLimit(BigDecimal.valueOf(Long.valueOf(map.get("MIN_LIMIT").toString())));
+                            insertncTestListComp.setMaxLimit(BigDecimal.valueOf(Long.valueOf(map.get("MAX_LIMIT").toString())));
+                            insertncTestListComp.setReportable(map.get("REPORTABLE").toString());
+                            insertncTestListComp.setOptional(map.get("OPTIONAL").toString());
+                            insertncTestListComp.setDisplayed(map.get("DISPLAYED").toString());
+                            insertncTestListComp.setFactorValues(map.get("FACTOR_VALUES").toString());
+                            insertncTestListComp.setAnalysisVersion(Long.valueOf(map.get("ANALYSIS_VERSION").toString()));
+                            insertncTestListComp.setcDefaultValue(map.get("C_DEFAULT_VALUE").toString());
+                            insertncTestListComp.setcEnDefaultValue(map.get("C_EN_DEFAULT_VALUE").toString());
+                            insertncTestListComp.setListKey(map.get("LIST_KEY").toString());
+                            insertncTestListComp.setcDefaultDbFile(Long.valueOf(map.get("C_DEFAULT_DB_FILE").toString()));
+                            iNcTestlistCompService.insert(insertncTestListComp);
+                        }
+                        logger.info("结束组装nc_testlist_comp...");
+                    }catch(Exception e){
+                        logger.error("组装nc_testlist_comp出错：{}",e.getStackTrace());
+                    }
+
+
+                    try{
+                        logger.info("开始组装nc_test_after...");
+                        executeSql = getExecuteSql("testlist_nc_test_after",product);
+                        List<Map<String,Object>> list =  customerSqlService.selectList(executeSql);
+                        for (Map<String,Object> map : list){
+                            insertncTestAfter.setPkTestAfter(map.get("PK_TEST_AFTER").toString());
+                            insertncTestAfter.setPkResultType(map.get("PK_RESULT_TYPE").toString());
+                            insertncTestAfter.setPkUnitsType(map.get("PK_UNITS_TYPE").toString());
+                            insertncTestAfter.setTestAfterCode(map.get("TEST_AFTER_CODE").toString());
+                            insertncTestAfter.setTestAfterName(map.get("TEST_AFTER_NAME").toString());
+                            insertncTestAfter.setNcEnstard(map.get("NC_ENSTARD").toString());
+                            insertncTestAfter.setNcEntry(Long.valueOf(map.get("NC_ENTRY").toString()));
+                            insertncTestAfter.setNcAnalysisName(map.get("NC_ANALYSIS_NAME").toString());
+                            insertncTestAfter.setNcAnalysisVersion(Long.valueOf(map.get("NC_ANALYSIS_VERSION").toString()));
+                            insertncTestAfter.setNcAnalysisType(map.get("NC_ANALYSIS_TYPE").toString());
+                            insertncTestAfter.setNcSpecRule(map.get("NC_SPEC_RULE").toString());
+                            insertncTestAfter.setNcMinValue(map.get("NC_MIN_VALUE").toString());
+                            insertncTestAfter.setNcMaxValue(map.get("NC_MAX_VALUE").toString());
+                            insertncTestAfter.setNcTextValue(map.get("NC_TEXT_VALUE").toString());
+                            insertncTestAfter.setNcStage(map.get("NC_STAGE").toString());
+                            insertncTestAfter.setNcSamplePoint(map.get("NC_SAMPLE_POINT").toString());
+                            insertncTestAfter.setNcContactType(map.get("NC_CONTACT_TYPE").toString());
+                            insertncTestAfter.setNcCoilType(map.get("NC_COIL_TYPE").toString());
+                            insertncTestAfter.setNcCoilCurrent(map.get("NC_COIL_CURRENT").toString());
+                            insertncTestAfter.setDef1(map.get("DEF1").toString());
+                            insertncTestAfter.setDef2(map.get("DEF2").toString());
+                            insertncTestAfter.setDef3(map.get("DEF3").toString());
+                            insertncTestAfter.setDef4(map.get("DEF4").toString());
+                            insertncTestAfter.setDef5(map.get("DEF5").toString());
+                            iNcTestAfterService.insert(insertncTestAfter);
+                        }
+                        logger.info("结束组装nc_test_after...");
+                    }catch(Exception e){
+                        logger.error("组装nc_test_after出错：{}",e.getStackTrace());
                     }
 
                     /*try {
@@ -619,7 +710,7 @@ public class AnalysisThread {
                     }catch(Exception e){
                         logger.error("组装nc_task_addunion出错：{}",e.getStackTrace());
                     }
-
+                    ----------------------------------------------------------------
                     try{
                         logger.info("开始组装nc_testlist_comp...");
                         executeSql = getExecuteSql("testlist_nc_testlist_comp",product);
@@ -667,8 +758,8 @@ public class AnalysisThread {
              */
             sql = sql.replace("sheny",product.getName());
             sql = sql.replace("why",String.valueOf(product.getVersion()));
-            sql = sql.replace("shenycode",product.getCode());
-            sql = sql.replace("shenytestlist",product.getTestList());
+            sql = sql.replace("ccode",product.getCode());
+            sql = sql.replace("ttestlist",product.getTestList());
             logger.info("结束获取模块语句,module:{}..............",modules);
         }catch (Exception e){
             logger.error("获取语句出错,modules:{},cause:{}",modules,e.getStackTrace());

@@ -115,67 +115,67 @@
           "child": [
             {
               "title": "委托单维护",
-              "href": "page/404.html",
+              "href": "/limsflow/CustomerWorkFlow",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "客户主管审核",
-              "href": "page/404.html",
+              "href": "/limsflow/CustomerManger",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "技术主管审核",
-              "href": "page/404.html",
+              "href": "/limsflow/TechManger",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "报价单维护",
-              "href": "page/404.html",
+              "href": "/limsflow/QuoteManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "样品管理员",
-              "href": "page/404.html",
+              "href": "/limsflow/SampleManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "计划排程",
-              "href": "page/404.html",
+              "href": "/limsflow/PlanArrangementManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "任务分配",
-              "href": "page/404.html",
+              "href": "/limsflow/TaskDistributionManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "测试结果维护",
-              "href": "page/404.html",
+              "href": "/limsflow/AnalysisManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "工程师复核",
-              "href": "page/404.html",
+              "href": "/limsflow/TechEngineerManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "报告签发",
-              "href": "page/404.html",
+              "href": "/limsflow/ReportSignManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             },
             {
               "title": "计费单维护",
-              "href": "page/404.html",
+              "href": "/limsflow/ChargeManager",
               "icon": "fa fa-hourglass-end",
               "target": "_self"
             }
@@ -228,8 +228,8 @@
           "target": "",
           "child": [
             {
-              "title": "弹出测试",
-              "href": "/uploadImage",
+              "title": "任务明细查询",
+              "href": "/taskDetailInfo",
               "icon": "fa fa-snowflake-o",
               "target": "_self"
             },
