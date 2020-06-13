@@ -27,6 +27,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/valid", "anon");
         filterChainDefinitionMap.put("/getParameters", "anon");
         filterChainDefinitionMap.put("/upLoadParameters", "anon");
+        filterChainDefinitionMap.put("/getAllUserFromLims", "anon");
 
         ///getParameters
         //参数查询

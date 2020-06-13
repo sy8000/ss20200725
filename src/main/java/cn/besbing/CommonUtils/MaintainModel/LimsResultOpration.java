@@ -115,7 +115,8 @@ public class LimsResultOpration {
             result.setFormattedEntry(res.getFormattedEntry());
             result.setResultNumber(Long.valueOf(actualMax_Result));
             result.setAnalysis(res.getAnalysis());
-            /*result.setUnits(res.getUnits());
+            //result.setUnits(res.getUnits());    此处可能会出现空错误，所以暂时用空上传占位
+            result.setUnits("");
             result.setReplicateCount(Long.valueOf(0));
             if ("温度".equals(res.getName())){
                 result.setOrderNumber(Long.valueOf(1));
@@ -131,7 +132,8 @@ public class LimsResultOpration {
                 result.setUnits("HUMIDITY");
                 result.settShortName("Humidity");
             }
-            result.setResultType("N");
+            //此处可能会出现问题，即与component表的类型不符，如果有需要，可以通过自定义去查一下，然后selectOne回来
+            result.setResultType("T");
             result.setStatus("E");
             result.setOldStatus("N");
             result.setModifiedResult("F");
@@ -163,7 +165,7 @@ public class LimsResultOpration {
             result.setReportedResult("F");
             result.setReportedRsltRev(Long.valueOf(0));
             result.setReportedRsltOos("F");
-            result.settAccredited("F");*/
+            result.settAccredited("F");
 
 
             logger.warn("result_entry:" + result.getEntry());
