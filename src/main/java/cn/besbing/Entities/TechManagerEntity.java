@@ -11,15 +11,7 @@ public class TechManagerEntity {
 
     private String creator;
 
-    @Override
-    public String toString() {
-        return "TechManagerEntity{" +
-                "billno='" + billno + '\'' +
-                ", billname='" + billname + '\'' +
-                ", projtype='" + projtype + '\'' +
-                ", creator='" + creator + '\'' +
-                '}';
-    }
+    public String pkcommissionh;
 
     public String getBillno() {
         return billno;
@@ -27,6 +19,25 @@ public class TechManagerEntity {
 
     public void setBillno(String billno) {
         this.billno = billno;
+    }
+
+    @Override
+    public String toString() {
+        return "TechManagerEntity{" +
+                "billno='" + billno + '\'' +
+                ", billname='" + billname + '\'' +
+                ", projtype='" + projtype + '\'' +
+                ", creator='" + creator + '\'' +
+                ", pkcommissionh='" + pkcommissionh + '\'' +
+                '}';
+    }
+
+    public String getPkcommissionh() {
+        return pkcommissionh;
+    }
+
+    public void setPkcommissionh(String pkcommissionh) {
+        this.pkcommissionh = pkcommissionh;
     }
 
     public String getBillname() {

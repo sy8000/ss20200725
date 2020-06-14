@@ -39,7 +39,7 @@
         <script type="text/html" id="barDemo">
             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
             <a class="layui-btn layui-btn-xs" lay-event="approval">审核</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject">驳回</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs " lay-event="reject">驳回</a>
         </script>
 
 
@@ -47,12 +47,13 @@
 </div>
 <script src="../../static/framework/layuimini/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form', 'table'], function () {
+    layui.use(['form', 'table','layer'], function () {
         var $ = layui.jquery,
             form = layui.form,
-            table = layui.table;
+            table = layui.table,
+            layer = layui.layer;
 
-        table.render({
+    table.render({
             elem: '#currentTableId',
             url: '/CustomerManagerTableInfo',
             method:'post',
@@ -78,8 +79,9 @@
                     {field: 'billno', width: 165, title: '委托单号', sort: true,width:'15%'},
                     {field: 'billname', width: 200, title: '委托单名称', sort: true,width:'35%'},
                     {field: 'projtype', width: 165, title: '任务性质', sort: true,width:'10%'},
-                    {field: 'creator', width: 200, title: '提交人', sort: true,width:'20%'},
-                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                    {field: 'creator', width: 200, title: '提交人', sort: true,width:'15%'},
+                    {field: 'pkcommissionh', width: 200, title: '主键', sort: true,width:'20%' ,hide:true},
+                    {fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
                 ]
             ],
             limit: 10,
@@ -128,14 +130,39 @@
                 layer.confirm('真的驳回吗？', function(index){
                     obj.del(); //删除对应行（tr）的DOM结构
                     layer.close(index);
-                    //向服务端发送删除指令
+                    //向服务端发送驳回指令
+                    $.ajax({
+                        type:"post",
+                        url:"/lims/TechReject",
+                        data:JSON.stringify(data),
+                        contentType:"application/json;charset=utf-8",
+                        dataType:"json",
+                        success:function(res){
+                            console.log(res);
+                            layer.alert('跳转成功');
+                        }
+                    });
                 });
             } else if(layEvent === 'approval'){
-                layer.msg('审批操作');
+                //layer.msg('审批操作');
+                layer.prompt({title: '输入任何口令，并确认',value:'我是默认值', formType: 2}, function(pass, index){
+                    layer.alert('审批动作中');
+                });
+
+                /** prompt应用
+                 * layer.prompt({title: '输入任何口令，并确认',value:'我是默认值', formType: 1}, function(pass, index){
+                    layer.close(index);
+                    layer.prompt({title: '随便写点啥，并确认', formType: 2}, function(text, index){
+                    layer.close(index);
+                    layer.msg('演示完毕！您的口令：'+ pass +'
+                    您最后写下了：'+text);
+                    });
+                 */
+                //过审、且将nc中数据回写至lims
+
             }
         });
-
     });
 </script>
-
+</body>
 </html>

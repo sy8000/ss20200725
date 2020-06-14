@@ -99,6 +99,7 @@
     <result column="BILLNAME" jdbcType="VARCHAR" property="billname" />
     <result column="PROJTYPE" jdbcType="VARCHAR" property="projtype" />
     <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="PK_COMMISSION_H" jdbcType="CHAR" property="pkcommissionh" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -1571,7 +1572,7 @@
     where PK_COMMISSION_H = #{pkCommissionH,jdbcType=CHAR}
   </update>
   <select id="selectForTechManager" resultMap="ProjectForTechManager" parameterType="cn.besbing.CommonUtils.MaintainModel.SearchDTO">
-    select distinct h.BILLNO BILLNO,nvl(h.billname,'-') BILLNAME,n.name PROJTYPE,s.user_name CREATOR
+    select distinct h.BILLNO BILLNO,nvl(h.billname,'-') BILLNAME,n.name PROJTYPE,s.user_name CREATOR,h.PK_COMMISSION_H PK_COMMISSION_H
     from qc_task_h th
     left join qc_commission_h h on h.PK_COMMISSION_H = th.PK_COMMISSION_H
     left join sm_user s on h.creator = s.cuserid
