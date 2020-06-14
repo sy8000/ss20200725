@@ -16,10 +16,10 @@ public class MailServiceImpl implements MailService {
 
     public void sendMail(MailDTO mailDTO){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setSubject("Trial progress update notification from DataLoader Cloud service lims3.0");
-        mailMessage.setText("Lims3.0 Auto Send");
+        mailMessage.setSubject(mailDTO.getSubject());
+        mailMessage.setText(mailDTO.getContext());
+        mailMessage.setTo(mailDTO.getToUsers());
         mailMessage.setFrom("lab@hongfa.cn");
-        mailMessage.setTo("1002437@hongfa.cn","1000514@hongfa.cn");
         mailSender.send(mailMessage);
     }
 

@@ -112,54 +112,44 @@
         });
 
 
-        //监听表格复选框选择
-        table.on('checkbox(currentTableFilter)', function (obj) {
-            console.log(obj)
-        });
-
         //监听行工具事件
         table.on('tool(currentTableFilter)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent === 'detail'){
                 layer.msg(obj.data.billno);
-                //console.log(obj);
+                //跳转到委托单预览
                 //window.open("http://news.sina.com.cn");
                 //本窗口打开window.location.href="http://news.sina.com.cn"
             } else if(layEvent === 'reject'){
-                layer.confirm('真的驳回吗？', function(index){
-                    obj.del(); //删除对应行（tr）的DOM结构
-                    layer.close(index);
-                    //向服务端发送驳回指令
-                    $.ajax({
-                        type:"post",
-                        url:"/lims/TechReject",
-                        data:JSON.stringify(data),
-                        contentType:"application/json;charset=utf-8",
-                        dataType:"json",
-                        success:function(res){
-                            console.log(res);
-                            layer.alert('跳转成功');
-                        }
-                    });
+                //function:第一个参数为用户输入的内容、第二个参数用做关闭prompt的索引依据
+                layer.prompt({title:'请输入驳回原因',value:'',formType:2},function(inputmsg,index){
+                    if ( inputmsg.replace(/\s*/g,'').length == 0 ){
+                        layer.msg('驳回时，驳回原因必须填写！');
+                    }else {
+                        //添加驳回信息到json
+                        data.reject = inputmsg;
+                        console.log(data);
+                        layer.close(index);
+                        $.ajax({
+                            type:"post",
+                            url:"/lims/TechReject",
+                            data:JSON.stringify(data),
+                            contentType:"application/json;charset=utf-8",
+                            dataType:"json",
+                            success:function(res){
+                                layer.alert(res.msg);
+                            }
+                        });
+                        obj.del(); //删除对应行（tr）的DOM结构
+                        layer.close(index);
+                    }
                 });
             } else if(layEvent === 'approval'){
                 //layer.msg('审批操作');
-                layer.prompt({title: '输入任何口令，并确认',value:'我是默认值', formType: 2}, function(pass, index){
+                layer.prompt({title: '如有需要，请输入批语',value:'', formType: 2}, function(inputmsg, index){
                     layer.alert('审批动作中');
                 });
-
-                /** prompt应用
-                 * layer.prompt({title: '输入任何口令，并确认',value:'我是默认值', formType: 1}, function(pass, index){
-                    layer.close(index);
-                    layer.prompt({title: '随便写点啥，并确认', formType: 2}, function(text, index){
-                    layer.close(index);
-                    layer.msg('演示完毕！您的口令：'+ pass +'
-                    您最后写下了：'+text);
-                    });
-                 */
-                //过审、且将nc中数据回写至lims
-
             }
         });
     });
