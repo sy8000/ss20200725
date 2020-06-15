@@ -14,14 +14,16 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
 
-        <!--
+
         <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
                         connectionURL="jdbc:oracle:thin:@10.0.11.143:1521:lims" userId="lims_data"
                         password="limslims"></jdbcConnection>
-        -->
+
+        <!--
         <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
                         connectionURL="jdbc:oracle:thin:@110.87.100.158:14521:lims" userId="lims_data"
                         password="limslims"></jdbcConnection>
+        -->
         <!-- 对decimal的转换，true为big decimal，false为integer，默认是false -->
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -48,7 +50,7 @@
         </javaClientGenerator>
 
         <!-- 生成对应的表名及类名 -->
-        <table tableName="" />
+        <table tableName="project" />
 
         <!-- 有些表的字段需要指定java类型
          <table schema="" tableName="">

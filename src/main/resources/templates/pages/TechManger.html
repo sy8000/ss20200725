@@ -119,7 +119,7 @@
             if(layEvent === 'detail'){
                 layer.msg(obj.data.billno);
                 //跳转到委托单预览
-                //window.open("http://news.sina.com.cn");
+                window.open("http://10.0.11.82:8080/webroot/decision/view/report?viewlet=project.cpt&projName=" + obj.data.billno);
                 //本窗口打开window.location.href="http://news.sina.com.cn"
             } else if(layEvent === 'reject'){
                 //function:第一个参数为用户输入的内容、第二个参数用做关闭prompt的索引依据
@@ -147,8 +147,26 @@
                 });
             } else if(layEvent === 'approval'){
                 //layer.msg('审批操作');
-                layer.prompt({title: '如有需要，请输入批语',value:'', formType: 2}, function(inputmsg, index){
-                    layer.alert('审批动作中');
+                layer.prompt({title: '请输入批语',value:'批准', formType: 2}, function(inputmsg, index){
+                    //layer.alert('审批动作中');
+                    if ( inputmsg.replace(/\s*/g,'').length == 0 ){
+                        layer.msg('请输入批语！');
+                    }else {
+                        data.approvaltext = inputmsg;
+                        layer.close(index);
+                        $.ajax({
+                            type:"post",
+                            url:"/lims/TechApproval",
+                            data:JSON.stringify(data),
+                            contentType:"application/json;charset=utf-8",
+                            dataType:"json",
+                            success:function(res){
+                                layer.alert(res.msg);
+                            }
+                        });
+                        obj.del(); //删除对应行（tr）的DOM结构
+                        layer.close(index);
+                    }
                 });
             }
         });

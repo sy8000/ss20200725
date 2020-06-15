@@ -3,8 +3,7 @@ package cn.besbing.Conctrollers;
 
 import cn.besbing.CommonUtils.AboutJson.ConverToJson;
 import cn.besbing.CommonUtils.Utils.MailDTO;
-import cn.besbing.Entities.QcCommissionH;
-import cn.besbing.Entities.QcTaskH;
+import cn.besbing.Entities.*;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import cn.besbing.Service.Impl.IQcTaskHServiceImpl;
 import cn.besbing.Service.Impl.MailServiceImpl;
@@ -48,7 +47,7 @@ public class LimsActionsControllers {
      */
     @RequestMapping(value = "/TechReject",method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject approvalByTechManager(@RequestBody JSONObject json) throws Exception {
+    public JSONObject approvalRejectByTechManager(@RequestBody JSONObject json) throws Exception {
         List<String> list = new ArrayList<>();
         ConverToJson converToJson = new ConverToJson();
         QcTaskH qcTaskH = null;
@@ -93,5 +92,40 @@ public class LimsActionsControllers {
         list.add("success");
         return converToJson.ListToJson(list);
     }
+
+
+
+
+    /**
+     * 技术主管审批
+     * @param json
+     * @return
+     */
+    @RequestMapping(value = "/TechApproval",method = RequestMethod.POST)
+    @ResponseBody
+    public JSONObject approvalPassByTechManager(@RequestBody JSONObject json) throws Exception {
+        List<String> list = new ArrayList<>();
+        ConverToJson converToJson = new ConverToJson();
+        QcCommissionH qcCommissionH = null;
+        QcCommissionB qcCommissionB = null;
+        QcCommissionC qcCommissionC = null;
+        QcCommissionR qcCommissionR = null;
+        QcTaskH qcTaskH = null;
+        QcTaskB qcTaskB = null;
+        QcTaskR qcTaskR = null;
+        QcTaskS qcTaskS = null;
+        Project project = null;
+        CProjTask cProjTask = null;
+        CProjLoginSample cProjLoginSample = null;
+        Test test = null;
+        Sample sample = null;
+        Result result = null;
+        CProjParaA cProjParaA = null;
+        CProjTaskParaB cProjTaskParaB = null;
+
+        return converToJson.ListToJson(list);
+    }
+
+
 
 }
