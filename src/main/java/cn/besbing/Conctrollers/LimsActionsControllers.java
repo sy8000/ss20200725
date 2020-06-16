@@ -45,6 +45,40 @@ public class LimsActionsControllers {
 
     @Autowired
     IQcCommissionRServiceImpl iQcCommissionRService;
+
+    @Autowired
+    ITaskBServiceImpl iTaskBService;
+
+    @Autowired
+    ITaskRServiceImpl iTaskRService;
+
+    @Autowired
+    ITaskSServiceImpl iTaskSService;
+
+    @Autowired
+    IProjectServiceImpl iProjectService;
+
+    @Autowired
+    ICprojTaskServiceImpl iCprojTaskService;
+
+    @Autowired
+    ICprojLoginSampleServiceImpl iCprojLoginSampleService;
+
+    @Autowired
+    ITestServiceImpl iTestService;
+
+    @Autowired
+    ISampleServiceImpl iSampleService;
+
+    @Autowired
+    ResultServiceImpl resultService;
+
+    @Autowired
+    ICProjParaAServiceImpl icProjParaAService;
+
+    @Autowired
+    ICProjTaskParaBServiceImpl icProjTaskParaBService;
+
     /**
      * 技术主管驳回
      * @param json
@@ -109,20 +143,22 @@ public class LimsActionsControllers {
     @RequestMapping(value = "/TechApproval",method = RequestMethod.POST)
     @ResponseBody
     public JSONObject approvalPassByTechManager(@RequestBody JSONObject json) throws Exception {
-        List<String> list = new ArrayList<>();
+        List<String> listFlag = new ArrayList<>();
         ConverToJson converToJson = new ConverToJson();
         QcCommissionH qcCommissionH = null;
         List<QcCommissionB> qcCommissionBList = null;
         QcCommissionC qcCommissionC = null;
         List<QcCommissionR> qcCommissionRList = null;
         QcTaskH qcTaskH = null;
-        QcTaskB qcTaskB = null;
-        QcTaskR qcTaskR = null;
-        QcTaskS qcTaskS = null;
+        List<QcTaskB> qcTaskBList = null;
+        List<QcTaskR> qcTaskRList = null;
+        List<QcTaskS> qcTaskSList = null;
         Project project = null;
         CProjTask cProjTask = null;
         CProjLoginSample cProjLoginSample = null;
         Test test = null;
+        Test testInit = null;
+        Test testAfter = null;
         Sample sample = null;
         Result result = null;
         CProjParaA cProjParaA = null;
@@ -133,15 +169,15 @@ public class LimsActionsControllers {
         List<String> commssionCPkList = new ArrayList<>();  //没j8用
         List<String> commssionRPkList = new ArrayList<>();
         String taskHPk = "";
-        List<String> taskBPk = new ArrayList<>();
-        List<String> taskRPk = new ArrayList<>();
-        List<String> taskSPk = new ArrayList<>();
+        List<String> taskBPkList = new ArrayList<>();
+        List<String> taskRPkList = new ArrayList<>();
+        List<String> taskSPkList = new ArrayList<>();
         /**
          * 业务流程开始处理
          * 说明：先得到8个nc单的pk，然后获取原lims的样板数据，替换后写入
          */
         try{
-            logger.info("......开始转换NC中单据primary..........");
+            logger.info("......开始转换NC中单据{}primary..........",json.get("billno").toString());
 
             commssionHPk = customerSqlService.selectOne("select PK_COMMISSION_H from QC_COMMISSION_H where " +
                     "pk_COMMISSION_H = '" + json.get("pkcommissionh") + "' and dr = 0");
@@ -151,28 +187,59 @@ public class LimsActionsControllers {
 
             taskHPk = customerSqlService.selectOne("select PK_TASK_H from QC_TASK_H where pk_commission_h = '" + commssionHPk + "' and dr = 0");
 
-            taskBPk = customerSqlService.selectAsList("select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0");
+            taskBPkList = customerSqlService.selectAsList("select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0");
 
-            taskRPk = customerSqlService.selectAsList("select PK_TASK_R from QC_TASK_R where pk_task_b = '" + taskBPk + "' and dr = 0");
+            taskRPkList = customerSqlService.selectAsList("select PK_TASK_R from QC_TASK_R where pk_task_b in (select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0) and dr = 0");
 
-            taskSPk = customerSqlService.selectAsList("select PK_TASK_S from QC_TASK_S where pk_task_b = '" + taskBPk + "' and dr = 0");
+            taskSPkList = customerSqlService.selectAsList("select PK_TASK_S from QC_TASK_S where pk_task_b in (select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0) and dr = 0");
 
-            logger.info("......NC中单据primary获取完成..........");
+            listFlag.add("NC中单据primary获取完成");
+
+            logger.info("......NC中单据{}primary获取完成..........",json.get("billno").toString());
         }catch(Exception e){
-            logger.error("......NC中单据primary获取出错，错误：{}..........",e.getStackTrace());
-            throw new Exception();
+            listFlag.clear();
+            logger.error("......NC中单据primary获取出错，单据号：{}，错误：{}..........",json.get("billno").toString(),e.getStackTrace());
+            throw new Exception("获取单据primary出错,cause:" + e.getStackTrace());
         }
         try{
-            logger.info("........开始获取NC中各表头表体的POJO原始数据...................");
+            logger.info("........开始获取NC中各表头表体的POJO原始数据，{}...................",json.get("billno").toString());
             qcCommissionH = iQcCommissionHService.selectQMHByPrimary(commssionHPk);
             qcCommissionBList = iCommissionBService.getCommissionBodyList(commssionBPkList);
             qcCommissionRList = iQcCommissionRService.getCommissionRList(commssionRPkList);
+            qcTaskH = iQcTaskHService.selectTaskHByPk(taskHPk);
+            qcTaskBList = iTaskBService.getTaskB(taskBPkList);
+            qcTaskRList = iTaskRService.getTaskRList(taskRPkList);
+            qcTaskSList = iTaskSService.getTaskSByPk(taskSPkList);
+            listFlag.add("NC中委托单数据收集完成");
+            logger.info("........结束获取NC中各表头表体的POJO原始数据,{}...................",json.get("billno").toString());
         }catch (Exception e){
-
+            listFlag.clear();
+            logger.error("......NC中数据pojo获取出错，单据号：{}，错误：{}..........",json.get("billno").toString(),e.getStackTrace());
+            throw new Exception("获取nc pojo数据出错,cause:" + e.getStackTrace());
+        }
+        try{
+            logger.info("........开始获取LIMS中模板原始数据...................");
+            //此处sample表可能还缺少一个对参数的sample实体
+            project = iProjectService.getLimsExampleProject();
+            cProjTask = iCprojTaskService.getLimsExampleTask();
+            cProjLoginSample = iCprojLoginSampleService.getLimsExampleCProjLoginSample();
+            test = iTestService.getLimsExampleTest();
+            testInit = iTestService.getLimsExampleInitTest();
+            testAfter = iTestService.getLimsExampleAfterTest();
+            sample = iSampleService.getLimsExampleSample();
+            result = resultService.getLimsExampleResult();
+            cProjParaA = icProjParaAService.getLimsExampleCProjParaA();
+            cProjTaskParaB = icProjTaskParaBService.getLimsExampleCProjTaskParaB();
+            listFlag.add("获取lims模板数据完成");
+            logger.info("........结束获取LIMS中模板原始数据...................");
+        }catch (Exception e){
+            listFlag.clear();
+            logger.error("......获取lims模板数据出错，错误：{}..........",e.getStackTrace());
+            throw new Exception("获取lims模板数据出错,cause:" + e.getStackTrace());
         }
 
 
-        return converToJson.ListToJson(list);
+        return converToJson.ListToJson(listFlag);
     }
 
 

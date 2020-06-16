@@ -33,4 +33,8 @@ public class ResultServiceImpl implements IResultService {
         return resultMapper.selectByPrimaryKey(resultNo);
     }
 
+    public Result getLimsExampleResult(){
+        return resultMapper.selectByPrimaryKey(Long.valueOf(9202009));
+    }
+
 }
