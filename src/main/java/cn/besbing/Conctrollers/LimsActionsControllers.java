@@ -4,9 +4,7 @@ package cn.besbing.Conctrollers;
 import cn.besbing.CommonUtils.AboutJson.ConverToJson;
 import cn.besbing.CommonUtils.Utils.MailDTO;
 import cn.besbing.Entities.*;
-import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
-import cn.besbing.Service.Impl.IQcTaskHServiceImpl;
-import cn.besbing.Service.Impl.MailServiceImpl;
+import cn.besbing.Service.Impl.*;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
@@ -39,7 +37,14 @@ public class LimsActionsControllers {
     @Autowired
     MailServiceImpl mailService;
 
+    @Autowired
+    IQcCommissionHServiceImpl iQcCommissionHService;
 
+    @Autowired
+    ICommissionBServiceImpl iCommissionBService;
+
+    @Autowired
+    IQcCommissionRServiceImpl iQcCommissionRService;
     /**
      * 技术主管驳回
      * @param json
@@ -107,9 +112,9 @@ public class LimsActionsControllers {
         List<String> list = new ArrayList<>();
         ConverToJson converToJson = new ConverToJson();
         QcCommissionH qcCommissionH = null;
-        QcCommissionB qcCommissionB = null;
+        List<QcCommissionB> qcCommissionBList = null;
         QcCommissionC qcCommissionC = null;
-        QcCommissionR qcCommissionR = null;
+        List<QcCommissionR> qcCommissionRList = null;
         QcTaskH qcTaskH = null;
         QcTaskB qcTaskB = null;
         QcTaskR qcTaskR = null;
@@ -122,6 +127,50 @@ public class LimsActionsControllers {
         Result result = null;
         CProjParaA cProjParaA = null;
         CProjTaskParaB cProjTaskParaB = null;
+        //委托单：头、体、修改、试验前;任务单：头、体、试验后、条件
+        String commssionHPk = "";
+        List<String> commssionBPkList = new ArrayList<>();
+        List<String> commssionCPkList = new ArrayList<>();  //没j8用
+        List<String> commssionRPkList = new ArrayList<>();
+        String taskHPk = "";
+        List<String> taskBPk = new ArrayList<>();
+        List<String> taskRPk = new ArrayList<>();
+        List<String> taskSPk = new ArrayList<>();
+        /**
+         * 业务流程开始处理
+         * 说明：先得到8个nc单的pk，然后获取原lims的样板数据，替换后写入
+         */
+        try{
+            logger.info("......开始转换NC中单据primary..........");
+
+            commssionHPk = customerSqlService.selectOne("select PK_COMMISSION_H from QC_COMMISSION_H where " +
+                    "pk_COMMISSION_H = '" + json.get("pkcommissionh") + "' and dr = 0");
+            commssionBPkList = customerSqlService.selectAsList("select PK_COMMISSION_B from QC_COMMISSION_H where PK_COMMISSION_H = " +
+                    "'" + commssionHPk + "' and dr = 0");
+            commssionRPkList = customerSqlService.selectAsList("select PK_COMMISSION_R from QC_COMMISSION_R where PK_COMMISSION_B = '" + commssionBPkList + "' and dr = 0") ;
+
+            taskHPk = customerSqlService.selectOne("select PK_TASK_H from QC_TASK_H where pk_commission_h = '" + commssionHPk + "' and dr = 0");
+
+            taskBPk = customerSqlService.selectAsList("select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0");
+
+            taskRPk = customerSqlService.selectAsList("select PK_TASK_R from QC_TASK_R where pk_task_b = '" + taskBPk + "' and dr = 0");
+
+            taskSPk = customerSqlService.selectAsList("select PK_TASK_S from QC_TASK_S where pk_task_b = '" + taskBPk + "' and dr = 0");
+
+            logger.info("......NC中单据primary获取完成..........");
+        }catch(Exception e){
+            logger.error("......NC中单据primary获取出错，错误：{}..........",e.getStackTrace());
+            throw new Exception();
+        }
+        try{
+            logger.info("........开始获取NC中各表头表体的POJO原始数据...................");
+            qcCommissionH = iQcCommissionHService.selectQMHByPrimary(commssionHPk);
+            qcCommissionBList = iCommissionBService.getCommissionBodyList(commssionBPkList);
+            qcCommissionRList = iQcCommissionRService.getCommissionRList(commssionRPkList);
+        }catch (Exception e){
+
+        }
+
 
         return converToJson.ListToJson(list);
     }

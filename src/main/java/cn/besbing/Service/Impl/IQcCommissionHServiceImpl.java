@@ -3,6 +3,7 @@ package cn.besbing.Service.Impl;
 import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
 import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
 import cn.besbing.Dao.QcCommissionHMapper;
+import cn.besbing.Entities.QcCommissionH;
 import cn.besbing.Entities.TableTaskFields;
 import cn.besbing.Entities.TechManagerEntity;
 import cn.besbing.Service.IQcCommissionHService;
@@ -35,6 +36,11 @@ public class IQcCommissionHServiceImpl implements IQcCommissionHService {
         pdr.setTotals(Long.valueOf(pageInfo.getTotal()).intValue());
         pdr.setList(list);
         return pdr;
+    }
+
+
+    public QcCommissionH selectQMHByPrimary(String pk_commission_h){
+        return qcCommissionHMapper.selectByPrimaryKey(pk_commission_h);
     }
 
 }
