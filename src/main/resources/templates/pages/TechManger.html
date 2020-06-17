@@ -53,6 +53,7 @@
             table = layui.table,
             layer = layui.layer;
 
+
     table.render({
             elem: '#currentTableId',
             url: '/CustomerManagerTableInfo',
@@ -130,7 +131,7 @@
                         //添加驳回信息到json
                         data.reject = inputmsg;
                         console.log(data);
-                        layer.close(index);
+                        var loading = layer.load(2);
                         $.ajax({
                             type:"post",
                             url:"/lims/TechReject",
@@ -143,6 +144,7 @@
                         });
                         obj.del(); //删除对应行（tr）的DOM结构
                         layer.close(index);
+                        layer.close(loading);
                     }
                 });
             } else if(layEvent === 'approval'){
@@ -154,6 +156,7 @@
                     }else {
                         data.approvaltext = inputmsg;
                         layer.close(index);
+                        var loading = layer.load(2);
                         $.ajax({
                             type:"post",
                             url:"/lims/TechApproval",
@@ -166,6 +169,7 @@
                         });
                         obj.del(); //删除对应行（tr）的DOM结构
                         layer.close(index);
+                        layer.close(loading);
                     }
                 });
             }

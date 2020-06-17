@@ -3,6 +3,7 @@ package cn.besbing.Conctrollers;
 
 import cn.besbing.CommonUtils.AboutJson.ConverToJson;
 import cn.besbing.CommonUtils.Utils.MailDTO;
+import cn.besbing.CommonUtils.Utils.NcToLimsBasicInfo;
 import cn.besbing.Entities.*;
 import cn.besbing.Service.Impl.*;
 import com.alibaba.fastjson.JSONObject;
@@ -181,17 +182,17 @@ public class LimsActionsControllers {
 
             commssionHPk = customerSqlService.selectOne("select PK_COMMISSION_H from QC_COMMISSION_H where " +
                     "pk_COMMISSION_H = '" + json.get("pkcommissionh") + "' and dr = 0");
-            commssionBPkList = customerSqlService.selectAsList("select PK_COMMISSION_B from QC_COMMISSION_H where PK_COMMISSION_H = " +
+            commssionBPkList = customerSqlService.selectAsList("select PK_COMMISSION_B from QC_COMMISSION_B where PK_COMMISSION_H = " +
                     "'" + commssionHPk + "' and dr = 0");
             commssionRPkList = customerSqlService.selectAsList("select PK_COMMISSION_R from QC_COMMISSION_R where PK_COMMISSION_B = '" + commssionBPkList + "' and dr = 0") ;
 
             taskHPk = customerSqlService.selectOne("select PK_TASK_H from QC_TASK_H where pk_commission_h = '" + commssionHPk + "' and dr = 0");
 
-            taskBPkList = customerSqlService.selectAsList("select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0");
+            taskBPkList = customerSqlService.selectAsList("select PK_TASK_B from QC_TASK_B where pk_task_h = '"+ taskHPk +"' and dr = 0");
 
-            taskRPkList = customerSqlService.selectAsList("select PK_TASK_R from QC_TASK_R where pk_task_b in (select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0) and dr = 0");
+            taskRPkList = customerSqlService.selectAsList("select PK_TASK_R from QC_TASK_R where pk_task_b in (select PK_TASK_B from QC_TASK_B where pk_task_h = '"+ taskHPk +"' and dr = 0) and dr = 0");
 
-            taskSPkList = customerSqlService.selectAsList("select PK_TASK_S from QC_TASK_S where pk_task_b in (select PK_TASK_B from QC_TASH_B where pk_task_h = '"+ taskHPk +"' and dr = 0) and dr = 0");
+            taskSPkList = customerSqlService.selectAsList("select PK_TASK_S from QC_TASK_S where pk_task_b in (select PK_TASK_B from QC_TASK_B where pk_task_h = '"+ taskHPk +"' and dr = 0) and dr = 0");
 
             listFlag.add("NC中单据primary获取完成");
 
@@ -237,7 +238,10 @@ public class LimsActionsControllers {
             logger.error("......获取lims模板数据出错，错误：{}..........",e.getStackTrace());
             throw new Exception("获取lims模板数据出错,cause:" + e.getStackTrace());
         }
-
+        //开始转换nc->lims
+        NcToLimsBasicInfo ncToLimsBasicInfo = new NcToLimsBasicInfo();
+        //处理project
+        project = ncToLimsBasicInfo.exChangeProject(qcCommissionH,project);
 
         return converToJson.ListToJson(listFlag);
     }
