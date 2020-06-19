@@ -33,6 +33,12 @@
         </dependency>
 
         <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
@@ -90,8 +96,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.besbing</groupId>
+            <groupId>cn.besbing</groupId>
             <artifactId>EncodePwd</artifactId>
+            <version>RELEASE</version>
             <scope>system</scope>
             <systemPath>${basedir}/src/lib/EncodePwd.jar</systemPath>
         </dependency>
