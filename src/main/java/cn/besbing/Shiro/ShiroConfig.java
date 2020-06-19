@@ -1,14 +1,20 @@
 package cn.besbing.Shiro;
 
+import cn.besbing.Entities.Project;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 
 @Configuration
@@ -84,4 +90,37 @@ public class ShiroConfig {
     public ShiroDialect shiroDialect() {
         return new ShiroDialect();
     }
+
+
+    /**
+     * 开启AOP权限校验
+     */
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+    /*
+    异常处理
+     */
+    @Bean(name = "simpleMappingExceptionResolver")
+    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver(){
+        SimpleMappingExceptionResolver simpleMappingExceptionResolver = new SimpleMappingExceptionResolver();
+        Properties properties = new Properties();
+        //数据库异常
+        properties.setProperty("DataBase Exception","databaseError");
+        //未经认证
+        properties.setProperty("UnauthorizedException","401");
+        //None by default
+        simpleMappingExceptionResolver.setExceptionMappings(properties);
+        //No default
+        simpleMappingExceptionResolver.setDefaultErrorView("error");
+        //Default is "exception"
+        simpleMappingExceptionResolver.setExceptionAttribute("ex");
+        return simpleMappingExceptionResolver;
+    }
+
+
 }

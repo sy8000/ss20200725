@@ -272,4 +272,18 @@
       VDEF5 = #{vdef5,jdbcType=VARCHAR}
     where PERMISSIONID = #{permissionid,jdbcType=CHAR}
   </update>
+  <select id="findPermissionByUsername" parameterType="cn.besbing.Entities.DlPermission">
+    select
+    dr.roleid,
+    dr.available,
+    dr.description,
+    dr.rolename,
+    dp.name,
+    dp.permission,
+    dp.url
+    from dl_permission dp
+    right join dl_role_permission drp on dp.permissionid = drp.permissionid
+    left join dl_role dr on drp.roleid = dr.roleid
+    where dr.roleid = #{roleid}
+  </select>
 </mapper>

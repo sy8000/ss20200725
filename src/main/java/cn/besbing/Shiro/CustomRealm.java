@@ -3,6 +3,8 @@ package cn.besbing.Shiro;
 import cn.besbing.Dao.SmUserMapper;
 import cn.besbing.Entities.SmUser;
 import cn.besbing.Service.ISmuserService;
+import cn.besbing.Service.Impl.DlPermissionServiceImpl;
+import cn.besbing.Service.Impl.DlRoleServiceImpl;
 import cn.besbing.Service.Impl.SmuserServiceImpl;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -21,13 +23,22 @@ import org.springframework.web.context.ContextLoader;
 
 public class CustomRealm extends AuthorizingRealm {
 
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * 自动注入
      */
     @Autowired
     private SmuserServiceImpl smuserService;
 
-     Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private DlPermissionServiceImpl dlPermissionService;
+
+    @Autowired
+    private DlRoleServiceImpl dlRoleService;
+
+
 
     {
         super.setName("customRealm");
@@ -40,6 +51,9 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        logger.info("开始处理认证");
+        logger.info("---------------------{}---------------------------",principalCollection.getPrimaryPrincipal());
+
         return null;
     }
 

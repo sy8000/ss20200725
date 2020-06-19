@@ -270,4 +270,20 @@
       VDEF5 = #{vdef5,jdbcType=OTHER}
     where ROLEID = #{roleid,jdbcType=CHAR}
   </update>
+  <select id="findRoleByUsername" resultType="cn.besbing.Entities.DlRole">
+    select
+    s.cuserid,
+    s.user_code,
+    s.user_name,
+    s.islocked,
+    s.user_password,
+    dr.roleid,
+    dr.available,
+    dr.description,
+    dr.rolename
+    from sm_user s
+    right join dl_user_role dur on s.cuserid = dur.cuserid
+    left join dl_role dr on dur.roleid = dr.roleid
+    where s.user_name = #{usercode}
+  </select>
 </mapper>

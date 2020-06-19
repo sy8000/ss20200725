@@ -27,4 +27,6 @@ public interface DlRoleMapper {
     int updateByPrimaryKeySelective(DlRole record);
 
     int updateByPrimaryKey(DlRole record);
+
+    List<DlRole> findRoleByUsername(@Param("usercode") String usercode);
 }
