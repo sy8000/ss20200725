@@ -15,7 +15,7 @@ public class DlRoleServiceImpl implements DlRoleService {
     @Autowired(required = false)
     DlRoleMapper dlRoleMapper;
 
-    List<DlRole> findRoleByUsername(@Param("usercode") String usercode){
+    public List<DlRole> findRoleByUsername(@Param("usercode") String usercode){
         return dlRoleMapper.findRoleByUsername(usercode);
     }
 

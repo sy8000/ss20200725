@@ -272,7 +272,7 @@
       VDEF5 = #{vdef5,jdbcType=VARCHAR}
     where PERMISSIONID = #{permissionid,jdbcType=CHAR}
   </update>
-  <select id="findPermissionByUsername" parameterType="cn.besbing.Entities.DlPermission">
+  <select id="findPermissionByRoleId" resultType="cn.besbing.Entities.DlPermission">
     select
     dr.roleid,
     dr.available,

@@ -284,6 +284,6 @@
     from sm_user s
     right join dl_user_role dur on s.cuserid = dur.cuserid
     left join dl_role dr on dur.roleid = dr.roleid
-    where s.user_name = #{usercode}
+    where s.user_code = #{usercode}
   </select>
 </mapper>

@@ -112,7 +112,7 @@ public class ShiroConfig {
         //数据库异常
         properties.setProperty("DataBase Exception","databaseError");
         //未经认证
-        properties.setProperty("UnauthorizedException","401");
+        properties.setProperty("UnauthorizedException","error/401");
         //None by default
         simpleMappingExceptionResolver.setExceptionMappings(properties);
         //No default

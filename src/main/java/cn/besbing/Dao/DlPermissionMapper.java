@@ -28,5 +28,5 @@ public interface DlPermissionMapper {
 
     int updateByPrimaryKey(DlPermission record);
 
-    List<DlPermission> findPermissionByUsername(@Param("usercode") String usercode);
+    List<DlPermission> findPermissionByRoleId(@Param("roleid") String roleid);
 }

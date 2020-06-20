@@ -15,8 +15,8 @@ public class DlPermissionServiceImpl implements DlPermissionService {
     @Autowired(required = false)
     DlPermissionMapper dlPermissionMapper;
 
-    List<DlPermission> findPermissionByUsername(@Param("usercode") String usercode){
-        return dlPermissionMapper.findPermissionByUsername(usercode);
+    public List<DlPermission> findPermissionByRoleId(@Param("roleid") String roleid){
+        return dlPermissionMapper.findPermissionByRoleId(roleid);
     }
 
 }

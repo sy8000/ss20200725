@@ -4,6 +4,7 @@ import cn.besbing.CommonUtils.MaintainModel.SpringUtil;
 import cn.besbing.Cron.AnalysisThread;
 import cn.besbing.Entities.*;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
+import cn.besbing.Service.Impl.DlPermissionServiceImpl;
 import cn.besbing.Service.Impl.INcAnalysisListServiceImpl;
 import cn.besbing.Service.Impl.NcAnalysisReportnameServiceImpl;
 import com.alibaba.fastjson.JSON;
@@ -33,6 +34,19 @@ public class TestDatabase {
     //UL60947-4-1-2014_8.2.4-1A
     @Autowired
     NcAnalysisReportnameServiceImpl ncAnalysisReportnameService;
+
+    @Autowired
+    DlPermissionServiceImpl dlPermissionService;
+
+    @Test
+    public void testImpl(){
+        List<DlPermission> dlPermission = dlPermissionService.findPermissionByRoleId("ABCDZXCVBNMAADFERTTY");
+        logger.info(String.valueOf(dlPermission.size()));
+    }
+
+
+
+
 
     @Test
     public void testVo(){

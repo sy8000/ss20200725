@@ -16,7 +16,7 @@ public class LimsController {
      * @return
      */
     @RequestMapping(value = "/CustomerWorkFlow",method = RequestMethod.GET)
-    @RequiresPermissions("abc")
+    @RequiresPermissions("lims:customer")
     public String CustomerWorkFlow(){
         return "pages/CustomerWorkFlow.html";
     }
@@ -26,6 +26,7 @@ public class LimsController {
      * @return
      */
     @RequestMapping(value = "/CustomerManger",method = RequestMethod.GET)
+    @RequiresPermissions("lims:CustomerManager")
     public String CustomerMangerApprove(){
         return "pages/CustomerManger.html";
     }
@@ -35,6 +36,7 @@ public class LimsController {
      * @return
      */
     @RequestMapping(value = "/TechManger",method = RequestMethod.GET)
+    @RequiresPermissions("lims:TechManager")
     public String TechMangerApprove(){
         return "pages/TechManger.html";
     }
@@ -44,6 +46,7 @@ public class LimsController {
      * @return
      */
     @RequestMapping(value = "/QuoteManager",method = RequestMethod.GET)
+    @RequiresPermissions("lims:QuoteManager")
     public String QuoteManager(){
         return "pages/QuoteManager.html";
     }
