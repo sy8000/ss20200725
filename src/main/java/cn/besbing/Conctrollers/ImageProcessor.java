@@ -1,25 +1,18 @@
 package cn.besbing.Conctrollers;
 
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.alibaba.fastjson.JSONArray;
+import cn.besbing.Service.Impl.DownloadServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import net.coobird.thumbnailator.Thumbnails;
-import org.apache.ibatis.annotations.Param;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -31,92 +24,120 @@ public class ImageProcessor {
 
     Logger logger = LoggerFactory.getLogger(ImageProcessor.class);
 
-    @RequestMapping(value = "/processUploadImages",method = RequestMethod.POST)
+    @Autowired
+    DownloadServiceImpl downloadService;
+
+    @RequestMapping(value = "/processImage",method = RequestMethod.GET)
+    public String uploadImageUrl(){
+        return "pages/processImages";
+    }
+
+
+    @RequestMapping(value = "/downloadImage",method = RequestMethod.POST)
+    public  void  downloadFile(String fileName) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = servletRequestAttributes.getResponse();
+        try {
+            if (fileName != null && fileName.trim() != ""){
+                File file = new File(fileName);
+                if (file.exists()){
+                    response.setContentType("application/force-download");
+                    response.addHeader("Content-Disposition","attachment;fileName=" + fileName);
+
+                    byte[] buffer = new byte[1024];
+                    FileInputStream fis = null;
+                    BufferedInputStream bis = null;
+                    OutputStream os = null;
+
+                    try {
+                        fis = new FileInputStream(file);
+                        bis = new BufferedInputStream(fis);
+                        os = response.getOutputStream();
+                        int i = bis.read(buffer);
+                        while (i != -1){
+                            os.write(buffer,0,i);
+                            i = bis.read(buffer);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }finally {
+                        if (bis != null){
+                            try {
+                                bis.close();
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                        if (fis != null){
+                            try {
+                                fis.close();
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                        if (os != null){
+                            try {
+                                os.close();
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                }else {
+                    throw new Exception("File is not exist");
+                }
+            }else {
+                throw new Exception("File Name is Empty");
+            }
+            //String s = downloadService.downloadFile(response, fileName);
+            File file = new File(fileName);
+            if (file.exists()){
+                file.delete();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @RequestMapping(value = "/processUploadImages")
     @ResponseBody
-    public JSONObject batchImagesUpload(@PathVariable(value="file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public Map<String, Object> batchImagesUpload(MultipartFile file, HttpServletRequest request) throws Exception {
+        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String,Object> imagePath = new HashMap<String,Object>();
         InputStream inputStream = file.getInputStream();
         byte[] data = readInputStream(inputStream);
         //new一个文件对象用来保存图片，默认保存当前工程根目录
-        File imageFile = new File("sheny.jpg");
+        //File imageFile = new File("image.jpg");
+        String name = file.getOriginalFilename();
+        String suffixName = name.substring(name.lastIndexOf("."));
+        File imageFile = new File(name);
+        if (imageFile.exists()){
+            imageFile.delete();
+        }
         //创建输出流
         FileOutputStream outStream = new FileOutputStream(imageFile);
         //写入数据
         outStream.write(data);
         //关闭输出流
+        inputStream.close();
+        outStream.flush();
         outStream.close();
 
         SimpleDateFormat formatter= new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
-        String fileName = formatter.format(date) + ".jpg" ;
+        String fileName = formatter.format(date) + suffixName ;
         Thumbnails.of(imageFile).width(1420).height(1065).toFile(fileName);
-        imageFile.delete();
+        //imageFile.delete();
+        imagePath.put("data",fileName);
+        map.put("code",0);
+        map.put("msg","success");
+        map.put("data",imagePath);
 
-        jsonObject.put("code",1);
-        jsonObject.put("msg","上传成功");
-        String arr = "<a href='/DownImages?fileName='"+ fileName +">"+ fileName + "</a>" ;
-        jsonObject.put("data",arr);
-
-        /*File f = new File("e:/sheny_trance.jpg");
-        response.reset();
-        response.setContentType("multipart/force-download");
-        String name="ExportImage";
-        name = new String(name.getBytes(), "ISO-8859-1");
-        response.setHeader("Content-Disposition","attachment; filename=sheny_trance.jpg");
-        byte[] buffer = new byte[1024];
-        FileInputStream fis = null;
-        BufferedInputStream bis = null;
-        try {
-            fis = new FileInputStream(f);
-            bis = new BufferedInputStream(fis);
-            OutputStream os = response.getOutputStream();
-            int i = bis.read(buffer);
-            while (i != -1) {
-                os.write(buffer, 0, i);
-                i = bis.read(buffer);
-            }
-            return "下载成功";
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (bis != null) {
-                try {
-                    bis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return "下载失败";*/
-        /*imageFile.delete();
-        jsonObject.put("code",1);
-        jsonObject.put("msg","上传成功");
-        String arr[] = {"sheny_trance.jpg"};
-        jsonObject.put("data",arr);*/
-
-        /*File f = new File("sheny_trance.jpg");
-        FileInputStream ips = new FileInputStream(f);
-        response.setContentType("multipart/form-data");
-        response.addHeader("Content-Disposition", "attachment; filename=sheny.jpg");
-        ServletOutputStream out1 = null;
-        out1 = response.getOutputStream();
-        //读取文件流
-        int len = 0;
-        byte[] buffer = new byte[1024 * 10];
-        while ((len = ips.read(buffer)) != -1){
-            out1.write(buffer,0,len);
-        }
-        out1.flush();*/
-        return jsonObject;
+        return map;
     }
+
 
     public static byte[] readInputStream(InputStream inStream) throws Exception {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -131,14 +152,14 @@ public class ImageProcessor {
         }
         //关闭输入流
         inStream.close();
+        byte[] returnVar = outStream.toByteArray();
+        outStream.flush();
+        outStream.close();
         //把outStream里的数据写入内存
-        return outStream.toByteArray();
+        return returnVar;
     }
 
-    @RequestMapping(value = "/uploadImage",method = RequestMethod.GET)
-    public String uploadImageUrl(){
-        return "pages/uploadImages";
-    }
+
 
 
 }

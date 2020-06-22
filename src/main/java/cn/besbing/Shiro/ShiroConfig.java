@@ -34,6 +34,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/getParameters", "anon");
         filterChainDefinitionMap.put("/upLoadParameters", "anon");
         filterChainDefinitionMap.put("/getAllUserFromLims", "anon");
+        filterChainDefinitionMap.put("/downloadImage", "anon");
 
         ///getParameters
         //参数查询

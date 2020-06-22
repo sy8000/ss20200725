@@ -189,7 +189,7 @@
           "child": [
             {
               "title": "图片处理",
-              "href": "/uploadImage",
+              "href": "/processImage",
               "icon": "fa fa-snowflake-o",
               "target": "_self"
             },
