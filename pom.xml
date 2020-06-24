@@ -49,6 +49,12 @@
             <version>2.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
         <!-- mybatis逆向工程核心包 -->
         <dependency>
             <groupId>org.mybatis.generator</groupId>
