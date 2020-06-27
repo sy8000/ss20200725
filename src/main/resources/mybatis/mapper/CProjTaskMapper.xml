@@ -131,9 +131,10 @@
     <result column="TASK_REPORTED_NAME" jdbcType="VARCHAR" property="taskReportedName" />
     <result column="ASSGIN_TO" jdbcType="VARCHAR" property="assginTo" />
     <result column="CHANGED_ON" jdbcType="VARCHAR" property="changedOn" />
-    <result column="C_COA_LANGUAGE" jdbcType="VARCHAR" property="cCoaLanguage" />
     <result column="RPT_ASSGIN_TO" jdbcType="VARCHAR" property="rptAssginTo" />
+    <result column="C_COA_LANGUAGE" jdbcType="VARCHAR" property="cCoaLanguage" />
     <result column="RPT_REJECT_COMMENT_S" jdbcType="VARCHAR" property="rptRejectCommentS" />
+    <result column="SEQ_NUM" jdbcType="DECIMAL" property="seqNum" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -270,12 +271,12 @@
     </if>
     order by cpt.test_number desc
   </select>
-  <select id="selectForTechEngineer" resultMap="TableResultMap" parameterType="cn.besbing.CommonUtils.MaintainModel.SearchDTO">
-    select cpt.TASK_ID taskId,cpt.task_reported_name taskReportedName,(select full_name from lims_users where user_name = cpt.assgin_to) assginTo,
-    to_char(cpt.changed_on,'yyyy-mm-dd') changedOn,l.full_name rptAssginTo,p.c_coa_language cCoaLanguage,cpt.rpt_reject_comment_s rptRejectCommentS
+  <select id="selectForTechEngineer" resultMap="TechEngineerResultMap" parameterType="cn.besbing.CommonUtils.MaintainModel.SearchDTO">
+    select cpt.task_id TASK_ID,cpt.task_reported_name TASK_REPORTED_NAME,(select full_name from lims_users where user_name = cpt.assgin_to) ASSGIN_TO,
+    to_char(cpt.changed_on,'yyyy-mm-dd') CHANGED_ON,(select full_name from lims_users where user_name = cpt.rpt_assgin_to) RPT_ASSGIN_TO,
+    p.c_coa_language C_COA_LANGUAGE,nvl(cpt.rpt_reject_comment_s,'无') RPT_REJECT_COMMENT_S,cpt.seq_num SEQ_NUM
     from c_proj_task cpt
     inner join project p on cpt.project = p.name
-    inner join lims_users l on cpt.rpt_assgin_to = l.user_name
     where
     p.closed = 'F'
     and cpt.ready_for_review = 'T'
@@ -285,7 +286,7 @@
     <if test="_parameter != null">
       and cpt.task_id like '%'||#{_parameter}||'%'
     </if>
-    order by cpt.changedOn desc
+    order by CHANGED_ON desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--

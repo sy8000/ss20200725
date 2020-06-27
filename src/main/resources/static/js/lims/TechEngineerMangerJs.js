@@ -25,13 +25,14 @@ layui.use(['form', 'table'], function () {
         }],
         cols: [
             [
-                {field: 'project', width: 165, title: '任务单号', sort: true},
-                {field: 'taskId', width: 200, title: '任务名称', sort: true},
-                {field: 'taskReportedName', width: 100, title: '测试人员', sort: true},
-                {field: 'analysis', width: 100, title: '提交时间', sort: true},
-                {field: 'testNumber', width: 100, title: '所属工程师', sort: true},
-                {field: 'planTestTime', width: 100, title: '报告语言', sort: true},
-                {field: 'planTestTime', width: 100, title: '驳回信息', sort: true}
+                {field: 'taskId', width: 165, title: '任务单号', sort: true},
+                {field: 'taskReportedName', width: 200, title: '任务名称', sort: true},
+                {field: 'assginTo', width: 150, title: '测试人员', sort: true},
+                {field: 'changedOn', width: 180, title: '提交时间', sort: true},
+                {field: 'rptAssginTo', width: 130, title: '所属工程师', sort: true},
+                {field: 'cCoaLanguage', width: 110, title: '报告语言', sort: true},
+                {field: 'rptRejectCommentS', width: 110, title: '驳回信息', sort: true},
+                {field: 'seqNum', width: 100, title: '主键信息', sort: true, hide:true}
             ]
         ],
         limit: 10,
@@ -39,6 +40,21 @@ layui.use(['form', 'table'], function () {
         page: true,
         skin: 'line'
 
+    });
+
+
+    //行双击
+    table.on('rowDouble(currentTableFilter)', function(obj){
+        //obj 同上
+        //alert(obj.data.taskId);
+        console.log(obj.tr) //得到当前行元素对象
+        console.log(obj.data) //得到当前行数据
+        layer.confirm('是否开始编辑任务单号为:' + obj.data.taskId +'的报告？', function(index){
+            //obj.del(); //删除对应行（tr）的DOM结构
+            layer.close(index);
+            //向服务端发送删除指令
+
+        });
     });
 
     // 监听搜索操作
@@ -61,154 +77,5 @@ layui.use(['form', 'table'], function () {
         return false;
     });
 
-    /**
-     * toolbar监听事件
-     */
-    table.on('toolbar(currentTableFilter)', function (obj) {
-        var checkStatus = table.checkStatus('currentTableId')
-            , data = checkStatus.data;
-
-        if (obj.event === 'sample') {  // 监听样品管理员跳转
-            layer.confirm('确定将任务转换至样品接收状态吗？', function (index) {
-                //layer.alert(JSON.stringify(data));
-                $.ajax({
-                    type:"post",
-                    url:"/lims/updateToSign",
-                    data:JSON.stringify(data),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:"json",
-                    success:function(res){
-                        console.log(res);
-                        layer.alert('跳转成功');
-                    }
-                });
-            });
-        };
-        if (obj.event === 'plan') {  // 监听排程跳转
-            layer.confirm('确定将任务转换至计划排程状态吗？', function (index) {
-                $.ajax({
-                    type:"post",
-                    url:"/lims/updateToPlan",
-                    data:JSON.stringify(data),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:"json",
-                    success:function(res){
-                        console.log(res);
-                        layer.alert('跳转成功');
-                    }
-                });
-            });
-        };
-        if (obj.event === 'distribution') {  // 监听任务分配操作
-            layer.confirm('确定将任务转换至任务分配状态吗？', function (index) {
-                $.ajax({
-                    type:"post",
-                    url:"/lims/updateToBistribution",
-                    data:JSON.stringify(data),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:"json",
-                    success:function(res){
-                        console.log(res);
-                        layer.alert('跳转成功');
-                    }
-                });
-            });
-        };
-        if (obj.event === 'testing') {  // 监听实验中操作
-            layer.confirm('确定将任务转换至试验中状态吗？', function (index) {
-                $.ajax({
-                    type:"post",
-                    url:"/lims/updateToTesting",
-                    data:JSON.stringify(data),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:"json",
-                    success:function(res){
-                        console.log(res);
-                        layer.alert('跳转成功');
-                    }
-                });
-            });
-        };
-        if (obj.event === 'engineer') {  // 监听删除操作
-            layer.confirm('确定将任务转换至工程师复核状态吗？', function (index) {
-                $.ajax({
-                    type:"post",
-                    url:"/lims/updateToEngineer",
-                    data:JSON.stringify(data),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:"json",
-                    success:function(res){
-                        console.log(res);
-                        layer.alert('跳转成功');
-                    }
-                });
-            });
-        };
-        if (obj.event === 'report') {  // 监听删除操作
-            layer.confirm('确定将任务转换至报告签发状态吗？', function (index) {
-                $.ajax({
-                    type:"post",
-                    url:"/lims/updateToReport",
-                    data:JSON.stringify(data),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:"json",
-                    success:function(res){
-                        console.log(res);
-                        layer.alert('跳转成功');
-                    }
-                });
-            });
-        };
-        if (obj.event === 'taskend') {  // 监听删除操作
-            layer.confirm('确定将任务取消吗？', function (index) {
-                $.ajax({
-                    type:"post",
-                    url:"/lims/updateToTaskend",
-                    data:JSON.stringify(data),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:"json",
-                    success:function(res){
-                        console.log(res);
-                        layer.alert('跳转成功');
-                    }
-                });
-            });
-        };
-
-
-
-
-
-    });
-
-    //监听表格复选框选择
-    table.on('checkbox(currentTableFilter)', function (obj) {
-        console.log(obj)
-    });
-
-    table.on('tool(currentTableFilter)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'edit') {
-
-            var index = layer.open({
-                title: '编辑用户',
-                type: 2,
-                shade: 0.2,
-                maxmin:true,
-                shadeClose: true,
-                area: ['100%', '100%'],
-                content: '../page/table/edit.html',
-            });
-            $(window).on("resize", function () {
-                layer.full(index);
-            });
-            return false;
-        } else if (obj.event === 'delete') {
-            layer.confirm('真的删除行么', function (index) {
-                obj.del();
-                layer.close(index);
-            });
-        }
-    });
 
 });

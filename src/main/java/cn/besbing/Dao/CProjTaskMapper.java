@@ -6,11 +6,14 @@ import cn.besbing.Entities.CProjTaskExample;
 import java.util.List;
 
 import cn.besbing.Entities.TableTaskFields;
+import cn.besbing.Entities.TechEngineerTable;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public interface CProjTaskMapper {
     List<TableTaskFields> selectForTable(@RequestParam(value = "taskid", required = false) String taskid);
+
+    List<TechEngineerTable> selectForTechEngineer(@RequestParam(value = "taskid", required = false) String taskid);
 
     CProjTask selectByTaskId(@RequestParam(value = "taskid", required = false) String taskid);
 
