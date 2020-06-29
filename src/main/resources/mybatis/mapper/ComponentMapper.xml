@@ -134,6 +134,13 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByTS" parameterType="cn.besbing.Entities.ComponentDefKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from COMPONENT
+    where where ANALYSIS = #{analysis,jdbcType=VARCHAR}
+    and VERSION = #{version,jdbcType=DECIMAL}
+  </select>
   <select id="selectByPrimaryKey" parameterType="cn.besbing.Entities.ComponentKey" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

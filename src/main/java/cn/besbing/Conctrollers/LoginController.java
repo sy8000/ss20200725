@@ -84,6 +84,7 @@ public class LoginController {
             System.out.println(subject.isAuthenticated());
             //model.addAttribute(subject);
             Session session = subject.getSession();
+            //session.setAttribute("username",loginMap.get("username").toString());
             jsonObject.put("resultCode",200);
             jsonObject.put("resultValue","用户名正常");
 

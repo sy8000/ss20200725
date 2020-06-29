@@ -1,15 +1,13 @@
 package cn.besbing.Shiro;
 
-import cn.besbing.Entities.Project;
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.LinkedHashMap;
@@ -35,7 +33,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/upLoadParameters", "anon");
         filterChainDefinitionMap.put("/getAllUserFromLims", "anon");
         filterChainDefinitionMap.put("/downloadImage", "anon");
-
+        filterChainDefinitionMap.put("/sendMailFromNc", "anon");
         ///getParameters
         //参数查询
         filterChainDefinitionMap.put("/getAllTaskUnDownload", "anon");

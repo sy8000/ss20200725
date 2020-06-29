@@ -1,10 +1,12 @@
 package cn.besbing.Dao;
 
 import cn.besbing.Entities.Component;
+import cn.besbing.Entities.ComponentDefKey;
 import cn.besbing.Entities.ComponentExample;
 import cn.besbing.Entities.ComponentKey;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ComponentMapper {
     long countByExample(ComponentExample example);
@@ -19,6 +21,8 @@ public interface ComponentMapper {
 
     List<Component> selectByExample(ComponentExample example);
 
+    List<Component> selectByTS(ComponentDefKey c);
+
     Component selectByPrimaryKey(ComponentKey key);
 
     int updateByExampleSelective(@Param("record") Component record, @Param("example") ComponentExample example);
@@ -28,4 +32,6 @@ public interface ComponentMapper {
     int updateByPrimaryKeySelective(Component record);
 
     int updateByPrimaryKey(Component record);
+
+
 }

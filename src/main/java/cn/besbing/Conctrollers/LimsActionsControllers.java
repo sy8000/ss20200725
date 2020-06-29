@@ -2,12 +2,12 @@ package cn.besbing.Conctrollers;
 
 
 import cn.besbing.CommonUtils.AboutJson.ConverToJson;
+import cn.besbing.CommonUtils.Utils.DynamicOperateExcelUtils;
 import cn.besbing.CommonUtils.Utils.MailDTO;
 import cn.besbing.CommonUtils.Utils.NcToLimsBasicInfo;
 import cn.besbing.Entities.*;
 import cn.besbing.Service.Impl.*;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +79,15 @@ public class LimsActionsControllers {
 
     @Autowired
     ICProjTaskParaBServiceImpl icProjTaskParaBService;
+
+
+    /**
+     * 邮件发送
+     */
+    @RequestMapping(value = "/sendMailFromNc",method = RequestMethod.POST)
+    public void sendMailFromNc(MailDTO mailDTO){
+        mailService.sendMail(mailDTO);
+    }
 
     /**
      * 技术主管驳回
@@ -244,6 +253,22 @@ public class LimsActionsControllers {
         project = ncToLimsBasicInfo.exChangeProject(qcCommissionH,project);
 
         return converToJson.ListToJson(listFlag);
+    }
+
+    /**
+     * 技术工程师编辑excel
+     * @param json
+     * @return
+     */
+    @RequestMapping(value = "/TechEngineerEditExcel",method = RequestMethod.POST)
+    @ResponseBody
+    public void TechEngineerEditExcel(@RequestBody JSONObject json){
+        //logger.info(SecurityUtils.getSubject().getPrincipal().toString());
+        //logger.info(json.get("taskId").toString());
+        DynamicOperateExcelUtils dynamicOperateExcelUtils = new DynamicOperateExcelUtils("Template.xls","1");
+        dynamicOperateExcelUtils.replaceCellValue(5,0,json.get("taskId"));
+        dynamicOperateExcelUtils.exportExcel("temp.xls");
+
     }
 
 

@@ -2,18 +2,15 @@ package cn.besbing.Conctrollers;
 
 import cn.besbing.CommonUtils.AboutJson.ConverToJson;
 import cn.besbing.CommonUtils.MaintainModel.LimsResultOpration;
-import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
 import cn.besbing.CommonUtils.MaintainModel.PageDataResult;
-import cn.besbing.Entities.InstrumentsWithBLOBs;
+import cn.besbing.CommonUtils.MaintainModel.SearchDTO;
 import cn.besbing.Entities.Result;
 import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
 import cn.besbing.Service.Impl.InstrumentsServiceImpl;
 import cn.besbing.Service.Impl.ResultServiceImpl;
 import cn.besbing.Service.Impl.TaskInfoServiceImpl;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -253,9 +250,9 @@ public class CustomerSqlController {
                 //result.setUnits(jsonObject.get("units").toString());
                 //result.setAnalysis(jsonObject.get("analysis").toString());
                 if (jsonObject.get("analysis").toString().trim().length() > 13){
-                    result.setAnalysis("继电器企标初始参数");
-                }else {
                     result.setAnalysis("继电器企标试验后参数");
+                }else {
+                    result.setAnalysis("继电器企标初始参数");
                 }
             }catch (Exception e){
                 logger.error("{}类解析小垂上传的参数第{}行出错!!!错误描述:{}",this.getClass().getName(),i,e.getStackTrace());

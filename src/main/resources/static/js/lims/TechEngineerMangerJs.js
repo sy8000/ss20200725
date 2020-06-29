@@ -1,7 +1,8 @@
-layui.use(['form', 'table'], function () {
+layui.use(['form', 'table','layer'], function () {
     var $ = layui.jquery,
         form = layui.form,
-        table = layui.table;
+        table = layui.table,
+        layer = layui.layer;
 
     table.render({
         elem: '#currentTableId',
@@ -45,14 +46,27 @@ layui.use(['form', 'table'], function () {
 
     //行双击
     table.on('rowDouble(currentTableFilter)', function(obj){
-        //obj 同上
-        //alert(obj.data.taskId);
+        var data = obj.data;
         console.log(obj.tr) //得到当前行元素对象
         console.log(obj.data) //得到当前行数据
+        // console.log(session.getAttribute("username"));
         layer.confirm('是否开始编辑任务单号为:' + obj.data.taskId +'的报告？', function(index){
             //obj.del(); //删除对应行（tr）的DOM结构
+            var loading = layer.load(2);
+            //向服务端发送Excel指令
+            $.ajax({
+                type:"post",
+                url:"/lims/TechEngineerEditExcel",
+                data:JSON.stringify(data),
+                contentType:"application/json;charset=utf-8",
+                dataType:"json",
+                success:function(res){
+                    layer.alert(res.msg);
+                }
+            });
+            layer.close(loading);
             layer.close(index);
-            //向服务端发送删除指令
+
 
         });
     });
