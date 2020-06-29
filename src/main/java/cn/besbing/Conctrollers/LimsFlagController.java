@@ -180,10 +180,9 @@ public class LimsFlagController {
     @ResponseBody
     public String resultModify(@RequestBody String taskIds){
         int flag = 0;
-        int resultNo = getResultNumber(90000);
-        String sql = "select distinct r.sample_number || ',' || r.test_number || ',' ||r.analysis from " +
-                "result r where r.ts is not null and r.analysis not like '%企标%' and r.test_number in " +
-                "(select t.test_number from test t where t.ts is not null and t.c_test_type = '测试结果' and t.c_task_id = 'sheny')";
+        int resultNo = getResultNumber(10000000);
+        String []lArr = null;
+        String sql = "select distinct t.sample_number || ',' || t.test_number || ',' ||t.analysis from test t where t.ts is not null and t.c_test_type = '测试结果' and t.c_task_id = 'sheny' " ;
         JSONArray jsonArray = JSONArray.parseArray(taskIds);
         JSONObject jsonObject = new JSONObject();
         Result resultTemplate = resultService.getLimsExampleResult();
@@ -198,9 +197,12 @@ public class LimsFlagController {
                 String rightAnalysis = customerSqlService.selectOne(rightAnalysisSql);
                 sql = sql.replace("sheny",jsonObject.get("taskId").toString());
                 List<String> resultCondition = customerSqlService.selectAsList(sql);
-                customerSqlService.delete(sql.replace("select distinct r.sample_number || ',' || r.test_number || ',' ||r.analysis","delete "));
+                /**
+                 * 正式测试时要放开，删除原有result
+                 */
+                //customerSqlService.delete(sql.replace("select distinct r.sample_number || ',' || r.test_number || ',' ||r.analysis","delete "));
                 for (String l : resultCondition){
-                    String []lArr = l.split(",");
+                    lArr = l.split(",");
                     String versionStr = customerSqlService.selectOne("select max(version) from analysis where name = '" + rightAnalysis + "'");
                     String reportedNameStr = customerSqlService.selectOne("select reported_name from analysis where name = '" + rightAnalysis + "' and version = " + versionStr);
                     /*Component component = new Component();

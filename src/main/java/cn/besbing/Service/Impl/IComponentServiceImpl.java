@@ -16,7 +16,7 @@ public class IComponentServiceImpl implements IComponentService {
     ComponentMapper componentMapper;
 
     public List<Component> selectByTS(ComponentDefKey component){
-        return componentMapper.selectByTS(component);
+        return componentMapper.selectByTS(component.getAnalysis(),component.getVersion());
     }
 
 }

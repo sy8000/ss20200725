@@ -3,10 +3,7 @@ package cn.besbing;
 import cn.besbing.CommonUtils.MaintainModel.SpringUtil;
 import cn.besbing.Cron.AnalysisThread;
 import cn.besbing.Entities.*;
-import cn.besbing.Service.Impl.CustomerSqlServiceImpl;
-import cn.besbing.Service.Impl.DlPermissionServiceImpl;
-import cn.besbing.Service.Impl.INcAnalysisListServiceImpl;
-import cn.besbing.Service.Impl.NcAnalysisReportnameServiceImpl;
+import cn.besbing.Service.Impl.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import org.junit.Test;
@@ -37,6 +34,24 @@ public class TestDatabase {
 
     @Autowired
     DlPermissionServiceImpl dlPermissionService;
+
+    @Autowired
+    IComponentServiceImpl iComponentService;
+
+
+    @Test
+    public void testComponent(){
+        ComponentDefKey componentDefKey = new ComponentDefKey();
+        componentDefKey.setAnalysis("耐焊接热_IEC618-7");
+        componentDefKey.setVersion(Long.valueOf(2));
+        try{
+            List<Component> components = iComponentService.selectByTS(componentDefKey);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Test
     public void testImpl(){

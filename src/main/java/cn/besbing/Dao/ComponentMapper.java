@@ -5,6 +5,7 @@ import cn.besbing.Entities.ComponentDefKey;
 import cn.besbing.Entities.ComponentExample;
 import cn.besbing.Entities.ComponentKey;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface ComponentMapper {
 
     List<Component> selectByExample(ComponentExample example);
 
-    List<Component> selectByTS(ComponentDefKey c);
+    List<Component> selectByTS(@Param("analysis") String analysis,@Param("version") Long version);
 
     Component selectByPrimaryKey(ComponentKey key);
 
