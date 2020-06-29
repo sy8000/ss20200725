@@ -200,7 +200,7 @@ public class LimsFlagController {
                 /**
                  * 正式测试时要放开，删除原有result
                  */
-                //customerSqlService.delete(sql.replace("select distinct r.sample_number || ',' || r.test_number || ',' ||r.analysis","delete "));
+                customerSqlService.delete(sql.replace("select distinct r.sample_number || ',' || r.test_number || ',' ||r.analysis","delete "));
                 for (String l : resultCondition){
                     lArr = l.split(",");
                     String versionStr = customerSqlService.selectOne("select max(version) from analysis where name = '" + rightAnalysis + "'");
