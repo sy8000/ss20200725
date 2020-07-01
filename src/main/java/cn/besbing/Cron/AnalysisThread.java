@@ -1,14 +1,10 @@
 package cn.besbing.Cron;
 
 import cn.besbing.CommonUtils.MaintainModel.SpringUtil;
-import cn.besbing.CommonUtils.MaintainModel.UpdateLimsBillStatus;
 import cn.besbing.Entities.*;
 import cn.besbing.Service.Impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -154,6 +150,7 @@ public class AnalysisThread {
                 ncProdListKey = new NcProdListKey();
                 ncProdListKey.setName(product.getName());
                 ncProdListKey.setVersion(product.getVersion());
+
                 /*productName = product.getName();
                 productCode = product.getCode();
                 productTestlist = product.getTestList();
@@ -172,7 +169,7 @@ public class AnalysisThread {
                 if (ncProdList == null){
                     //如果不存在，则开始更新
                     logger.info("product:{},version:{},开始更新...",product.getName(),product.getVersion());
-                    if ("QFVF4505-2018".equals(product.getName()) && "3".equals(product.getVersion().toString())){
+                    if ("QFVF20112-2020".equals(product.getName()) && "2".equals(product.getVersion().toString())){
                         logger.debug("====={}====={}=======",product.getName(),product.getVersion().toString());
                     }
                     Long version = Long.valueOf(product.getVersion().toString());

@@ -182,7 +182,13 @@ public class LimsFlagController {
         int flag = 0;
         int resultNo = getResultNumber(10000000);
         String []lArr = null;
-        String sql = "select distinct t.sample_number || ',' || t.test_number || ',' ||t.analysis from test t where t.ts is not null and t.c_test_type = '测试结果' and t.c_task_id = 'sheny' " ;
+        String sql = "select distinct t.sample_number || ',' || t.test_number || ',' ||t.analysis from test t where " +
+                " t.ts is not null and t.c_test_type = '测试结果' and t.c_task_id = 'sheny' " ;
+        String delsql = "delete from result r " +
+                " where r.ts is not null and r.analysis not like '%初始%' and r.analysis not like '%试验后%' and r.test_number in " +
+                " (select t.test_number from test t where t.ts is not null and t.c_test_type = '测试结果' " +
+                " and t.c_task_id = 'sheny')";
+
         JSONArray jsonArray = JSONArray.parseArray(taskIds);
         JSONObject jsonObject = new JSONObject();
         Result resultTemplate = resultService.getLimsExampleResult();
@@ -200,7 +206,7 @@ public class LimsFlagController {
                 /**
                  * 正式测试时要放开，删除原有result
                  */
-                customerSqlService.delete(sql.replace("select distinct r.sample_number || ',' || r.test_number || ',' ||r.analysis","delete "));
+                customerSqlService.delete(delsql.replace("sheny",jsonObject.get("taskId").toString()));
                 for (String l : resultCondition){
                     lArr = l.split(",");
                     String versionStr = customerSqlService.selectOne("select max(version) from analysis where name = '" + rightAnalysis + "'");
@@ -220,7 +226,7 @@ public class LimsFlagController {
                         result.setOrderNumber(c.getOrderNumber());
                         result.setAnalysis(rightAnalysis);
                         result.setName(c.getName());
-                        result.setReportedName(reportedNameStr);
+                        result.setReportedName(c.getName());
                         result.setResultType(c.getResultType());
                         result.setMinimum(c.getMinimum());
                         result.setMaximum(c.getMaximum());
@@ -239,6 +245,7 @@ public class LimsFlagController {
                         result.setDisplayed(c.getDisplayed());
                         result.setPlaces2(c.getPlaces2());
                         result.settShortName(c.gettShortName());
+
                         flag += resultService.insertResult(result);
                         logger.info("数据修正：{}",result.toString());
                     }
