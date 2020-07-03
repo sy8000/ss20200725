@@ -81,13 +81,7 @@ public class LimsActionsControllers {
     ICProjTaskParaBServiceImpl icProjTaskParaBService;
 
 
-    /**
-     * 邮件发送
-     */
-    @RequestMapping(value = "/sendMailFromNc",method = RequestMethod.POST)
-    public void sendMailFromNc(MailDTO mailDTO){
-        mailService.sendMail(mailDTO);
-    }
+
 
     /**
      * 技术主管驳回

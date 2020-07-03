@@ -33,7 +33,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/upLoadParameters", "anon");
         filterChainDefinitionMap.put("/getAllUserFromLims", "anon");
         filterChainDefinitionMap.put("/downloadImage", "anon");
-        filterChainDefinitionMap.put("/sendMailFromNc", "anon");
+        filterChainDefinitionMap.put("/curtail", "anon");
         ///getParameters
         //参数查询
         filterChainDefinitionMap.put("/getAllTaskUnDownload", "anon");
