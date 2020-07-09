@@ -169,7 +169,7 @@ public class AnalysisThread {
                 if (ncProdList == null){
                     //如果不存在，则开始更新
                     logger.info("product:{},version:{},开始更新...",product.getName(),product.getVersion());
-                    if ("QFVF20112-2020".equals(product.getName()) && "2".equals(product.getVersion().toString())){
+                    if ("QFVF4762-2020".equals(product.getName()) && "1".equals(product.getVersion().toString())){
                         logger.debug("====={}====={}=======",product.getName(),product.getVersion().toString());
                     }
                     Long version = Long.valueOf(product.getVersion().toString());
@@ -739,6 +739,45 @@ public class AnalysisThread {
 
     }
 
+
+    /**
+     * 清除nc中重复的条件、试验前后参数
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    //@Scheduled(cron = "0 0 4 * * ?")
+    public void clearDuplicationData() throws Exception {
+        List<String> productsListVesionList = new ArrayList<>();
+        int productCount = 0;
+        int delInitCount = 0;
+        int delAfterCount = 0;
+        //获取所有在用product
+        List<Product> productsList = new ArrayList<>();
+        try{
+            productsList = iProductService.getAllProduct();
+        }catch (Exception e){
+            logger.error("获取全部product时出错...");
+        }
+        //开始判断获取的每一个product试验前是不是版本唯一
+        for (Product p :productsList){
+            productCount = Integer.valueOf(customerSqlService.selectOne("select count(1) from nc_prod_list where name = '" + p.getName() + "'"));
+            if (productCount > 1){
+                //如果大于1个版本就开删
+                for (int i = 1 ; i < productCount ; i++){
+                    try{
+                        delInitCount = customerSqlService.delete("delete from nc_test_init where trim(nc_enstard) = '" + p.getName().trim() + "' and trim(nc_analysis_version) = " + i);
+                        logger.info("product:{}，version:{}，试验前共计删除{}行",p.getName(),i,delInitCount);
+                        delAfterCount = customerSqlService.delete("delete from nc_test_after where trim(nc_enstard) = '" + p.getName().trim() + "' and trim(nc_analysis_version) = " + i);
+                        logger.info("product:{}，version:{}，试验后共计删除{}行",p.getName(),i,delAfterCount);
+                    }catch (Exception e){
+                        throw new Exception("删除product试验前后时出错"+e.getStackTrace());
+                    }
+                }
+            }
+        }
+        logger.info("清除重复项完成");
+
+    }
 
 
     public String getExecuteSql(String modules,Product product){

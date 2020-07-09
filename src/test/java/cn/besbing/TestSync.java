@@ -20,8 +20,9 @@ public class TestSync {
     @Test
     public void testAnalysisThread() throws Exception {
         AnalysisThread analysisThread = new AnalysisThread();
-        analysisThread.onlyAddAnalysisThread();
-        analysisThread.addTestListThread();
+        //analysisThread.onlyAddAnalysisThread();
+        //analysisThread.addTestListThread();
+        analysisThread.clearDuplicationData();
     }
 
 }
